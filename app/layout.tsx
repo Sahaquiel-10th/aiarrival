@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AI知识资产服务体系｜让经验持续产生价值",
+  title: "AI知识资产服务体系｜把经验整理好，让AI帮你用起来",
   description:
-    "从个人知识沉淀、个人AI助手到企业知识资产系统，帮助个人和企业建立真正运转的AI知识资产体系。",
+    "帮你把散落在脑海、微信和文件里的经验整理到一起，需要时随时查找，还能让AI根据这些资料协助工作。",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

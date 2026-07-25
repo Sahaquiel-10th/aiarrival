@@ -4,70 +4,70 @@ const stages = [
     tone: "green",
     name: "AI知识资产启动",
     price: "¥3,999 起",
-    promise: "先让经验沉淀下来",
+    promise: "先把散落的经验整理到一起",
     description:
-      "用一套适合你的记录与知识管理流程，把散落在脑海、聊天和文件里的经验，变成随时可找、可复用的个人知识库。",
+      "我们帮你选好记录方式和保存工具，并整理第一批资料。以后你照常说、照常工作，重要内容就能持续保存，需要时很快找到。",
     items: [
-      "AI知识资产诊断报告",
-      "知识采集与分类体系",
-      "硬件设备与AI工具配置",
-      "首批知识资产整理",
-      "15天轻度陪跑",
-      "AI知识资产成长报告",
+      "个人知识现状诊断",
+      "日常记录方法设计",
+      "录音设备与软件设置",
+      "第一批文章和资料整理",
+      "15天使用陪伴与调整",
+      "最终使用报告与建议",
     ],
-    footnote: "可包含录音卡、工具年费；按配置确定最终价格",
+    footnote: "可包含录音卡和软件年费，最终价格根据所选方案确定",
   },
   {
     index: "02",
     tone: "blue",
     name: "AI知识资产升级",
     price: "¥9,999",
-    promise: "再让知识开始帮你工作",
+    promise: "再让AI学会使用你的资料",
     description:
-      "把个人知识库接入专属AI工作台。你将获得创建AI助手的方法、模板与持续训练，让AI基于你的知识协助思考与表达。",
+      "你可以在专属网页里向AI提问，让它先阅读你的文章、课程和案例，再帮你写内容、找资料、整理思路和分析问题。",
     items: [
-      "个人AI工作台账号",
-      "知识库接入",
-      "智能体设计集中培训",
-      "提示词与行业模板库",
-      "持续成长支持",
-      "模型用量自主充值",
+      "专属AI网页账号",
+      "个人资料接入",
+      "AI助手使用课程",
+      "现成的提问与写作模板",
+      "每月集中答疑与更新",
+      "使用费用按需自行充值",
     ],
-    footnote: "提供方法、模板和培训，不包含定制智能体开发",
+    footnote: "教你自己设置常用AI助手；如需我们代做，可单独定制",
   },
   {
     index: "03",
     tone: "orange",
     name: "企业知识资产系统",
     price: "¥30,000 起",
-    promise: "最终把个人经验变成组织能力",
+    promise: "让团队也能找到并使用公司的经验",
     description:
-      "把个人知识沉淀方式扩展到团队，形成企业知识空间、多账号协作与权限体系，为企业AI应用打下可靠基础。",
+      "把公司制度、产品资料、客户案例和优秀员工经验整理到一起。不同岗位可以查看自己需要的内容，也能用AI快速查找和提问。",
     items: [
-      "企业知识库建设",
-      "多账号与权限体系",
-      "企业资料结构化沉淀",
-      "基础AI应用场景设计",
-      "数据安全与访问边界",
-      "后续智能体升级路线",
+      "公司资料统一整理",
+      "员工账号与查看范围设置",
+      "制度、案例和经验分类",
+      "团队最常用的AI用途规划",
+      "重要资料安全保护",
+      "后续企业AI应用建议",
     ],
-    footnote: "按企业规模、数据量、人数与应用场景定制",
+    footnote: "根据企业规模、资料数量、使用人数和具体用途确定方案",
   },
 ];
 
 const pains = [
-  ["经验在脑子里", "想用时找不到"],
-  ["信息散落各处", "整理总是拖延"],
-  ["反复回答问题", "时间被持续消耗"],
-  ["知道AI有用", "却不知道怎么连接自己的知识"],
+  ["经验都在脑子里", "需要时想不全、找不到"],
+  ["资料散落很多地方", "微信、电脑和笔记各存一份"],
+  ["同样的问题反复回答", "时间花了，经验却没留下"],
+  ["想让AI帮忙", "却不知道第一步该做什么"],
 ];
 
 const process = [
-  ["诊断", "看清你的知识资产现状与真正需求"],
-  ["配置", "选择合适工具，完成账号、设备与流程搭建"],
-  ["沉淀", "整理首批资料，让第一次成果肉眼可见"],
-  ["陪跑", "用15天调整习惯、分类和实际使用方式"],
-  ["成长", "从个人知识库，逐步走向AI助手与团队能力"],
+  ["了解", "先弄清你的资料在哪里、平时怎样工作"],
+  ["搭建", "帮你选好工具，设置账号、设备和记录方式"],
+  ["整理", "整理第一批文章、课程、案例和工作资料"],
+  ["试用", "陪你使用15天，根据实际情况不断调整"],
+  ["交付", "给你最终报告，告诉你怎样继续使用和升级"],
 ];
 
 export default function Home() {
@@ -79,11 +79,11 @@ export default function Home() {
           <span>知识资产服务体系</span>
         </a>
         <div className="nav-links">
-          <a href="#path">成长路径</a>
+          <a href="#path">三步方案</a>
           <a href="#services">服务方案</a>
           <a href="#process">如何开始</a>
         </div>
-        <a className="nav-cta" href="#contact">获取方案</a>
+        <a className="nav-cta" href="/diagnosis">先做免费诊断</a>
       </nav>
 
       <section className="hero shell" id="top">
@@ -98,13 +98,13 @@ export default function Home() {
             <em>持续产生价值</em>
           </h1>
           <p className="hero-lead">
-            我们帮你完成从记录、整理、沉淀到AI调用的完整链路。
+            把你说过的话、做过的项目和多年经验，整理成随时能找到、还能让AI帮你使用的个人资料库。
             <br className="desktop-only" />
-            复杂交给我们，简单留给你。
+            工具怎么选、账号怎么设、资料怎么整理，都交给我们。
           </p>
           <div className="hero-actions">
-            <a className="primary-button" href="#services">
-              查看服务方案 <span>↗</span>
+            <a className="primary-button" href="/diagnosis">
+              先测测我的情况 <span>↗</span>
             </a>
             <a className="text-link" href="#process">
               了解交付流程 <span>↓</span>
@@ -123,7 +123,7 @@ export default function Home() {
             <i />
             <div>
               <strong>1个开关</strong>
-              <span>开始记录经验</span>
+              <span>说话时打开录音</span>
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function Home() {
           </div>
           <div className="float-note note-c">
             <small>03</small>
-            <span>调用</span>
+            <span>使用</span>
           </div>
           <div className="glow glow-green" />
           <div className="glow glow-blue" />
@@ -175,16 +175,16 @@ export default function Home() {
       <section className="manifesto shell" id="path">
         <p className="section-kicker">A COMPLETE PATH</p>
         <h2>
-          不是再买一个工具，
+          不只是再买一个软件，
           <br />
-          而是建立一套<em>真正运转的系统</em>
+          而是把你的经验<em>真正整理好、用起来</em>
         </h2>
         <p className="manifesto-copy">
-          工具会变化，但知识资产的成长路径不会。我们从你的工作习惯出发，
-          选择适合的设备和平台，把复杂配置藏在后台，把可见结果留在前台。
+          你不用先学会Notion、飞书或各种AI工具。我们会根据你的工作习惯选好方案，
+          帮你完成设置和第一批整理。以后你只需照常记录，需要时打开网页搜索或提问。
         </p>
         <div className="flow">
-          {["记录", "整理", "沉淀", "调用", "创造"].map((item, index) => (
+          {["说下来", "转成文字", "分类保存", "随时找到", "继续使用"].map((item, index) => (
             <div className={`flow-node flow-${index + 1}`} key={item}>
               <span>0{index + 1}</span>
               <strong>{item}</strong>
@@ -199,12 +199,12 @@ export default function Home() {
           <div className="section-head">
             <div>
               <p className="section-kicker">THREE-STAGE SERVICE</p>
-              <h2>从今天的经验，到明天的生产力</h2>
+              <h2>先整理个人经验，再让AI和团队用起来</h2>
             </div>
             <p>
-              每一阶段都独立创造价值，
+              你可以只做当前需要的一步，
               <br />
-              也为下一阶段保留自然升级空间。
+              以后有新需求时再继续升级。
             </p>
           </div>
 
@@ -240,15 +240,15 @@ export default function Home() {
         <div className="principle-quote">
           <span>“</span>
           <blockquote>
-            得到、Notion、飞书或企业已有系统，
+            你不用研究到底该买哪款软件。
             <br />
-            都只是底座。我们交付的是：
-            <em>让知识资产真正运转起来。</em>
+            告诉我们你平时怎样工作，
+            <em>我们负责选好、设好，并陪你真正用起来。</em>
           </blockquote>
         </div>
         <div className="principle-aside">
-          <span>OUR PRINCIPLE</span>
-          <p>不让客户学习一堆技术名词，而是让结果自然发生。</p>
+          <span>你会得到什么</span>
+          <p>你照常记录和工作。需要过去的内容时，可以很快找到，也可以请AI根据这些资料继续写作和思考。</p>
         </div>
       </section>
 
@@ -259,7 +259,7 @@ export default function Home() {
               <p className="section-kicker">HOW IT WORKS</p>
               <h2>你只需要开始记录，剩下的交给我们</h2>
             </div>
-            <p>标准化交付，过程清晰，成果可见。</p>
+            <p>每一步做什么、什么时候完成，都会提前说明。</p>
           </div>
           <div className="process-grid">
             {process.map(([title, text], index) => (
@@ -272,8 +272,8 @@ export default function Home() {
           </div>
           <div className="process-result">
             <span>15天后</span>
-            <strong>你将拥有一套已开始运行的个人知识资产系统</strong>
-            <p>以及一份清晰的《AI知识资产成长报告》与下一阶段路线图</p>
+            <strong>你的第一批经验和资料已经整理完成，可以随时查找</strong>
+            <p>你还会收到一份使用报告，知道以后怎样继续记录和使用</p>
           </div>
         </div>
       </section>
@@ -284,7 +284,7 @@ export default function Home() {
           <h2>尤其适合以经验为核心竞争力的人</h2>
           <p>
             你的专业判断、客户案例、课程方法、管理经验越多，
-            越值得尽早变成可以被检索、调用和复制的知识资产。
+            越值得尽早整理成找得到、用得上、还能交给团队的资料。
           </p>
         </div>
         <div className="fit-roles">
@@ -313,25 +313,25 @@ export default function Home() {
           <details>
             <summary>我完全不懂AI，也没有常用工具，可以做吗？</summary>
             <p>
-              可以。问卷和诊断就是为了判断你的习惯与需求。没有明确偏好时，我们会提供最快启动的推荐配置，并协助完成注册、设置和使用说明。
+              可以。你只需告诉我们平时怎样记录、资料放在哪里、以后想解决什么问题。我们会推荐最容易开始的方案，并帮你完成注册、设置和使用说明。
             </p>
           </details>
           <details>
-            <summary>为什么不直接买一个知识库软件？</summary>
+            <summary>为什么不直接买一个笔记或知识库软件？</summary>
             <p>
-              软件提供功能，我们提供诊断、选型、流程设计、首批整理和陪跑，确保工具真正变成你的工作习惯与可复用资产。
+              软件只提供功能，但不会替你决定该记录什么、怎样分类，也不会整理你过去的资料。我们的服务会把这些事情一起完成，并陪你形成适合自己的使用方法。
             </p>
           </details>
           <details>
-            <summary>升级服务会帮我定制开发智能体吗？</summary>
+            <summary>升级服务会直接替我制作AI助手吗？</summary>
             <p>
-              不包含定制开发。升级服务提供AI工作台、知识库接入、培训与模板，帮助你自己创建助手；复杂业务场景可另行进入专业开发。
+              升级服务会给你专属AI网页、接入你的资料，并提供课程和现成模板，教你设置日常使用的助手。如果你的需求更复杂，需要我们代为制作，可以单独定制。
             </p>
           </details>
           <details>
             <summary>企业版和个人版的核心区别是什么？</summary>
             <p>
-              企业版增加多账号、权限边界、团队知识空间与企业级资料结构，为后续销售、培训、客服等AI应用奠定基础。
+              个人版主要服务一个人；企业版让不同员工使用同一套公司资料，并按照岗位设置可以查看的内容，适合销售、培训、客服和内部问答等团队工作。
             </p>
           </details>
         </div>
@@ -342,17 +342,17 @@ export default function Home() {
           <div>
             <p className="section-kicker">START NOW</p>
             <h2>
-              开启你的
+              开始整理
               <br />
-              AI知识资产之旅
+              你的宝贵经验
             </h2>
           </div>
           <div className="cta-action">
-            <p>从一份诊断问卷开始，获得适合你的配置建议。</p>
-            <a href="mailto:hello@example.com">
-              获取专属方案 <span>↗</span>
+            <p>花几分钟回答一些关于工作和资料的问题，马上看到适合你的起步建议。</p>
+            <a href="/diagnosis">
+              开始免费诊断 <span>↗</span>
             </a>
-            <small>此处可替换为企业微信、二维码或正式联系方式</small>
+            <small>填写完成后立即查看结果，无需提前了解AI工具</small>
           </div>
         </div>
       </section>
@@ -362,7 +362,7 @@ export default function Home() {
           <span className="brand-mark">AI</span>
           <span>知识资产服务体系</span>
         </div>
-        <p>让经验沉淀，让知识流动，让AI创造价值。</p>
+        <p>把过去的经验整理好，让今天的工作更轻松。</p>
         <span>© 2026</span>
       </footer>
     </main>
