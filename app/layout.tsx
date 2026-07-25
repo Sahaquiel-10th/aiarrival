@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AI知识资产服务体系｜把经验整理好，让AI帮你用起来",
+  title: "降临科技｜将AI化为生产力",
   description:
-    "帮你把散落在脑海、微信和文件里的经验整理到一起，需要时随时查找，还能让AI根据这些资料协助工作。",
+    "降临科技是一家面向企业的AI场景咨询与落地服务商，从真实业务问题出发，提供企业AI咨询、培训、智能体、企业大脑与线下触点设计。",
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: "/brand/jianglin-mark.png",
+    shortcut: "/brand/jianglin-mark.png",
   },
 };
 

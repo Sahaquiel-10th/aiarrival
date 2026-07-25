@@ -22,18 +22,41 @@ async function render(pathname = "/") {
   );
 }
 
-test("renders the customer-facing service introduction", async () => {
+test("renders the Jianglin Technology corporate homepage", async () => {
   const response = await render("/");
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /让你的经验/);
-  assert.match(html, /先测测我的情况/);
+  assert.match(html, /将 AI/);
+  assert.match(html, /企业真正缺少的/);
+  assert.match(html, /真实案例/);
   assert.match(html, /开始免费诊断/);
   assert.match(html, /href="\/diagnosis"/);
-  assert.doesNotMatch(html, /不让客户学习一堆技术名词/);
-  assert.doesNotMatch(html, /都只是底座/);
+  assert.match(html, /href="\/knowledge-assets"/);
+});
+
+test("renders the knowledge asset service at its own route", async () => {
+  const response = await render("/knowledge-assets");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /让你的经验/);
+  assert.match(html, /先测测我的情况/);
+  assert.match(html, /href="\/diagnosis"/);
+});
+
+test("renders services and case evidence pages", async () => {
+  const services = await render("/services");
+  assert.equal(services.status, 200);
+  assert.match(await services.text(), /企业 AI 咨询与场景诊断/);
+
+  const cases = await render("/cases");
+  assert.equal(cases.status, 200);
+  const caseHtml = await cases.text();
+  assert.match(caseHtml, /小象优选/);
+  assert.match(caseHtml, /99.99%/);
+  assert.match(caseHtml, /数据口径/);
 });
 
 test("renders the knowledge asset diagnosis questionnaire", async () => {
