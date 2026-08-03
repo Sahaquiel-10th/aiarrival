@@ -30,6 +30,10 @@ else
   DEPLOY_SHA="$(git -C "$REPOSITORY" rev-parse 'origin/main^{commit}')"
 fi
 
+git -C "$REPOSITORY" show "$DEPLOY_SHA:deploy/server-deploy.sh" > "$APP_ROOT/deploy.sh.next"
+chmod 755 "$APP_ROOT/deploy.sh.next"
+mv -Tf "$APP_ROOT/deploy.sh.next" "$APP_ROOT/deploy.sh"
+
 RELEASE_ID="$(date -u +%Y%m%d%H%M%S)-${DEPLOY_SHA:0:12}"
 RELEASE_DIR="$RELEASES/$RELEASE_ID"
 PREVIOUS_RELEASE="$(readlink -f "$CURRENT" 2>/dev/null || true)"
