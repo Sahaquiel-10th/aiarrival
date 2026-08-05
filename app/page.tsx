@@ -62,6 +62,14 @@ const cases = [
   },
 ];
 
+const aiScenarios = [
+  { no: "01", title: "创始人AI助手", source: "创始人的行业判断、方法论与经典案例", result: "让经验随时可查、可问、可传承" },
+  { no: "02", title: "培训老师AI助教", source: "课程体系、讲义、答疑记录与教学案例", result: "持续答疑，并辅助内容与课程交付" },
+  { no: "03", title: "企业知识助手", source: "制度、产品资料、项目文档与组织经验", result: "让团队快速找到有依据的答案" },
+  { no: "04", title: "销售智能体", source: "产品知识、客户案例、销售话术与跟进规则", result: "辅助准备、沟通、跟进与复盘" },
+  { no: "05", title: "决策复盘系统", source: "会议记录、决策背景、行动结果与复盘结论", result: "让企业决策持续积累并不断优化" },
+];
+
 const logos = [
   ["小象优选", "/clients/xiaoxiang.png"],
   ["中国移动", "/clients/china-mobile.png"],
@@ -79,14 +87,14 @@ export default function Home() {
         <div className="hero-ring hero-ring--line" aria-hidden="true" />
         <div className="home-hero__copy">
           <p className="site-kicker">ENTERPRISE AI, MADE USEFUL</p>
-          <h1>将 AI<br /><em>化为生产力</em></h1>
+          <h1>让企业拥有自己的<br /><em>AI第二大脑与智能员工</em></h1>
           <p className="home-hero__lead">
-            降临科技，连接企业业务与 AI 技术。<br />
-            从第一个真实场景，到持续生长的企业 AI 能力。
+            从创始人经验沉淀开始，让 AI 真正理解你的业务。<br />
+            再把个人认知升级为企业知识资产与可执行的业务智能体。
           </p>
           <div className="home-hero__actions">
-            <a className="button button--dark" href="/services">了解我们如何落地 <span>↗</span></a>
-            <a className="arrow-link" href="/cases">查看真实案例 <span>→</span></a>
+            <a className="button button--dark" href="/knowledge-assets">创建我的AI第二大脑 <span>↗</span></a>
+            <a className="arrow-link" href="https://agent.aiarrival.cn">探索企业AI智能体 <span>→</span></a>
           </div>
         </div>
         <div className="hero-index">
@@ -99,16 +107,32 @@ export default function Home() {
       <section className="opening-statement site-shell">
         <div className="statement-index">01 / 我们的判断</div>
         <div>
-          <h2>企业真正缺少的，<br />不是 AI 工具，<br />而是<em>正确的起点。</em></h2>
+          <h2>企业真正缺少的，<br />不是 AI 工具，<br />而是<em>让AI理解企业的方法。</em></h2>
           <p>
-            今天可以买到越来越多的模型、平台和智能体。但如果业务问题没有找准，
-            工具越多，试错成本越高。我们先进入业务现场，再决定该购买、定制，还是暂缓。
+            模型和平台越来越容易获得，但创始人的判断、团队的方法和真实业务经验，
+            仍散落在脑海、聊天与文件中。先把经验变成知识资产，AI 才能给出贴近业务的回答并真正参与工作。
           </p>
         </div>
         <aside>
           <span>OUR BELIEF</span>
-          <strong>先跑通一个场景，<br />再建设一套能力。</strong>
+          <strong>知识资产化，<br />才是企业AI真正的起点。</strong>
         </aside>
+      </section>
+
+      <section className="ai-foundation site-shell">
+        <div className="site-section-head">
+          <div>
+            <p className="site-kicker">WHY KNOWLEDGE FIRST</p>
+            <h2>为什么企业AI落地，<br />第一步不是买工具？</h2>
+          </div>
+          <p>工具决定AI能做什么，<br />知识资产决定AI是否真正懂你。</p>
+        </div>
+        <div className="ai-foundation__flow">
+          {["老板经验", "知识资产", "AI助手", "业务智能体", "企业智能化"].map((item, index) => (
+            <div key={item}><span>0{index + 1}</span><strong>{item}</strong>{index < 4 && <i>→</i>}</div>
+          ))}
+        </div>
+        <p className="ai-foundation__note">从一个人的经验开始，逐步形成整个组织可以调用、验证和持续更新的AI能力。</p>
       </section>
 
       <section className="method-band">
@@ -196,6 +220,25 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="ai-scenarios site-shell">
+        <div className="site-section-head">
+          <div>
+            <p className="site-kicker">AI IN THE BUSINESS</p>
+            <h2>看看知识资产，<br />如何变成业务结果。</h2>
+          </div>
+          <a className="arrow-link" href="https://agent.aiarrival.cn">进入AI能力展厅 <span>↗</span></a>
+        </div>
+        <div className="ai-scenario-grid">
+          {aiScenarios.map((item) => (
+            <article key={item.no}>
+              <span>{item.no}</span><h3>{item.title}</h3>
+              <small>来源知识</small><p>{item.source}</p>
+              <small>产生价值</small><strong>{item.result}</strong>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="growth-model site-shell">
         <div className="site-section-head">
           <div>
@@ -216,12 +259,12 @@ export default function Home() {
         <div className="site-shell knowledge-spotlight__inner">
           <div>
             <p className="site-kicker">AI KNOWLEDGE ASSETS</p>
-            <h2>让个人与企业的经验，<br />成为可以持续调用的资产。</h2>
+            <h2>从创始人AI第二大脑，<br />开始企业智能化。</h2>
             <p>
-              把散落在脑海、微信和文件里的经验整理到一起，让人能快速找到，
-              也让 AI 能基于这些资料协助写作、分析和工作。
+              把多年经验、判断方法、案例和行业认知沉淀成可被AI调用的资产。
+              先完成个人启动，再逐步升级为企业知识系统与业务智能体。
             </p>
-            <a className="button button--red" href="/knowledge-assets">查看知识资产服务 <span>↗</span></a>
+            <a className="button button--red" href="/knowledge-assets">了解15天启动计划 <span>↗</span></a>
           </div>
           <div className="knowledge-orbit" aria-hidden="true">
             <i />

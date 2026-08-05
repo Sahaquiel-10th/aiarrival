@@ -28,12 +28,13 @@ test("renders the Jianglin Technology corporate homepage", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /将 AI/);
+  assert.match(html, /AI第二大脑与智能员工/);
   assert.match(html, /企业真正缺少的/);
   assert.match(html, /真实案例/);
   assert.match(html, /开始免费诊断/);
   assert.match(html, /href="\/diagnosis"/);
   assert.match(html, /href="\/knowledge-assets"/);
+  assert.match(html, /https:\/\/agent\.aiarrival\.cn/);
 });
 
 test("renders the knowledge asset service at its own route", async () => {
@@ -41,8 +42,9 @@ test("renders the knowledge asset service at its own route", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /让你的经验/);
-  assert.match(html, /先测测我的情况/);
+  assert.match(html, /让多年经验/);
+  assert.match(html, /创始人AI第二大脑启动计划/);
+  assert.match(html, /¥4,999/);
   assert.match(html, /href="\/diagnosis"/);
 });
 

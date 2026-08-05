@@ -358,11 +358,11 @@ function calculateResult(answers: Answers) {
       headline: "你的专业经验已经很有价值，下一步是让AI学会使用这些内容",
       description:
         "你的工作中有较多内容输出、客户沟通或专业判断。把这些资料整理好后，AI可以更贴近你的表达方式，帮助写作、研究和分析。",
-      service: poorFindability ? "先启动整理，再升级个人AI助手" : "AI知识资产升级服务",
-      price: poorFindability ? "第一阶段 ¥3,999 起" : "¥9,999",
+      service: poorFindability ? "创始人AI第二大脑启动计划" : "企业知识资产升级",
+      price: poorFindability ? "启动计划 ¥4,999" : "¥9,999",
       serviceText: poorFindability
-        ? "你的资料目前还不容易查找，先整理会让后续AI助手更好用。"
-        : "适合接入专属AI网页，并通过课程和模板学会自己设置常用助手。",
+        ? "你的资料目前还不容易调用，建议先完成15天经验采集与AI化启动。"
+        : "适合把个人知识资产进一步整理为团队可使用的企业知识系统。",
     },
     enterprise: {
       label: "团队知识整理型",
@@ -370,9 +370,9 @@ function calculateResult(answers: Answers) {
       headline: "你需要解决的已经不只是个人记录，而是团队怎样共享经验",
       description:
         "你有明确的团队使用需求。建议先统一公司资料、账号和查看范围，让员工能快速找到制度、产品和优秀案例，再逐步增加具体AI用途。",
-      service: "企业知识资产系统",
+      service: "企业知识资产与智能体系统",
       price: "¥30,000 起",
-      serviceText: "适合建设公司资料库、员工账号、查看范围和常用AI用途。",
+      serviceText: "适合建设企业知识资产、岗位使用范围，并验证首个业务智能体。",
     },
   };
 
@@ -441,7 +441,7 @@ export default function DiagnosisPage() {
         <nav className="diagnosis-nav diagnosis-shell">
           <a className="brand" href="/">
             <span className="brand-mark">AI</span>
-            <span>知识资产诊断</span>
+            <span>AI第二大脑评估</span>
           </a>
           <a href="/">返回介绍页</a>
         </nav>
@@ -485,7 +485,7 @@ export default function DiagnosisPage() {
         <section className="result-next diagnosis-shell">
           <div className="result-next-copy">
             <p className="diagnosis-eyebrow">下一步</p>
-            <h2>想知道具体怎么搭、需要多少钱？</h2>
+            <h2>想知道你的AI第二大脑该如何启动？</h2>
             <p>
               扫描二维码，告诉我们你的诊断类型和实际情况。我们会进一步确认资料数量、使用习惯和希望解决的问题，再给出详细方案。
             </p>
@@ -513,15 +513,15 @@ export default function DiagnosisPage() {
       <nav className="diagnosis-nav diagnosis-shell">
         <a className="brand" href="/">
           <span className="brand-mark">AI</span>
-          <span>知识资产诊断</span>
+            <span>AI第二大脑评估</span>
         </a>
         <a href="/">返回介绍页</a>
       </nav>
 
       <header className="diagnosis-header diagnosis-shell">
         <div>
-          <p className="diagnosis-eyebrow">免费诊断 · 约5分钟</p>
-          <h1>看看你的经验和资料，最适合怎样整理和使用</h1>
+          <p className="diagnosis-eyebrow">免费评估 · 约5分钟</p>
+          <h1>看看你的经验，最适合怎样变成AI第二大脑</h1>
           <p>
             不需要懂AI，也没有标准答案。请按照现在的真实情况填写，完成后立即看到建议。
           </p>

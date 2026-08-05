@@ -2,12 +2,26 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "降临科技｜将AI化为生产力",
+  metadataBase: new URL("https://aiarrival.cn"),
+  title: "降临科技｜企业AI第二大脑与智能体落地",
   description:
-    "降临科技是一家面向企业的AI场景咨询与落地服务商，从真实业务问题出发，提供企业AI咨询、培训、智能体、企业大脑与线下触点设计。",
+    "从创始人经验沉淀开始，建设企业知识资产、AI第二大脑与业务智能体，让AI真正理解企业。",
   icons: {
     icon: "/brand/jianglin-mark.png",
     shortcut: "/brand/jianglin-mark.png",
+  },
+  openGraph: {
+    title: "让企业拥有自己的AI第二大脑与智能员工",
+    description: "从创始人经验沉淀开始，让AI真正理解你的业务。",
+    type: "website",
+    locale: "zh_CN",
+    images: [{ url: "/og.png", width: 1732, height: 908, alt: "降临科技企业AI第二大脑与智能员工" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "让企业拥有自己的AI第二大脑与智能员工",
+    description: "从创始人经验沉淀开始，让AI真正理解你的业务。",
+    images: ["/og.png"],
   },
 };
 
