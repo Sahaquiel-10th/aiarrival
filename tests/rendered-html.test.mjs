@@ -30,7 +30,7 @@ test("renders the Jianglin Technology corporate homepage", async () => {
   const html = await response.text();
   assert.match(html, /AI第二大脑与智能员工/);
   assert.match(html, /企业真正缺少的/);
-  assert.match(html, /真实案例/);
+  assert.match(html, /真实业务/);
   assert.match(html, /开始免费诊断/);
   assert.match(html, /href="\/diagnosis"/);
   assert.match(html, /href="\/knowledge-assets"/);
@@ -67,8 +67,8 @@ test("renders the knowledge asset diagnosis questionnaire", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /看看你的经验和资料/);
-  assert.match(html, /免费诊断/);
+  assert.match(html, /看看你的经验/);
+  assert.match(html, /免费评估/);
   assert.match(html, /你目前的身份是/);
   assert.match(html, /不会自动发送或保存/);
 });
