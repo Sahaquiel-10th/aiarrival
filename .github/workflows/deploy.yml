@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: aiarrival-website-production
   cancel-in-progress: false
@@ -17,6 +20,19 @@ jobs:
     environment: production
 
     steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build and test
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          node --test tests/rendered-html.test.mjs
+      - name: Package release
+        run: tar --exclude=.git --exclude=node_modules --exclude=.env --exclude=.wrangler --exclude=.next -czf /tmp/aiarrival-release.tgz .
+
       - name: Configure SSH
         env:
           SERVER_SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
@@ -28,16 +44,77 @@ jobs:
           printf '%s\n' "$SERVER_HOST_KEY" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
 
-      - name: Deploy exact commit
+      - name: Upload release
         env:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
         run: |
-          ssh \
-            -i ~/.ssh/aiarrival_deploy \
-            -p "$SERVER_PORT" \
-            -o BatchMode=yes \
-            -o StrictHostKeyChecking=yes \
-            "$SERVER_USER@$SERVER_HOST" \
-            "bash /opt/aiarrival-website/deploy.sh '$GITHUB_SHA'"
+          scp -P "${SERVER_PORT:-22}" -i ~/.ssh/aiarrival_deploy \
+            /tmp/aiarrival-release.tgz \
+            "$SERVER_USER@$SERVER_HOST:/tmp/aiarrival-$GITHUB_SHA.tgz"
+
+      - name: Activate release
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          ssh -p "${SERVER_PORT:-22}" -i ~/.ssh/aiarrival_deploy "$SERVER_USER@$SERVER_HOST" \
+            "RELEASE_SHA='$GITHUB_SHA' bash -s" <<'REMOTE'
+          set -Eeuo pipefail
+          app_name="aiarrival-website"
+          app_root="/opt/aiarrival-website"
+          releases="$app_root/releases"
+          current="$app_root/current"
+          release_dir="$releases/$RELEASE_SHA"
+          previous_release="$(readlink -f "$current" 2>/dev/null || true)"
+
+          mkdir -p "$releases" "$release_dir"
+          exec 9>"$app_root/.deploy.lock"
+          if ! flock -n 9; then
+            echo "Another deployment is already running."
+            exit 1
+          fi
+
+          tar -xzf "/tmp/aiarrival-$RELEASE_SHA.tgz" -C "$release_dir"
+          rm -f "/tmp/aiarrival-$RELEASE_SHA.tgz"
+          cd "$release_dir"
+          npm ci --no-audit --no-fund
+          test -f "$release_dir/dist/server/index.js"
+
+          ln -sfn "$release_dir" "$app_root/current.next"
+          mv -Tf "$app_root/current.next" "$current"
+          pm2 startOrReload "$release_dir/ecosystem.config.cjs" --update-env
+
+          healthy=false
+          for attempt in {1..20}; do
+            if curl -fsS --max-time 5 http://127.0.0.1:3020/ >/dev/null; then
+              healthy=true
+              break
+            fi
+            sleep 2
+          done
+
+          if [ "$healthy" != "true" ]; then
+            echo "Health check failed. Restoring the previous release."
+            if [ -n "$previous_release" ] && [ -d "$previous_release" ]; then
+              ln -sfn "$previous_release" "$app_root/current.next"
+              mv -Tf "$app_root/current.next" "$current"
+              pm2 startOrReload "$previous_release/ecosystem.config.cjs" --update-env
+            else
+              pm2 delete "$app_name" >/dev/null 2>&1 || true
+            fi
+            exit 1
+          fi
+
+          pm2 save
+          mapfile -t old_releases < <(ls -1dt "$releases"/* 2>/dev/null | tail -n +6 || true)
+          for old_release in "${old_releases[@]}"; do
+            if [ "$old_release" = "$release_dir" ] || [ "$old_release" = "$(readlink -f "$current")" ]; then
+              continue
+            fi
+            rm -rf -- "$old_release"
+          done
+          echo "Deployment succeeded: $RELEASE_SHA"
+          REMOTE
