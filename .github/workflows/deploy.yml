@@ -31,7 +31,10 @@ jobs:
           npm run build
           node --test tests/rendered-html.test.mjs
       - name: Package release
-        run: tar --exclude=.git --exclude=node_modules --exclude=.env --exclude=.wrangler --exclude=.next -czf /tmp/aiarrival-release.tgz .
+        run: |
+          tar --exclude=.git --exclude=node_modules --exclude=.env --exclude=.wrangler \
+            --exclude=.next --exclude=.vinext -czf /tmp/aiarrival-release.tgz .
+          du -h /tmp/aiarrival-release.tgz
 
       - name: Configure SSH
         env:
