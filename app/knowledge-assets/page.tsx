@@ -81,7 +81,7 @@ export default function Home() {
     <main>
       <nav className="nav shell">
         <a className="brand" href="#top" aria-label="创始人AI第二大脑启动计划首页">
-          <span className="brand-mark">AI</span>
+          <img className="brand-mark" src="/brand/jianglin-mark.png" alt="" />
           <span>创始人AI第二大脑</span>
         </a>
         <div className="nav-links">
@@ -100,9 +100,8 @@ export default function Home() {
             FOUNDER AI SECOND BRAIN
           </p>
           <h1>
-            让多年经验
-            <br />
-            <em>成为AI第二大脑</em>
+            <span className="hero-title-line">让多年经验</span>
+            <em className="hero-title-line">成为AI第二大脑</em>
           </h1>
           <p className="hero-lead">
             把你的经验、判断方法和行业认知，沉淀成一个可以被AI与团队持续调用的第二大脑。
@@ -362,7 +361,7 @@ export default function Home() {
 
       <footer className="shell footer">
         <div className="brand">
-          <span className="brand-mark">AI</span>
+          <img className="brand-mark" src="/brand/jianglin-mark.png" alt="" />
           <span>创始人AI第二大脑</span>
         </div>
         <p>沉淀你的经验，让AI成为你的知识助手。</p>

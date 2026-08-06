@@ -440,7 +440,7 @@ export default function DiagnosisPage() {
       <main className="diagnosis-page result-page">
         <nav className="diagnosis-nav diagnosis-shell">
           <a className="brand" href="/">
-            <span className="brand-mark">AI</span>
+            <img className="brand-mark" src="/brand/jianglin-mark.png" alt="" />
             <span>AI第二大脑评估</span>
           </a>
           <a href="/">返回介绍页</a>
@@ -512,8 +512,8 @@ export default function DiagnosisPage() {
     <main className="diagnosis-page">
       <nav className="diagnosis-nav diagnosis-shell">
         <a className="brand" href="/">
-          <span className="brand-mark">AI</span>
-            <span>AI第二大脑评估</span>
+          <img className="brand-mark" src="/brand/jianglin-mark.png" alt="" />
+          <span>AI第二大脑评估</span>
         </a>
         <a href="/">返回介绍页</a>
       </nav>

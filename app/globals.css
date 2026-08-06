@@ -1721,14 +1721,9 @@ a {
 .brand-mark {
   width: 35px;
   height: 35px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  color: white;
-  background: var(--navy);
-  font-family: Georgia, serif;
-  font-size: 14px;
-  font-style: italic;
+  display: block;
+  flex: 0 0 35px;
+  object-fit: contain;
 }
 
 .nav-links {
@@ -1800,10 +1795,18 @@ a {
   margin: 0;
   max-width: 690px;
   font-family: "Songti SC", "STSong", Georgia, serif;
-  font-size: clamp(68px, 7vw, 104px);
+  font-size: clamp(64px, 5vw, 82px);
   line-height: 0.98;
   font-weight: 700;
   letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+.hero-title-line {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  white-space: nowrap;
 }
 
 .hero h1 em,
@@ -3294,6 +3297,11 @@ a {
   .hero h1 {
     font-size: 57px;
     line-height: 1.03;
+  }
+
+  .hero-title-line {
+    width: auto;
+    white-space: normal;
   }
 
   .hero-lead {
