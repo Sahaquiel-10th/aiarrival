@@ -325,7 +325,7 @@ function calculateResult(answers: Answers) {
   const usesNotion = answers.tools.includes("Notion") || answers.storage.includes("Notion");
   const usesDedao = answers.tools.includes("得到") || answers.storage.includes("得到");
 
-  let toolPlan = "录音设备 + 简单的个人资料库";
+  let toolPlan = "适合你的采集设备 + 自动同步 + 个人知识库";
   if (type === "enterprise" && usesWorkPlatform) {
     toolPlan = "沿用你们已有的办公平台，再增加企业资料库";
   } else if (type === "enterprise") {
@@ -333,9 +333,9 @@ function calculateResult(answers: Answers) {
   } else if (usesNotion) {
     toolPlan = "保留Notion，再接入适合你的AI工具";
   } else if (usesDedao || answers.approach === "推荐一个简单方案，我直接使用") {
-    toolPlan = "得到录音卡 + 得到大脑，先用最简单的方式开始";
+    toolPlan = "适合你的便携采集设备 + 低门槛知识库，从最顺手的方式开始";
   } else if (type === "expert") {
-    toolPlan = "录音设备 + 个人资料库 + 专属AI网页";
+    toolPlan = "多种内容采集 + 个人知识库 + 可分享知识分身";
   }
 
   const poorFindability = ["比较困难，经常找不到", "基本靠回忆"].includes(answers.findability);
@@ -348,9 +348,9 @@ function calculateResult(answers: Answers) {
       headline: "你现在最需要的，是先把重要经验稳定地记录和保存下来",
       description:
         "现阶段不用急着学习复杂AI。先把记录方式、资料位置和分类方法确定下来，AI以后才有可靠的内容可以使用。",
-      service: "AI知识资产启动服务",
+      service: "创始人AI第二大脑启动服务",
       price: "¥3,999 起",
-      serviceText: "适合先完成设备设置、资料整理和15天使用陪伴。",
+      serviceText: "适合把软硬件选型、购买注册、自动同步、知识库配置和15天轻陪跑一次完成。",
     },
     expert: {
       label: "个人AI助手准备型",
@@ -358,11 +358,11 @@ function calculateResult(answers: Answers) {
       headline: "你的专业经验已经很有价值，下一步是让AI学会使用这些内容",
       description:
         "你的工作中有较多内容输出、客户沟通或专业判断。把这些资料整理好后，AI可以更贴近你的表达方式，帮助写作、研究和分析。",
-      service: poorFindability ? "创始人AI第二大脑启动计划" : "企业知识资产升级",
-      price: poorFindability ? "启动计划 ¥4,999" : "¥9,999",
+      service: poorFindability ? "创始人AI第二大脑启动服务" : "个人AI知识分身升级服务",
+      price: poorFindability ? "¥3,999 起" : "¥9,999",
       serviceText: poorFindability
-        ? "你的资料目前还不容易调用，建议先完成15天经验采集与AI化启动。"
-        : "适合把个人知识资产进一步整理为团队可使用的企业知识系统。",
+        ? "你的资料目前还不容易调用，建议先完成软硬件配置、自动同步和15天启动。"
+        : "适合在完整启动服务之上，进一步构建能创作、答疑和对外分享的个人AI知识分身。",
     },
     enterprise: {
       label: "团队知识整理型",

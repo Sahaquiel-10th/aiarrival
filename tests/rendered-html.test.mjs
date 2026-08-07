@@ -43,8 +43,11 @@ test("renders the knowledge asset service at its own route", async () => {
 
   const html = await response.text();
   assert.match(html, /让多年经验/);
-  assert.match(html, /创始人AI第二大脑启动计划/);
-  assert.match(html, /¥4,999/);
+  assert.match(html, /AI时代的入场券/);
+  assert.match(html, /创始人AI第二大脑启动服务/);
+  assert.match(html, /¥3,999 起/);
+  assert.match(html, /自动转写 · 同步/);
+  assert.match(html, /进入知识分身展厅/);
   assert.match(html, /href="\/diagnosis"/);
 });
 

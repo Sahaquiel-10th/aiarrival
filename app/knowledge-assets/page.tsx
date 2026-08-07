@@ -2,45 +2,45 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "创始人AI第二大脑启动计划｜降临科技",
-  description: "15天完成一次创始人知识资产采集和AI化启动，把多年经验、判断方法和行业认知沉淀成可被AI调用的第二大脑。",
+  description: "从采集、同步到知识库和知识分身上架，15天完成创始人AI第二大脑启动，让多年经验真正进入AI时代。",
 };
 
 const stages = [
   {
     index: "01",
     tone: "green",
-    name: "创始人AI第二大脑启动计划",
-    price: "¥4,999",
-    promise: "15天完成经验资产采集与AI化启动",
+    name: "创始人AI第二大脑启动服务",
+    price: "¥3,999 起",
+    promise: "把软硬件选型、配置和第一次启动全部交给我们",
     description:
-      "我们通过深度访谈和资料梳理，把你的创业经历、行业判断、方法论与经典案例变成可持续调用的第一版知识资产。",
+      "我们根据问卷和你的使用习惯选择合适的采集设备与知识库工具，完成购买、注册、连接、自动同步和15天轻陪跑。你只需授权和开始记录。",
     items: [
-      "个人知识资产地图",
-      "第一版AI知识库",
-      "适合你的持续记录方式",
-      "创始人AI助手初始配置",
-      "15天采集、整理与陪跑",
-      "企业化升级路线建议",
+      "个性化软硬件方案与代办选购",
+      "方案内硬件及首年软件订阅费",
+      "账号注册、知识库连接与配置",
+      "录音转写及自动同步脚本",
+      "15天提醒、使用指导与轻陪跑",
+      "结项报告与知识分身上架权限",
     ],
-    footnote: "价格对应知识资产采集与AI化启动服务；第三方工具费用按实际需要另计",
+    footnote: "包含确认方案内的软硬件费用；特殊设备、额外账号或超出方案的订阅另行确认",
   },
   {
     index: "02",
     tone: "blue",
-    name: "企业知识资产升级",
+    name: "个人AI知识分身升级服务",
     price: "¥9,999",
-    promise: "让创始人的经验开始为团队服务",
+    promise: "包含启动服务，并把第二大脑升级为真正能工作的AI分身",
     description:
-      "在个人第二大脑的基础上，继续整理团队资料、业务规则与岗位经验，形成组织可以共同使用的知识资产系统。",
+      "完成第一阶段全部交付后，进一步为你设计AI知识分身、工作方式和常用提示词，让它可以帮你思考、创作、答疑并对外分享。",
     items: [
-      "企业知识资产地图",
-      "团队资料与业务规则接入",
-      "岗位知识范围与权限设计",
-      "企业知识助手入口",
-      "团队使用方法与常用场景",
-      "持续更新机制建议",
+      "包含¥3,999启动服务全部内容",
+      "个人AI知识分身设计与构建",
+      "常用工作场景与提示词模板",
+      "专属AI工作台与平台账号",
+      "知识分身使用方法培训",
+      "持续优化与成长支持",
     ],
-    footnote: "根据团队人数、资料规模和使用范围确认最终方案",
+    footnote: "¥9,999为包含第一阶段的完整套餐价，不是在¥3,999基础上重复加收",
   },
   {
     index: "03",
@@ -70,10 +70,37 @@ const pains = [
 ];
 
 const process = [
-  ["经验采集", "深度访谈创业经历、行业判断、方法论、案例与决策原则"],
-  ["知识整理", "形成个人知识地图、行业认知库、案例库与方法论库"],
-  ["AI调用", "配置第一版AI助手、专属入口与可分享的体验页面"],
-  ["企业升级", "规划企业知识库、AI员工、智能体系统与后续落地路径"],
+  ["诊断与选型", "根据你的记录习惯、设备偏好和使用场景确定软硬件方案"],
+  ["代办与打通", "完成购买、账号注册、转写脚本、知识库连接和自动同步"],
+  ["15天轻陪跑", "提醒哪些内容值得记录，陪你学会记录、查找和调用"],
+  ["交付与上架", "交付结项报告、第一版第二大脑，并开通知识分身上架权限"],
+];
+
+const twinExamples = [
+  {
+    slug: "lin-zhiyuan",
+    name: "林知远",
+    role: "制造业转型顾问",
+    image: "/experts/lin-zhiyuan.jpg",
+    tags: ["组织转型", "经营复盘"],
+    prompt: "老员工经验如何变成组织能力？",
+  },
+  {
+    slug: "he-yun",
+    name: "何韵",
+    role: "知识型IP与课程顾问",
+    image: "/experts/he-yun.jpg",
+    tags: ["课程设计", "内容体系"],
+    prompt: "有经验但讲不成课程，怎么梳理？",
+  },
+  {
+    slug: "lu-xiaobei",
+    name: "陆小北",
+    role: "企业AI落地顾问",
+    image: "/experts/lu-xiaobei.jpg",
+    tags: ["企业AI", "智能体"],
+    prompt: "企业做AI为什么要先做知识库？",
+  },
 ];
 
 export default function Home() {
@@ -97,17 +124,18 @@ export default function Home() {
         <div className="hero-copy">
           <p className="eyebrow">
             <span />
-            FOUNDER AI SECOND BRAIN
+            YOUR ENTRY INTO THE AI ERA
           </p>
           <h1>
             <span className="hero-title-line">让多年经验</span>
             <em className="hero-title-line">成为AI第二大脑</em>
           </h1>
           <p className="hero-lead">
-            把你的经验、判断方法和行业认知，沉淀成一个可以被AI与团队持续调用的第二大脑。
+            不是再学一个工具，而是完成一次进入AI时代的知识迁移。
             <br className="desktop-only" />
-            不是再买一个工具，而是让宝贵经验不随时间消失，并持续产生价值。
+            你负责产生经验，我们把采集、同步、知识库和持续使用全部配置好。
           </p>
+          <p className="hero-rite"><span>AI时代的入场券</span> 一套真正属于你的第二大脑</p>
           <div className="hero-actions">
             <a className="primary-button" href="/diagnosis">
               获取AI第二大脑评估 <span>↗</span>
@@ -118,42 +146,51 @@ export default function Home() {
           </div>
           <div className="hero-proof">
             <div>
+              <strong>一站式</strong>
+              <span>软硬件配置</span>
+            </div>
+            <i />
+            <div>
               <strong>15天</strong>
-              <span>完成首版启动</span>
+              <span>轻陪跑启动</span>
             </div>
             <i />
             <div>
-              <strong>4项</strong>
-              <span>明确交付成果</span>
-            </div>
-            <i />
-            <div>
-              <strong>1条路</strong>
-              <span>从个人到企业</span>
+              <strong>可上架</strong>
+              <span>知识分身平台</span>
             </div>
           </div>
         </div>
 
-        <div className="hero-visual" aria-hidden="true">
-          <div className="orbit orbit-one" />
-          <div className="orbit orbit-two" />
-          <div className="core">
-            <span>YOUR</span>
-            <strong>AI</strong>
-            <span>KNOWLEDGE</span>
+        <div className="hero-visual" aria-label="内容经过采集和自动同步进入AI第二大脑，再生成内容、回答问题和对外分享">
+          <div className="brain-stage">
+            <div className="capture-stack">
+              <p>CAPTURE / 采集</p>
+              <div className="capture-card capture-voice"><span className="capture-icon">●</span><strong>说出来</strong><small>录音与访谈</small></div>
+              <div className="capture-card capture-write"><span className="capture-icon">Aa</span><strong>写下来</strong><small>灵感与文章</small></div>
+              <div className="capture-card capture-file"><span className="capture-icon">↥</span><strong>传进来</strong><small>文件与资料</small></div>
+            </div>
+            <div className="sync-rail rail-in"><i /><span>自动转写 · 同步</span></div>
+            <div className="brain-core">
+              <span className="brain-kicker">YOUR AI FOUNDATION</span>
+              <strong>第二大脑</strong>
+              <p>持续理解你的经验</p>
+              <i className="brain-pulse pulse-one" />
+              <i className="brain-pulse pulse-two" />
+            </div>
+            <div className="sync-rail rail-out"><i /><span>随时调用</span></div>
+            <div className="output-stack">
+              <p>CREATE / 创造价值</p>
+              <div className="output-grid">
+                <span>发言稿</span>
+                <span>问题回答</span>
+                <span>教学内容</span>
+                <span>方案与复盘</span>
+              </div>
+              <div className="share-output"><b>↗</b><span><strong>知识分身</strong><small>分享给团队与客户</small></span></div>
+            </div>
           </div>
-          <div className="float-note note-a">
-            <small>01</small>
-            <span>记录</span>
-          </div>
-          <div className="float-note note-b">
-            <small>02</small>
-            <span>沉淀</span>
-          </div>
-          <div className="float-note note-c">
-            <small>03</small>
-            <span>使用</span>
-          </div>
+          <div className="brain-caption"><span>采集</span><i>→</i><span>自动同步</span><i>→</i><span>成为第二大脑</span><i>→</i><span>持续创造</span></div>
           <div className="glow glow-green" />
           <div className="glow glow-blue" />
           <div className="glow glow-orange" />
@@ -178,19 +215,48 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="twins-preview shell" aria-labelledby="twins-title">
+        <div className="twins-copy">
+          <p className="section-kicker">FROM KNOWLEDGE TO PRESENCE</p>
+          <h2 id="twins-title">看看知识最终<br />可以变成什么</h2>
+          <p>第二大脑不只服务自己。它还可以成为一个随时在线的知识分身，让团队、客户和学员直接与你的经验对话。</p>
+          <a href="https://agent.aiarrival.cn/" target="_blank" rel="noreferrer">进入知识分身展厅 <span>↗</span></a>
+        </div>
+        <div className="twin-fan">
+          {twinExamples.map((expert, index) => (
+            <a
+              className={`twin-card twin-card-${index + 1}`}
+              href={`https://agent.aiarrival.cn/agents/${expert.slug}`}
+              target="_blank"
+              rel="noreferrer"
+              key={expert.slug}
+            >
+              <img src={expert.image} alt={`${expert.name}的知识分身`} />
+              <div>
+                <small>知识分身 · 可直接对话</small>
+                <h3>{expert.name}</h3>
+                <p>{expert.role}</p>
+                <span>{expert.tags.join(" · ")}</span>
+                <blockquote>“{expert.prompt}”</blockquote>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <section className="manifesto shell" id="path">
         <p className="section-kicker">A COMPLETE PATH</p>
         <h2>
-          不只是再买一个软件，
+          不是再添一个AI工具，
           <br />
-          而是把你的经验<em>变成可调用的资产</em>
+          而是完成一次<em>进入AI时代的系统升级</em>
         </h2>
         <p className="manifesto-copy">
-          AI只是出口，知识资产化才是产品本体。我们先理解你的经验结构与判断方式，
-          再完成采集、整理和AI调用配置，让这套资产能够持续更新，并逐步进入团队与业务。
+          第二大脑是你在AI时代的个人基础设施。它持续接住你说过、写过和积累过的内容，
+          让AI真正理解你，再帮助你创作、回答、教学、复盘，并把经验分享给更多人。
         </p>
         <div className="flow">
-          {["老板经验", "知识资产", "AI助手", "企业智能体", "持续进化"].map((item, index) => (
+          {["多种采集", "自动同步", "第二大脑", "知识分身", "持续进化"].map((item, index) => (
             <div className={`flow-node flow-${index + 1}`} key={item}>
               <span>0{index + 1}</span>
               <strong>{item}</strong>
@@ -254,7 +320,7 @@ export default function Home() {
         </div>
         <div className="principle-aside">
           <span>15天后你会得到</span>
-          <p>个人知识资产地图、第一版AI知识库、可持续的记录方式，以及从个人第二大脑走向企业智能体的升级路线。</p>
+          <p>配置完成的软硬件、自动同步脚本、第一版AI知识库、适合你的持续记录方式、知识分身上架权限，以及一份结项报告。</p>
         </div>
       </section>
 
@@ -279,7 +345,7 @@ export default function Home() {
           <div className="process-result">
             <span>15天后</span>
             <strong>你的经验已经形成结构，并拥有第一版可调用的AI第二大脑</strong>
-            <p>你也会清楚知道如何持续沉淀，以及何时升级为企业知识系统与智能体</p>
+            <p>软硬件和自动同步已经配置完成，你也会拿到结项报告与知识分身上架权限</p>
           </div>
         </div>
       </section>
@@ -329,9 +395,15 @@ export default function Home() {
             </p>
           </details>
           <details>
-            <summary>升级服务会直接替我制作AI助手吗？</summary>
+            <summary>¥3,999具体包含哪些费用？</summary>
             <p>
-              启动计划会完成第一版AI助手配置，让你看到知识资产如何被调用。进入企业升级阶段后，我们会根据真实业务场景进一步建设知识助手、销售智能体或其他岗位智能体。
+              包含诊断后确认的采集硬件、收费软件第一年订阅、账号注册与配置、录音转写和自动同步脚本、知识库打通、15天轻陪跑、结项报告及知识分身上架权限。特殊设备、额外账号或超出确认方案的增购会提前说明。
+            </p>
+          </details>
+          <details>
+            <summary>¥9,999是在¥3,999之外再加收吗？</summary>
+            <p>
+              不是。¥9,999是包含启动服务全部内容的完整套餐，并增加个人AI知识分身设计、常用工作场景与提示词、专属工作台、使用培训和持续优化支持。
             </p>
           </details>
           <details>
