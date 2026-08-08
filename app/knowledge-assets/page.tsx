@@ -166,18 +166,29 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="hero-visual hero-visual-image" aria-label="日常讲话、会议交流、写作与思考自动进入AI第二大脑，再生成回答、演讲、教学内容和知识分身">
-          <img className="hero-flow-image" src="/knowledge-assets/automatic-knowledge-flow.png" alt="经验自动积累为AI第二大脑的流程" />
-          <div className="visual-image-shade" />
-          <div className="visual-inputs" aria-hidden="true">
-            <span><b>●</b>日常讲话</span>
-            <span><b>●</b>会议交流</span>
-            <span><b>●</b>写作与思考</span>
+        <div className="hero-visual knowledge-flow-visual" aria-label="日常讲话、会议交流和写作思考自动进入AI第二大脑，再生成回答、演讲、教学内容和知识分身">
+          <div className="flow-column flow-input-column">
+            <small>日常工作自然发生</small>
+            <div><b className="flow-icon flow-icon-blue">●</b><span><strong>日常讲话</strong><em>想法与经验</em></span></div>
+            <div><b className="flow-icon flow-icon-green">◆</b><span><strong>会议交流</strong><em>判断与复盘</em></span></div>
+            <div><b className="flow-icon flow-icon-orange">Aa</b><span><strong>写作与思考</strong><em>文章与资料</em></span></div>
           </div>
-          <div className="visual-core-label"><small>自动积累</small><strong>AI第二大脑</strong><span>每天更理解你</span></div>
-          <div className="visual-auto-badge"><i />自动转写 · 自动同步 · 自动沉淀</div>
-          <i className="visual-particle particle-1" /><i className="visual-particle particle-2" /><i className="visual-particle particle-3" />
-          <div className="brain-caption"><span>采集</span><i>→</i><span className="caption-focus">自动积累</span><i>→</i><span>AI第二大脑</span><i>→</i><span>回答 · 创作 · 分享</span></div>
+          <div className="flow-wires flow-wires-in" aria-hidden="true"><i /><i /><i /></div>
+          <div className="flow-core">
+            <i className="core-orbit orbit-one" /><i className="core-orbit orbit-two" />
+            <small>自动积累</small>
+            <strong>AI第二大脑</strong>
+            <span>持续理解你的经验</span>
+          </div>
+          <div className="flow-wires flow-wires-out" aria-hidden="true"><i /><i /><i /><i /></div>
+          <div className="flow-column flow-output-column">
+            <small>需要时直接调用</small>
+            <div><b className="flow-icon flow-icon-blue">答</b><span><strong>有用的回答</strong><em>基于你的真实经验</em></span></div>
+            <div><b className="flow-icon flow-icon-green">讲</b><span><strong>精彩的演讲</strong><em>保持你的表达方式</em></span></div>
+            <div><b className="flow-icon flow-icon-orange">课</b><span><strong>系统教学内容</strong><em>方法与案例成体系</em></span></div>
+            <div><b className="flow-icon flow-icon-blue">人</b><span><strong>可分享的知识分身</strong><em>服务团队与客户</em></span></div>
+          </div>
+          <div className="flow-auto-label"><i />自动转写 · 自动同步 · 自动沉淀</div>
         </div>
       </section>
 
@@ -202,7 +213,7 @@ export default function Home() {
       <section className="auto-accumulation shell" aria-labelledby="automatic-title">
         <div className="auto-accumulation-copy">
           <p className="section-kicker">自动积累</p>
-          <h2 id="automatic-title">你不必停下来整理，<br />系统从今天开始替你积累</h2>
+          <h2 id="automatic-title"><span>你不必停下来整理，</span><span>系统从今天开始替你积累</span></h2>
         </div>
         <div className="before-after">
           <article>

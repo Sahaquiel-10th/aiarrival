@@ -68,7 +68,7 @@ export default function ExpertAiTwinPage() {
 
       <section className="expert-hero shell" id="top">
         <div className="expert-hero-copy">
-          <h1>让你的专业能力，<em>拥有一个永不疲惫的AI助手</em></h1>
+          <h1><span>让你的专业能力，</span><em><span>拥有一个永不疲惫的</span><span>AI助手</span></em></h1>
           <p>不需要先整理几十篇文章，也不需要自己研究AI。你继续讲课、咨询和服务客户，我们负责把每天正在发生的专业经验自动沉淀成知识分身。</p>
           <p className="hero-rite"><span>¥3,999 起</span> 15天启动专家AI分身</p>
           <div className="hero-actions">
@@ -82,22 +82,33 @@ export default function ExpertAiTwinPage() {
           </div>
         </div>
 
-        <div className="expert-presence" aria-label="专家的课程、咨询和内容持续进入知识分身并服务客户">
-          <div className="presence-source source-course"><span>REC</span><strong>授课</strong><small>课程与直播</small></div>
-          <div className="presence-source source-consult"><span>01:24</span><strong>咨询</strong><small>客户与案例</small></div>
-          <div className="presence-source source-write"><span>Aa</span><strong>内容</strong><small>文章与观点</small></div>
-          <div className="presence-center">
-            <img src="/experts/he-yun.jpg" alt="专家知识分身示例" />
-            <div><small>持续学习你的真实经验</small><strong>你的AI知识分身</strong><p>课程 · 咨询 · 答疑 · 内容</p></div>
+        <div className="expert-presence expert-flow-visual" aria-label="讲课、咨询和文章自动进入专家知识分身，再形成学员答疑、课程内容和咨询服务">
+          <div className="expert-flow-column expert-flow-inputs">
+            <small>你的专业工作</small>
+            <div><b>讲</b><span><strong>讲课与直播</strong><em>完整记录表达</em></span></div>
+            <div><b>询</b><span><strong>咨询与答疑</strong><em>沉淀真实案例</em></span></div>
+            <div><b>文</b><span><strong>文章与资料</strong><em>汇入既有知识</em></span></div>
           </div>
-          <div className="presence-question"><small>学员正在提问</small><p>这套方法应该怎样用在我的业务里？</p><span>知识分身正在基于你的经验回答…</span></div>
-          <div className="presence-flow"><i /> 自动转写、同步与更新</div>
+          <div className="expert-flow-wires wires-in" aria-hidden="true"><i /><i /><i /></div>
+          <div className="expert-flow-core">
+            <img src="/experts/he-yun.jpg" alt="专家形象示例" />
+            <div><small>自动学习 · 持续更新</small><strong>专家AI知识分身</strong><span>理解你的方法与表达</span></div>
+            <i className="expert-core-ring" />
+          </div>
+          <div className="expert-flow-wires wires-out" aria-hidden="true"><i /><i /><i /></div>
+          <div className="expert-flow-column expert-flow-outputs">
+            <small>新的服务能力</small>
+            <div><b>答</b><span><strong>学员随时答疑</strong><em>减少重复回答</em></span></div>
+            <div><b>课</b><span><strong>生成课程内容</strong><em>调用观点与案例</em></span></div>
+            <div><b>询</b><span><strong>咨询预沟通</strong><em>先理解客户问题</em></span></div>
+          </div>
+          <div className="expert-flow-status"><i />授课照常，专业知识自动积累</div>
         </div>
       </section>
 
       <section className="pain-strip">
         <div className="shell pain-grid">
-          <div className="pain-title"><span>现在的困扰</span><strong>专业能力越强，越容易被自己困住</strong></div>
+          <div className="pain-title"><span>现在的困扰</span><strong>专业能力越强，<br />越容易被自己困住</strong></div>
           {expertPains.map(([title, text], index) => (
             <div className="pain-item" key={title}><span>0{index + 1}</span><div><strong>{title}</strong><p>{text}</p></div></div>
           ))}

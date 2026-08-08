@@ -518,7 +518,7 @@ async function loadD1Summary(db: D1Database) {
 
 async function handleAdminRequest(request: Request, env: Env | undefined, pathname: string) {
   const config = await loadAdminConfig(env);
-  if (!config) return Response.json({ error: "数据后台尚未配置登录凭据。" }, { status: 503 });
+  if (!config) return Response.json({ error: "数据后台尚未配置，或网站进程没有读取配置文件的权限。" }, { status: 503 });
 
   if (pathname === "/api/admin/login" && request.method === "POST") {
     const payload = (await request.json()) as { username?: string; password?: string };
