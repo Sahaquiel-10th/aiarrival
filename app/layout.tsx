@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Analytics from "./analytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aiarrival.cn"),
@@ -31,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <body>{children}<Analytics /></body>
     </html>
   );
 }

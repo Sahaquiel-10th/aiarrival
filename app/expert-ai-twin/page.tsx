@@ -68,7 +68,6 @@ export default function ExpertAiTwinPage() {
 
       <section className="expert-hero shell" id="top">
         <div className="expert-hero-copy">
-          <p className="eyebrow"><span />EXPERTISE THAT NEVER CLOCKS OUT</p>
           <h1>让你的专业能力，<em>拥有一个永不疲惫的AI助手</em></h1>
           <p>不需要先整理几十篇文章，也不需要自己研究AI。你继续讲课、咨询和服务客户，我们负责把每天正在发生的专业经验自动沉淀成知识分身。</p>
           <p className="hero-rite"><span>¥3,999 起</span> 15天启动专家AI分身</p>
@@ -98,7 +97,7 @@ export default function ExpertAiTwinPage() {
 
       <section className="pain-strip">
         <div className="shell pain-grid">
-          <div className="pain-title"><span>THE PROBLEM</span><strong>专业能力越强，越容易被自己困住</strong></div>
+          <div className="pain-title"><span>现在的困扰</span><strong>专业能力越强，越容易被自己困住</strong></div>
           {expertPains.map(([title, text], index) => (
             <div className="pain-item" key={title}><span>0{index + 1}</span><div><strong>{title}</strong><p>{text}</p></div></div>
           ))}
@@ -107,7 +106,7 @@ export default function ExpertAiTwinPage() {
 
       <section className="expert-outcomes shell" id="outcomes">
         <div className="section-head">
-          <div><p className="section-kicker">FROM EXPERTISE TO SERVICE</p><h2>你的知识分身，首先解决三件真实的事</h2></div>
+          <div><p className="section-kicker">从专业经验到持续服务</p><h2>你的知识分身，首先解决三件真实的事</h2></div>
           <p>它不是复制人格，也不是普通聊天机器人；它让已经验证过的专业经验拥有新的服务入口。</p>
         </div>
         <div className="expert-outcome-grid">
@@ -118,7 +117,7 @@ export default function ExpertAiTwinPage() {
       <section className="expert-showcase">
         <div className="shell">
           <div className="section-head light">
-            <div><p className="section-kicker">SEE THE RESULT</p><h2>先和几个知识分身聊一聊</h2></div>
+            <div><p className="section-kicker">先看结果</p><h2>先和几个知识分身聊一聊</h2></div>
             <p>点击人物，直接体验一个专家的知识如何被检索、回答和分享。</p>
           </div>
           <div className="expert-showcase-grid">
@@ -134,7 +133,7 @@ export default function ExpertAiTwinPage() {
 
       <section className="expert-delivery shell" id="delivery">
         <div className="section-head">
-          <div><p className="section-kicker">15-DAY LAUNCH</p><h2>你只负责授权和继续工作，其余交给我们</h2></div>
+          <div><p className="section-kicker">15天启动</p><h2>你只负责授权和继续工作，其余交给我们</h2></div>
           <p>启动价包含确认方案内硬件、首年软件、账号配置、数据联通、15天轻陪跑和上架权限。</p>
         </div>
         <div className="expert-delivery-grid">
@@ -151,7 +150,7 @@ export default function ExpertAiTwinPage() {
 
       <section className="cta">
         <div className="shell cta-inner">
-          <div><p className="section-kicker">START NOW</p><h2>让专业能力<br />持续在线</h2></div>
+          <div><p className="section-kicker">现在开始</p><h2>让专业能力<br />持续在线</h2></div>
           <div className="cta-action"><p>先花2分钟告诉我们你的专业类型、资料现状和希望解决的问题。</p><a href="/diagnosis?audience=expert">开始专家版快速诊断 <span>↗</span></a><small>提交后立即获得初步方向，还可以继续完成深度评估</small></div>
         </div>
       </section>

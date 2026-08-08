@@ -130,10 +130,6 @@ export default function Home() {
 
       <section className="hero shell" id="top">
         <div className="hero-copy">
-          <p className="eyebrow">
-            <span />
-            YOUR ENTRY INTO THE AI ERA
-          </p>
           <h1>
             <span className="hero-title-line">不用学复杂AI</span>
             <em className="hero-title-line">经验也能自动积累</em>
@@ -170,45 +166,25 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="hero-visual" aria-label="内容经过采集和自动同步进入AI第二大脑，再生成内容、回答问题和对外分享">
-          <div className="brain-stage">
-            <div className="capture-stack">
-              <p>CAPTURE / 采集</p>
-              <div className="capture-card capture-voice"><span className="capture-icon">●</span><strong>说出来</strong><small>录音与访谈</small></div>
-              <div className="capture-card capture-write"><span className="capture-icon">Aa</span><strong>写下来</strong><small>灵感与文章</small></div>
-              <div className="capture-card capture-file"><span className="capture-icon">↥</span><strong>传进来</strong><small>文件与资料</small></div>
-            </div>
-            <div className="sync-rail rail-in"><i /><span>自动转写 · 同步</span></div>
-            <div className="brain-core">
-              <span className="brain-kicker">YOUR AI FOUNDATION</span>
-              <strong>第二大脑</strong>
-              <p>持续理解你的经验</p>
-              <i className="brain-pulse pulse-one" />
-              <i className="brain-pulse pulse-two" />
-            </div>
-            <div className="sync-rail rail-out"><i /><span>随时调用</span></div>
-            <div className="output-stack">
-              <p>CREATE / 创造价值</p>
-              <div className="output-grid">
-                <span>发言稿</span>
-                <span>问题回答</span>
-                <span>教学内容</span>
-                <span>方案与复盘</span>
-              </div>
-              <div className="share-output"><b>↗</b><span><strong>知识分身</strong><small>分享给团队与客户</small></span></div>
-            </div>
+        <div className="hero-visual hero-visual-image" aria-label="日常讲话、会议交流、写作与思考自动进入AI第二大脑，再生成回答、演讲、教学内容和知识分身">
+          <img className="hero-flow-image" src="/knowledge-assets/automatic-knowledge-flow.png" alt="经验自动积累为AI第二大脑的流程" />
+          <div className="visual-image-shade" />
+          <div className="visual-inputs" aria-hidden="true">
+            <span><b>●</b>日常讲话</span>
+            <span><b>●</b>会议交流</span>
+            <span><b>●</b>写作与思考</span>
           </div>
-          <div className="brain-caption"><span>采集</span><i>→</i><span>自动同步</span><i>→</i><span>成为第二大脑</span><i>→</i><span>持续创造</span></div>
-          <div className="glow glow-green" />
-          <div className="glow glow-blue" />
-          <div className="glow glow-orange" />
+          <div className="visual-core-label"><small>自动积累</small><strong>AI第二大脑</strong><span>每天更理解你</span></div>
+          <div className="visual-auto-badge"><i />自动转写 · 自动同步 · 自动沉淀</div>
+          <i className="visual-particle particle-1" /><i className="visual-particle particle-2" /><i className="visual-particle particle-3" />
+          <div className="brain-caption"><span>采集</span><i>→</i><span className="caption-focus">自动积累</span><i>→</i><span>AI第二大脑</span><i>→</i><span>回答 · 创作 · 分享</span></div>
         </div>
       </section>
 
       <section className="pain-strip">
         <div className="shell pain-grid">
           <div className="pain-title">
-            <span>THE PROBLEM</span>
+            <span>现在的困扰</span>
             <strong>你是否也有这些困扰？</strong>
           </div>
           {pains.map(([title, text], index) => (
@@ -225,7 +201,7 @@ export default function Home() {
 
       <section className="auto-accumulation shell" aria-labelledby="automatic-title">
         <div className="auto-accumulation-copy">
-          <p className="section-kicker">AUTOMATIC ACCUMULATION</p>
+          <p className="section-kicker">自动积累</p>
           <h2 id="automatic-title">你不必停下来整理，<br />系统从今天开始替你积累</h2>
         </div>
         <div className="before-after">
@@ -245,7 +221,7 @@ export default function Home() {
 
       <section className="twins-preview shell" aria-labelledby="twins-title">
         <div className="twins-copy">
-          <p className="section-kicker">FROM KNOWLEDGE TO PRESENCE</p>
+          <p className="section-kicker">知识分身</p>
           <h2 id="twins-title">看看知识最终<br />可以变成什么</h2>
           <p>第二大脑不只服务自己。它还可以成为一个随时在线的知识分身，让团队、客户和学员直接与你的经验对话。</p>
           <a href="https://agent.aiarrival.cn/" target="_blank" rel="noreferrer">进入知识分身展厅 <span>↗</span></a>
@@ -273,7 +249,7 @@ export default function Home() {
       </section>
 
       <section className="manifesto shell" id="path">
-        <p className="section-kicker">A COMPLETE PATH</p>
+        <p className="section-kicker">一条完整的升级路径</p>
         <h2>
           不是再添一个AI工具，
           <br />
@@ -298,7 +274,7 @@ export default function Home() {
         <div className="shell">
           <div className="section-head">
             <div>
-              <p className="section-kicker">THREE-STAGE SERVICE</p>
+              <p className="section-kicker">三阶段服务</p>
               <h2>从创始人第二大脑，逐步升级到企业智能体</h2>
             </div>
             <p>
@@ -355,7 +331,7 @@ export default function Home() {
       <section className="acceptance shell" aria-labelledby="acceptance-title">
         <div className="section-head">
           <div>
-            <p className="section-kicker">A CLEAR FINISH LINE</p>
+            <p className="section-kicker">清晰的验收标准</p>
             <h2 id="acceptance-title">不是买几个工具，而是完成一次AI升级</h2>
           </div>
           <p>15天结束时，用明确结果验收，而不是只看账号有没有开通。</p>
@@ -375,7 +351,7 @@ export default function Home() {
         <div className="shell">
           <div className="section-head light">
             <div>
-              <p className="section-kicker">HOW IT WORKS</p>
+              <p className="section-kicker">交付流程</p>
               <h2>四步完成第一次知识资产采集与AI化启动</h2>
             </div>
             <p>每一步做什么、什么时候完成，都会提前说明。</p>
@@ -399,7 +375,7 @@ export default function Home() {
 
       <section className="fit shell">
         <div className="fit-copy">
-          <p className="section-kicker">WHO IT’S FOR</p>
+          <p className="section-kicker">适合谁</p>
           <h2>尤其适合以经验为核心竞争力的人</h2>
           <p>
             你的专业判断、客户案例、课程方法、管理经验越多，
@@ -425,7 +401,7 @@ export default function Home() {
 
       <section className="faq shell">
         <div className="faq-title">
-          <p className="section-kicker">FAQ</p>
+          <p className="section-kicker">常见问题</p>
           <h2>你可能关心的问题</h2>
         </div>
         <div className="faq-list">
@@ -465,7 +441,7 @@ export default function Home() {
       <section className="cta" id="contact">
         <div className="shell cta-inner">
           <div>
-            <p className="section-kicker">START NOW</p>
+            <p className="section-kicker">从今天开始积累</p>
             <h2>创建你的<br />AI第二大脑</h2>
           </div>
           <div className="cta-action">

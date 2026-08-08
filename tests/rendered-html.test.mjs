@@ -46,10 +46,18 @@ test("renders the knowledge asset service at its own route", async () => {
   assert.match(html, /经验也能自动积累/);
   assert.match(html, /创始人AI第二大脑启动服务/);
   assert.match(html, /¥3,999 起/);
-  assert.match(html, /自动转写 · 同步/);
+  assert.match(html, /自动转写 · 自动同步 · 自动沉淀/);
+  assert.match(html, /automatic-knowledge-flow\.png/);
   assert.match(html, /不是买几个工具/);
   assert.match(html, /进入知识分身展厅/);
   assert.match(html, /href="\/diagnosis\?audience=founder"/);
+});
+
+test("renders the protected advertising data center shell", async () => {
+  const response = await render("/data-center");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /正在确认登录状态/);
 });
 
 test("renders the expert AI twin advertising entry", async () => {

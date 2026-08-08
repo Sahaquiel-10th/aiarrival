@@ -20,3 +20,22 @@ export const leadRequests = sqliteTable("lead_requests", {
   resultMaturity: text("result_maturity"),
   resultService: text("result_service"),
 });
+
+export const analyticsEvents = sqliteTable("analytics_events", {
+  id: text("id").primaryKey(),
+  createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
+  visitorId: text("visitor_id").notNull(),
+  sessionId: text("session_id").notNull(),
+  eventType: text("event_type").notNull(),
+  pathname: text("pathname").notNull(),
+  title: text("title").notNull().default(""),
+  referrer: text("referrer").notNull().default(""),
+  source: text("source").notNull().default(""),
+  campaign: text("campaign").notNull().default(""),
+  content: text("content").notNull().default(""),
+  audience: text("audience").notNull().default(""),
+  device: text("device").notNull().default(""),
+  label: text("label").notNull().default(""),
+  target: text("target").notNull().default(""),
+  durationMs: text("duration_ms").notNull().default("0"),
+});
