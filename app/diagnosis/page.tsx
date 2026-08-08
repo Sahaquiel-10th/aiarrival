@@ -64,16 +64,8 @@ const initialQuickLead: QuickLead = {
   teamNeed: "",
 };
 
-const leadApiOrigin = "https://ai-knowledge-assets-2026.sahaquile.chatgpt.site";
-
 function leadApiUrl(path = "") {
-  if (typeof window === "undefined") return `/api/leads${path}`;
-  const host = window.location.hostname;
-  const useCurrentOrigin =
-    host === "localhost" ||
-    host === "127.0.0.1" ||
-    host.endsWith(".chatgpt.site");
-  return `${useCurrentOrigin ? "" : leadApiOrigin}/api/leads${path}`;
+  return `/api/leads${path}`;
 }
 
 const identities = [

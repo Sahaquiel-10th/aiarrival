@@ -19,6 +19,7 @@ const leadOrigins = new Set([
   "https://www.aiarrival.cn",
   "https://ai-knowledge-assets-2026.sahaquile.chatgpt.site",
 ]);
+const durableLeadOrigin = "https://ai-knowledge-assets-2026.sahaquile.chatgpt.site";
 
 function leadCorsHeaders(request: Request) {
   const origin = request.headers.get("origin") ?? "";
@@ -112,6 +113,19 @@ async function handleLeadRequest(request: Request, env: Env, pathname: string) {
     return new Response(null, { status: 204, headers: leadCorsHeaders(request) });
   }
   if (!env.DB) {
+    const currentHost = new URL(request.url).hostname;
+    if (!currentHost.endsWith(".chatgpt.site")) {
+      try {
+        const forwarded = new Request(`${durableLeadOrigin}${pathname}`, request);
+        const response = await fetch(forwarded);
+        return new Response(response.body, {
+          status: response.status,
+          headers: { ...Object.fromEntries(response.headers), ...leadCorsHeaders(request) },
+        });
+      } catch (error) {
+        console.error("Lead storage proxy failed", error);
+      }
+    }
     return leadJson(request, { error: "线索存储暂未就绪，请稍后重试。" }, { status: 503 });
   }
 
