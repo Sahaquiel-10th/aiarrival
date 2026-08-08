@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Answers = {
   name: string;
@@ -24,6 +24,15 @@ type Answers = {
   help: string;
 };
 
+type QuickLead = {
+  name: string;
+  contact: string;
+  identity: string;
+  primaryGoal: string;
+  currentStorage: string;
+  teamNeed: string;
+};
+
 const initialAnswers: Answers = {
   name: "",
   identity: "",
@@ -45,6 +54,27 @@ const initialAnswers: Answers = {
   useCases: [],
   help: "",
 };
+
+const initialQuickLead: QuickLead = {
+  name: "",
+  contact: "",
+  identity: "",
+  primaryGoal: "",
+  currentStorage: "",
+  teamNeed: "",
+};
+
+const leadApiOrigin = "https://ai-knowledge-assets-2026.sahaquile.chatgpt.site";
+
+function leadApiUrl(path = "") {
+  if (typeof window === "undefined") return `/api/leads${path}`;
+  const host = window.location.hostname;
+  const useCurrentOrigin =
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host.endsWith(".chatgpt.site");
+  return `${useCurrentOrigin ? "" : leadApiOrigin}/api/leads${path}`;
+}
 
 const identities = [
   "企业创始人 / 管理者",
@@ -144,6 +174,15 @@ const useCaseOptions = [
   "企业内部问答",
   "产品知识管理",
   "管理决策支持",
+];
+
+const quickGoalOptions = [
+  "帮我整理知识",
+  "帮我写文章 / 内容",
+  "帮我制作课程",
+  "帮我分析客户问题",
+  "帮团队快速学习我的经验",
+  "帮企业沉淀知识",
 ];
 
 const stepNames = ["基本情况", "资料现状", "记录习惯", "希望AI帮什么", "使用方式"];
@@ -393,12 +432,74 @@ function calculateResult(answers: Answers) {
 export default function DiagnosisPage() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>(initialAnswers);
+  const [quickLead, setQuickLead] = useState<QuickLead>(initialQuickLead);
+  const [audience, setAudience] = useState<"founder" | "expert">("founder");
+  const [leadId, setLeadId] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [deepSaveWarning, setDeepSaveWarning] = useState("");
   const [error, setError] = useState("");
   const result = useMemo(() => calculateResult(answers), [answers]);
+
+  useEffect(() => {
+    const value = new URLSearchParams(window.location.search).get("audience");
+    setAudience(value === "expert" ? "expert" : "founder");
+  }, []);
 
   const setValue = <K extends keyof Answers>(key: K, value: Answers[K]) => {
     setAnswers((current) => ({ ...current, [key]: value }));
     setError("");
+  };
+
+  const setQuickValue = <K extends keyof QuickLead>(key: K, value: QuickLead[K]) => {
+    setQuickLead((current) => ({ ...current, [key]: value }));
+    setError("");
+  };
+
+  const submitQuickDiagnosis = async () => {
+    if (
+      !quickLead.contact.trim() ||
+      !quickLead.identity ||
+      !quickLead.primaryGoal ||
+      !quickLead.currentStorage ||
+      !quickLead.teamNeed ||
+      !consent
+    ) {
+      setError("请完成5项快速诊断，并勾选同意我们根据本次信息与你联系。");
+      return;
+    }
+
+    setSubmitting(true);
+    setError("");
+    try {
+      const response = await fetch(leadApiUrl(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...quickLead,
+          audience,
+          sourceUrl: window.location.href,
+          consent: true,
+        }),
+      });
+      const payload = (await response.json()) as { id?: string; error?: string };
+      if (!response.ok || !payload.id) throw new Error(payload.error || "提交失败");
+
+      setLeadId(payload.id);
+      setAnswers((current) => ({
+        ...current,
+        name: quickLead.name,
+        identity: quickLead.identity,
+        storage: [quickLead.currentStorage],
+        goals: [quickLead.primaryGoal],
+        teamNeed: quickLead.teamNeed,
+      }));
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "暂时无法保存，请稍后重试。");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const validate = () => {
@@ -416,8 +517,32 @@ export default function DiagnosisPage() {
     return true;
   };
 
-  const next = () => {
+  const next = async () => {
     if (!validate()) return;
+
+    if (step === stepNames.length - 1 && leadId) {
+      setSubmitting(true);
+      setDeepSaveWarning("");
+      try {
+        const response = await fetch(leadApiUrl(`/${leadId}`), {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            answers,
+            result: {
+              label: result.label,
+              maturity: result.maturity,
+              service: result.service,
+            },
+          }),
+        });
+        if (!response.ok) setDeepSaveWarning("深度结果暂时未同步，但你的快速诊断和联系方式已经保存。");
+      } catch {
+        setDeepSaveWarning("深度结果暂时未同步，但你的快速诊断和联系方式已经保存。");
+      } finally {
+        setSubmitting(false);
+      }
+    }
     setStep((current) => Math.min(current + 1, stepNames.length));
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -430,10 +555,75 @@ export default function DiagnosisPage() {
 
   const restart = () => {
     setAnswers(initialAnswers);
+    setQuickLead(initialQuickLead);
+    setLeadId("");
+    setConsent(false);
+    setDeepSaveWarning("");
     setStep(0);
     setError("");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  if (!leadId) {
+    return (
+      <main className="diagnosis-page quick-diagnosis-page">
+        <nav className="diagnosis-nav diagnosis-shell">
+          <a className="brand" href={audience === "expert" ? "/expert-ai-twin" : "/knowledge-assets"}>
+            <img className="brand-mark" src="/brand/jianglin-mark.png" alt="" />
+            <span>{audience === "expert" ? "专家AI分身诊断" : "创始人AI第二大脑诊断"}</span>
+          </a>
+          <a href={audience === "expert" ? "/expert-ai-twin" : "/knowledge-assets"}>返回介绍页</a>
+        </nav>
+
+        <header className="diagnosis-header diagnosis-shell quick-header">
+          <div>
+            <p className="diagnosis-eyebrow">2分钟快速诊断 · 提交后可继续深度评估</p>
+            <h1>{audience === "expert" ? "你的专业经验，最适合变成哪一种AI助手？" : "你的经验，最适合从哪里开始自动积累？"}</h1>
+            <p>先回答5个关键问题。我们会保存你的基本需求，并据此准备更贴近实际情况的沟通建议。</p>
+          </div>
+          <div className="quick-assurance">
+            <span>01</span><strong>先获得初步方向</strong><p>提交后可立即继续完整诊断</p>
+            <span>02</span><strong>不需要懂AI</strong><p>只需要按照真实情况选择</p>
+          </div>
+        </header>
+
+        <div className="diagnosis-form diagnosis-shell quick-form">
+          <Question number="01" title="你目前的身份是？">
+            <RadioGroup name="quick-identity" options={identities} value={quickLead.identity} onChange={(value) => setQuickValue("identity", value)} />
+          </Question>
+          <Question number="02" title="你最希望AI先帮你解决什么？">
+            <RadioGroup name="quick-goal" options={quickGoalOptions} value={quickLead.primaryGoal} onChange={(value) => setQuickValue("primaryGoal", value)} />
+          </Question>
+          <Question number="03" title="你的经验和资料现在主要在哪里？">
+            <RadioGroup name="quick-storage" options={storageOptions} value={quickLead.currentStorage} onChange={(value) => setQuickValue("currentStorage", value)} />
+          </Question>
+          <Question number="04" title="你希望以后让团队或客户一起使用吗？">
+            <RadioGroup name="quick-team" options={["暂时只服务个人", "希望未来团队使用", "目前已经有团队需求"]} value={quickLead.teamNeed} onChange={(value) => setQuickValue("teamNeed", value)} />
+          </Question>
+          <Question number="05" title="怎样联系你？" hint="用于发送建议和确认需求，不会用于无关营销">
+            <div className="diagnosis-fields quick-contact-fields">
+              <input value={quickLead.name} onChange={(event) => setQuickValue("name", event.target.value)} placeholder="你的称呼（选填）" autoComplete="name" />
+              <input value={quickLead.contact} onChange={(event) => setQuickValue("contact", event.target.value)} placeholder="手机号或微信号（必填）" autoComplete="tel" />
+            </div>
+          </Question>
+
+          <label className={`privacy-consent ${consent ? "selected" : ""}`}>
+            <input type="checkbox" checked={consent} onChange={(event) => { setConsent(event.target.checked); setError(""); }} />
+            <span>{consent ? "✓" : ""}</span>
+            <p>我同意降临科技保存本次填写内容，并根据本次诊断通过我留下的联系方式提供方案沟通。信息仅用于本次服务咨询。</p>
+          </label>
+          {error && <p className="diagnosis-error">{error}</p>}
+          <div className="diagnosis-controls quick-controls">
+            <a className="secondary-control" href={audience === "expert" ? "/expert-ai-twin" : "/knowledge-assets"}>返回介绍页</a>
+            <button className="primary-control" type="button" onClick={submitQuickDiagnosis} disabled={submitting}>
+              {submitting ? "正在保存…" : "提交并继续深度诊断"}<span>→</span>
+            </button>
+          </div>
+        </div>
+        <footer className="diagnosis-footer diagnosis-shell">你的快速诊断会安全保存，用于提供本次评估与后续方案沟通。</footer>
+      </main>
+    );
+  }
 
   if (step === stepNames.length) {
     return (
@@ -502,7 +692,7 @@ export default function DiagnosisPage() {
         </section>
 
         <footer className="diagnosis-footer diagnosis-shell">
-          诊断结果根据本次填写内容自动生成，仅作为方案方向参考。
+          {deepSaveWarning || "诊断结果已与快速诊断一并保存，仅作为方案方向参考。"}
         </footer>
       </main>
     );
@@ -520,7 +710,7 @@ export default function DiagnosisPage() {
 
       <header className="diagnosis-header diagnosis-shell">
         <div>
-          <p className="diagnosis-eyebrow">免费评估 · 约5分钟</p>
+          <p className="diagnosis-eyebrow">快速诊断已保存 · 继续完成深度评估</p>
           <h1>看看你的经验，最适合怎样变成AI第二大脑</h1>
           <p>
             不需要懂AI，也没有标准答案。请按照现在的真实情况填写，完成后立即看到建议。
@@ -723,15 +913,15 @@ export default function DiagnosisPage() {
           ) : (
             <a className="secondary-control" href="/">返回介绍页</a>
           )}
-          <button className="primary-control" type="button" onClick={next}>
-            {step === stepNames.length - 1 ? "查看我的诊断结果" : "下一步"}
+          <button className="primary-control" type="button" onClick={next} disabled={submitting}>
+            {submitting ? "正在同步…" : step === stepNames.length - 1 ? "保存并查看诊断结果" : "下一步"}
             <span>→</span>
           </button>
         </div>
       </div>
 
       <footer className="diagnosis-footer diagnosis-shell">
-        本问卷不会自动发送或保存你的填写内容。完成后，你可以自行决定是否扫码进一步咨询。
+        深度诊断将与已经提交的快速诊断关联保存，用于生成更准确的方案建议。
       </footer>
     </main>
   );

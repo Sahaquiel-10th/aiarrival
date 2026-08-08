@@ -42,13 +42,27 @@ test("renders the knowledge asset service at its own route", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /让多年经验/);
-  assert.match(html, /AI时代的入场券/);
+  assert.match(html, /不用学复杂AI/);
+  assert.match(html, /经验也能自动积累/);
   assert.match(html, /创始人AI第二大脑启动服务/);
   assert.match(html, /¥3,999 起/);
   assert.match(html, /自动转写 · 同步/);
+  assert.match(html, /不是买几个工具/);
   assert.match(html, /进入知识分身展厅/);
-  assert.match(html, /href="\/diagnosis"/);
+  assert.match(html, /href="\/diagnosis\?audience=founder"/);
+});
+
+test("renders the expert AI twin advertising entry", async () => {
+  const response = await render("/expert-ai-twin");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /永不疲惫的AI助手/);
+  assert.match(html, /专家AI分身启动服务/);
+  assert.match(html, /¥3,999 起/);
+  assert.match(html, /AI课程助教|课程AI助教/);
+  assert.match(html, /升级至 ¥9,999/);
+  assert.match(html, /href="\/diagnosis\?audience=expert"/);
 });
 
 test("renders services and case evidence pages", async () => {
@@ -70,8 +84,9 @@ test("renders the knowledge asset diagnosis questionnaire", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /看看你的经验/);
-  assert.match(html, /免费评估/);
+  assert.match(html, /2分钟快速诊断/);
+  assert.match(html, /5个关键问题/);
   assert.match(html, /你目前的身份是/);
-  assert.match(html, /不会自动发送或保存/);
+  assert.match(html, /手机号或微信号/);
+  assert.match(html, /安全保存/);
 });

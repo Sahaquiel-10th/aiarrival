@@ -16,13 +16,11 @@ export const metadata: Metadata = {
     description: "从创始人经验沉淀开始，让AI真正理解你的业务。",
     type: "website",
     locale: "zh_CN",
-    images: [{ url: "/og.png", width: 1732, height: 908, alt: "降临科技企业AI第二大脑与智能员工" }],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "让企业拥有自己的AI第二大脑与智能员工",
     description: "从创始人经验沉淀开始，让AI真正理解你的业务。",
-    images: ["/og.png"],
   },
 };
 

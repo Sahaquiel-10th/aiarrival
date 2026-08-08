@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "创始人AI第二大脑启动计划｜降临科技",
-  description: "从采集、同步到知识库和知识分身上架，15天完成创始人AI第二大脑启动，让多年经验真正进入AI时代。",
+  description: "不需要学习复杂AI，不需要自己整理资料。15天建立一个会自动积累的创始人AI第二大脑。",
 };
 
 const stages = [
@@ -71,9 +71,16 @@ const pains = [
 
 const process = [
   ["诊断与选型", "根据你的记录习惯、设备偏好和使用场景确定软硬件方案"],
-  ["代办与打通", "完成购买、账号注册、转写脚本、知识库连接和自动同步"],
-  ["15天轻陪跑", "提醒哪些内容值得记录，陪你学会记录、查找和调用"],
+  ["全部代办与打通", "完成购买、账号注册、转写脚本、知识库连接和自动同步"],
+  ["15天轻陪跑", "不要求你先整理资料，从每天正在发生的讲话、会议和思考开始积累"],
   ["交付与上架", "交付结项报告、第一版第二大脑，并开通知识分身上架权限"],
+];
+
+const acceptance = [
+  ["采集链路跑通", "日常讲话、会议或文字内容可以按方案自动进入知识库"],
+  ["第二大脑可用", "拥有自己的AI助手入口，并能调用已经沉淀的真实经验"],
+  ["典型问题验证", "用至少10个与你工作有关的问题检查回答与引用效果"],
+  ["知识资产地图", "拿到第一版结构、使用建议和后续持续积累方向"],
 ];
 
 const twinExamples = [
@@ -115,9 +122,10 @@ export default function Home() {
           <a href="/">降临科技</a>
           <a href="#path">为什么需要</a>
           <a href="#services">服务方案</a>
+          <a href="/expert-ai-twin">专家版入口</a>
           <a href="#process">如何开始</a>
         </div>
-        <a className="nav-cta" href="/diagnosis">先做免费诊断</a>
+        <a className="nav-cta" href="/diagnosis?audience=founder">先做快速诊断</a>
       </nav>
 
       <section className="hero shell" id="top">
@@ -127,18 +135,18 @@ export default function Home() {
             YOUR ENTRY INTO THE AI ERA
           </p>
           <h1>
-            <span className="hero-title-line">让多年经验</span>
-            <em className="hero-title-line">成为AI第二大脑</em>
+            <span className="hero-title-line">不用学复杂AI</span>
+            <em className="hero-title-line">经验也能自动积累</em>
           </h1>
           <p className="hero-lead">
-            不是再学一个工具，而是完成一次进入AI时代的知识迁移。
+            不需要你先整理资料，也不需要研究该买什么、怎样连接。
             <br className="desktop-only" />
-            你负责产生经验，我们把采集、同步、知识库和持续使用全部配置好。
+            你继续讲话、开会和做决策，我们把它们持续沉淀成真正理解你的AI第二大脑。
           </p>
-          <p className="hero-rite"><span>AI时代的入场券</span> 一套真正属于你的第二大脑</p>
+          <p className="hero-rite"><span>¥3,999 起</span> 完成你的AI时代第一步</p>
           <div className="hero-actions">
-            <a className="primary-button" href="/diagnosis">
-              获取AI第二大脑评估 <span>↗</span>
+            <a className="primary-button" href="/diagnosis?audience=founder">
+              2分钟快速诊断 <span>↗</span>
             </a>
             <a className="text-link" href="#process">
               了解交付流程 <span>↓</span>
@@ -146,8 +154,8 @@ export default function Home() {
           </div>
           <div className="hero-proof">
             <div>
-              <strong>一站式</strong>
-              <span>软硬件配置</span>
+              <strong>不用学</strong>
+              <span>软硬件全部代办</span>
             </div>
             <i />
             <div>
@@ -156,8 +164,8 @@ export default function Home() {
             </div>
             <i />
             <div>
-              <strong>可上架</strong>
-              <span>知识分身平台</span>
+              <strong>会积累</strong>
+              <span>日常经验自动沉淀</span>
             </div>
           </div>
         </div>
@@ -212,6 +220,26 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="auto-accumulation shell" aria-labelledby="automatic-title">
+        <div className="auto-accumulation-copy">
+          <p className="section-kicker">AUTOMATIC ACCUMULATION</p>
+          <h2 id="automatic-title">你不必停下来整理，<br />系统从今天开始替你积累</h2>
+        </div>
+        <div className="before-after">
+          <article>
+            <span>以前</span>
+            <strong>经验发生，然后消失</strong>
+            <p>会议里的判断、电话里的经验、临时想到的方法，散落在微信、文件和记忆里。</p>
+          </article>
+          <i>→</i>
+          <article className="after-card">
+            <span>现在</span>
+            <strong>工作照常，知识自动生长</strong>
+            <p>按照你的习惯设计采集方式，转写、同步和分类自动完成，AI每天都更理解你。</p>
+          </article>
         </div>
       </section>
 
@@ -324,6 +352,25 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="acceptance shell" aria-labelledby="acceptance-title">
+        <div className="section-head">
+          <div>
+            <p className="section-kicker">A CLEAR FINISH LINE</p>
+            <h2 id="acceptance-title">不是买几个工具，而是完成一次AI升级</h2>
+          </div>
+          <p>15天结束时，用明确结果验收，而不是只看账号有没有开通。</p>
+        </div>
+        <div className="acceptance-grid">
+          {acceptance.map(([title, text], index) => (
+            <article key={title}>
+              <span>0{index + 1}</span>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="process" id="process">
         <div className="shell">
           <div className="section-head light">
@@ -423,10 +470,10 @@ export default function Home() {
           </div>
           <div className="cta-action">
             <p>花几分钟完成评估，看看你的经验目前处在哪个阶段，以及最适合从哪里开始。</p>
-            <a href="/diagnosis">
-              获取AI第二大脑评估 <span>↗</span>
+            <a href="/diagnosis?audience=founder">
+              开始2分钟快速诊断 <span>↗</span>
             </a>
-            <small>填写完成后立即查看建议，无需提前了解AI工具</small>
+            <small>先留下基本需求并获得初步建议，再自愿继续完整评估</small>
           </div>
         </div>
       </section>
