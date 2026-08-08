@@ -19,7 +19,6 @@ const leadOrigins = new Set([
   "https://www.aiarrival.cn",
   "https://ai-knowledge-assets-2026.sahaquile.chatgpt.site",
 ]);
-const durableLeadOrigin = "https://ai-knowledge-assets-2026.sahaquile.chatgpt.site";
 
 function leadCorsHeaders(request: Request) {
   const origin = request.headers.get("origin") ?? "";
@@ -108,25 +107,95 @@ async function completeLead(request: Request, db: D1Database, id: string) {
   return leadJson(request, { saved: true });
 }
 
+async function ensureServerLeadFile() {
+  const { mkdir, open } = await import("node:fs/promises");
+  const directory = "/opt/aiarrival-website/shared";
+  const file = `${directory}/leads.ndjson`;
+  await mkdir(directory, { recursive: true, mode: 0o700 });
+  const handle = await open(file, "a", 0o600);
+  await handle.close();
+  return file;
+}
+
+async function appendServerLead(event: Record<string, unknown>) {
+  const { appendFile } = await import("node:fs/promises");
+  const file = await ensureServerLeadFile();
+  await appendFile(file, `${JSON.stringify(event)}\n`, { encoding: "utf8", mode: 0o600 });
+}
+
+async function handleServerLeadRequest(request: Request, pathname: string) {
+  if (pathname === "/api/leads/health" && request.method === "GET") {
+    await ensureServerLeadFile();
+    return leadJson(request, { storage: "ready", provider: "primary-server" });
+  }
+
+  if (pathname === "/api/leads" && request.method === "POST") {
+    const payload = (await request.json()) as {
+      audience?: string;
+      name?: string;
+      contact?: string;
+      identity?: string;
+      primaryGoal?: string;
+      currentStorage?: string;
+      teamNeed?: string;
+      sourceUrl?: string;
+      consent?: boolean;
+    };
+    const required = [payload.contact, payload.identity, payload.primaryGoal, payload.currentStorage, payload.teamNeed];
+    if (required.some((value) => !value?.trim()) || payload.consent !== true) {
+      return leadJson(request, { error: "请完成快速诊断并同意我们联系你。" }, { status: 400 });
+    }
+    const id = crypto.randomUUID();
+    await appendServerLead({
+      event: "quick",
+      id,
+      createdAt: new Date().toISOString(),
+      audience: payload.audience === "expert" ? "expert" : "founder",
+      name: payload.name?.trim() ?? "",
+      contact: payload.contact!.trim(),
+      identity: payload.identity!.trim(),
+      primaryGoal: payload.primaryGoal!.trim(),
+      currentStorage: payload.currentStorage!.trim(),
+      teamNeed: payload.teamNeed!.trim(),
+      sourceUrl: payload.sourceUrl?.slice(0, 500) ?? "",
+      consent: true,
+    });
+    return leadJson(request, { id, saved: true }, { status: 201 });
+  }
+
+  if (pathname.startsWith("/api/leads/") && request.method === "PATCH") {
+    const id = decodeURIComponent(pathname.slice("/api/leads/".length));
+    const payload = (await request.json()) as {
+      answers?: unknown;
+      result?: { label?: string; maturity?: string; service?: string };
+    };
+    if (!id || !payload.answers || !payload.result) {
+      return leadJson(request, { error: "诊断内容不完整。" }, { status: 400 });
+    }
+    await appendServerLead({
+      event: "complete",
+      id,
+      completedAt: new Date().toISOString(),
+      answers: payload.answers,
+      result: payload.result,
+    });
+    return leadJson(request, { saved: true });
+  }
+
+  return leadJson(request, { error: "Method not allowed" }, { status: 405 });
+}
+
 async function handleLeadRequest(request: Request, env: Env | undefined, pathname: string) {
   if (request.method === "OPTIONS") {
     return new Response(null, { status: 204, headers: leadCorsHeaders(request) });
   }
   if (!env?.DB) {
-    const currentHost = new URL(request.url).hostname;
-    if (!currentHost.endsWith(".chatgpt.site")) {
-      try {
-        const forwarded = new Request(`${durableLeadOrigin}${pathname}`, request);
-        const response = await fetch(forwarded);
-        return new Response(response.body, {
-          status: response.status,
-          headers: { ...Object.fromEntries(response.headers), ...leadCorsHeaders(request) },
-        });
-      } catch (error) {
-        console.error("Lead storage proxy failed", error);
-      }
+    try {
+      return await handleServerLeadRequest(request, pathname);
+    } catch (error) {
+      console.error("Primary server lead storage failed", error);
+      return leadJson(request, { error: "线索存储暂未就绪，请稍后重试。" }, { status: 503 });
     }
-    return leadJson(request, { error: "线索存储暂未就绪，请稍后重试。" }, { status: 503 });
   }
 
   try {
