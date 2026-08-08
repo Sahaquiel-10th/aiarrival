@@ -29,7 +29,7 @@ function leadCorsHeaders(request: Request) {
 
   return {
     "Access-Control-Allow-Origin": allowed ? origin : "https://www.aiarrival.cn",
-    "Access-Control-Allow-Methods": "POST, PATCH, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, PATCH, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Max-Age": "86400",
     Vary: "Origin",
@@ -116,6 +116,10 @@ async function handleLeadRequest(request: Request, env: Env, pathname: string) {
   }
 
   try {
+    if (pathname === "/api/leads/health" && request.method === "GET") {
+      await env.DB.prepare("SELECT 1 FROM lead_requests LIMIT 1").first();
+      return leadJson(request, { storage: "ready" });
+    }
     if (pathname === "/api/leads" && request.method === "POST") {
       return await createLead(request, env.DB);
     }
