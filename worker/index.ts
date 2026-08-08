@@ -108,11 +108,11 @@ async function completeLead(request: Request, db: D1Database, id: string) {
   return leadJson(request, { saved: true });
 }
 
-async function handleLeadRequest(request: Request, env: Env, pathname: string) {
+async function handleLeadRequest(request: Request, env: Env | undefined, pathname: string) {
   if (request.method === "OPTIONS") {
     return new Response(null, { status: 204, headers: leadCorsHeaders(request) });
   }
-  if (!env.DB) {
+  if (!env?.DB) {
     const currentHost = new URL(request.url).hostname;
     if (!currentHost.endsWith(".chatgpt.site")) {
       try {
