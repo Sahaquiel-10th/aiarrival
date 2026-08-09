@@ -68,14 +68,15 @@ test("renders the expert AI twin advertising entry", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /永不疲惫的.*AI助手/s);
-  assert.match(html, /专家AI分身启动服务/);
+  assert.match(html, /让你的专业经验.*服务更多人/s);
+  assert.match(html, /免费评估我的AI专家潜力/);
   assert.match(html, /¥3,999 起/);
-  assert.match(html, /AI课程助教|课程AI助教/);
-  assert.match(html, /升级至 ¥9,999/);
-  assert.match(html, /授课照常，专业知识自动积累/);
-  assert.match(html, /学员随时答疑/);
-  assert.match(html, /生成课程内容/);
+  assert.match(html, /AI不是替代专家，而是帮助专家服务更多人/);
+  assert.match(html, /你的专业价值，不应该只存在于你的时间里/);
+  assert.match(html, /AI学员助教/);
+  assert.match(html, /不需要研究AI，我们帮你完成专家经验资产化/);
+  assert.match(html, /看看不同专家如何拥有自己的AI助手/);
+  assert.match(html, /商业增长工具/);
   assert.match(html, /href="\/diagnosis\?audience=expert"/);
 });
 
