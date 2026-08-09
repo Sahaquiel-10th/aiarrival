@@ -88,13 +88,6 @@ const upgradeStages = [
   },
 ];
 
-const assetGrowthPath = [
-  ["记录", "把日常沟通、会议、思考沉淀下来。"],
-  ["沉淀", "形成属于你的知识体系。"],
-  ["调用", "让AI基于你的经验回答问题、辅助工作。"],
-  ["复制", "让个人经验成为团队和企业资产。"],
-];
-
 const fitReasons = [
   ["创业多年", "有大量经验，却一直没有系统沉淀"],
   ["依赖老板", "企业的重要判断仍然离不开你本人"],
@@ -270,12 +263,6 @@ export default function FounderAiPage() {
                 <div className="stage-price"><span>服务价格</span><strong>{stage.price}</strong><small>{stage.footnote}</small></div>
               </article>
             ))}
-          </div>
-          <div className="asset-growth-path">
-            <div className="asset-growth-head"><p className="section-kicker">从个人经验沉淀开始，逐步构建个人和企业的AI知识资产体系</p><h3>AI知识资产成长路径</h3></div>
-            <div className="asset-growth-grid">
-              {assetGrowthPath.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><strong>{title}</strong><p>{text}</p>{index < assetGrowthPath.length - 1 && <i>→</i>}</article>)}
-            </div>
           </div>
         </div>
       </section>

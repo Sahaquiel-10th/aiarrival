@@ -56,7 +56,7 @@ test("renders the knowledge asset service at its own route", async () => {
   assert.match(html, /一个懂你的AI助手/);
   assert.match(html, /我们帮你完成第一次AI经验资产化/);
   assert.match(html, /从个人经验沉淀，到企业知识资产体系/);
-  assert.match(html, /AI知识资产成长路径/);
+  assert.doesNotMatch(html, /AI知识资产成长路径/);
   assert.match(html, /进入知识分身展厅/);
   assert.match(html, /href="\/diagnosis\?audience=founder"/);
 });
