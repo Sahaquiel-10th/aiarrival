@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import FounderNavCta from "./FounderNavCta";
 
 export const metadata: Metadata = {
   title: "AI不用从头学，到手即用｜创始人AI第二大脑启动计划",
@@ -109,34 +111,33 @@ const twinExamples = [
 export default function FounderAiPage() {
   return (
     <main className="founder-landing">
-      <nav className="nav shell">
-        <a className="brand" href="#top" aria-label="创始人AI经验资产化服务首页">
-          <img className="brand-mark" src="/brand/jianglin-mark.png" alt="" />
-          <span>创始人AI第二大脑启动计划</span>
-        </a>
-        <div className="nav-links">
-          <a href="/">降临科技</a>
-          <a href="#why">为什么需要</a>
-          <a href="#results">15天后得到什么</a>
-          <a href="#service">我们如何完成</a>
-          <a href="#upgrade">未来升级</a>
-        </div>
-        <a className="nav-cta" href="/diagnosis?audience=founder">免费AI资产诊断</a>
-      </nav>
+      <header className="founder-sticky-header">
+        <nav className="nav shell">
+          <a className="brand" href="#top" aria-label="创始人AI经验资产化服务首页">
+            <img className="brand-mark" src="/brand/jianglin-mark.png" alt="" />
+            <span>创始人AI第二大脑启动计划</span>
+          </a>
+          <div className="nav-links">
+            <Link href="/">降临科技</Link>
+            <a href="#why">为什么需要</a>
+            <a href="#results">15天后得到什么</a>
+            <a href="#service">我们如何完成</a>
+            <a href="#upgrade">未来升级</a>
+          </div>
+          <FounderNavCta />
+        </nav>
+      </header>
 
       <section className="hero shell founder-hero-v2" id="top">
         <div className="founder-hero-headline">
           <h1>
-            <span className="hero-title-line">AI不用从头学</span>
-            <em className="hero-title-line">到手即用，让AI自动记住你的每一句话</em>
+            <span className="founder-title-row"><span>AI不用从头学，</span><em>到手即用</em></span>
+            <em className="hero-title-line">让AI自动记住你的每一句话</em>
           </h1>
           <p className="hero-lead founder-hero-lead">
             <span>不用从头整理资料，我们帮你建立一个会自动积累的AI助手</span>
             <span>你的每一次沟通、会议和决策，都沉淀为组织可以调用的经验资产。</span>
           </p>
-        </div>
-        <div className="founder-hero-details">
-          <p className="hero-rite"><span>¥3,999 起</span> 15天完成你的AI经验资产化启动</p>
           <div className="hero-actions founder-hero-actions">
             <div className="hero-primary-action">
               <a className="primary-button" href="/diagnosis?audience=founder">点此立即加入【AI第二大脑启动计划】 <span>↗</span></a>
