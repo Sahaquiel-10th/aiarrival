@@ -42,14 +42,16 @@ test("renders the knowledge asset service at its own route", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
-  assert.match(html, /不用学复杂AI/);
-  assert.match(html, /经验也能自动积累/);
-  assert.match(html, /创始人AI第二大脑启动服务/);
+  assert.match(html, /不用学AI/);
+  assert.match(html, /让你的经验.*自动积累/s);
+  assert.match(html, /免费评估你的AI资产价值/);
   assert.match(html, /¥3,999 起/);
-  assert.match(html, /自动转写 · 自动同步 · 自动沉淀/);
-  assert.match(html, /有用的回答/);
-  assert.match(html, /可分享的知识分身/);
-  assert.match(html, /不是买几个工具/);
+  assert.match(html, /老板继续经营，AI负责积累/);
+  assert.match(html, /AI时代，老板最大的资产正在被浪费/);
+  assert.match(html, /15天后，你将拥有/);
+  assert.match(html, /一个懂你的AI助手/);
+  assert.match(html, /我们帮你完成第一次AI经验资产化/);
+  assert.match(html, /我的企业AI员工/);
   assert.match(html, /进入知识分身展厅/);
   assert.match(html, /href="\/diagnosis\?audience=founder"/);
 });

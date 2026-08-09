@@ -1,477 +1,286 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "创始人AI第二大脑启动计划｜降临科技",
-  description: "不需要学习复杂AI，不需要自己整理资料。15天建立一个会自动积累的创始人AI第二大脑。",
+  title: "不用学AI，让你的经验自动积累｜降临科技",
+  description: "不用整理资料，不用研究工具。15天完成配置，让会议、沟通和思考持续沉淀为一个越来越懂你的AI助手。",
+  openGraph: {
+    title: "不用学AI，让你的经验自动积累",
+    description: "15天完成配置，让每天的会议、沟通和思考持续沉淀为一个越来越懂你的AI助手。",
+    images: [{ url: "/og-founder.png", width: 1734, height: 907, alt: "不用学AI，让你的经验自动积累" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "不用学AI，让你的经验自动积累",
+    description: "15天完成配置，让每天的会议、沟通和思考持续沉淀为一个越来越懂你的AI助手。",
+    images: ["/og-founder.png"],
+  },
 };
 
-const stages = [
+const wasteQuestions = [
+  "哪些客户值得合作？",
+  "哪些项目应该放弃？",
+  "如何培养团队？",
+  "如何解决复杂问题？",
+];
+
+const outcomes = [
+  {
+    index: "01",
+    title: "一个懂你的AI助手",
+    text: "理解你的经验、方法和判断方式，帮助你回答问题、辅助思考和生成内容。",
+    tags: ["懂你的经验", "辅助思考", "生成内容"],
+  },
+  {
+    index: "02",
+    title: "一个自动积累系统",
+    text: "以后发生的会议、沟通、复盘和思考，会按照适合你的方式持续沉淀。",
+    tags: ["自动转写", "自动同步", "持续积累"],
+  },
+  {
+    index: "03",
+    title: "一套企业AI基础",
+    text: "从个人经验开始，未来可以继续升级成工作助手、团队知识助手和企业AI员工。",
+    tags: ["个人先用", "帮助工作", "复制给团队"],
+  },
+];
+
+const serviceProcess = [
+  ["设计采集方式", "先了解你的工作习惯，再设计最省事的记录方式。会议、沟通、文字和临时想法都可以被接住。"],
+  ["完成系统配置", "设备、软件、账号、知识库和AI助手全部协助选购、注册、连接和配置，你不用研究工具。"],
+  ["持续积累优化", "15天轻陪跑帮助你真正用起来。此后工作照常，新的经验会继续丰富AI对你的理解。"],
+];
+
+const upgradeStages = [
   {
     index: "01",
     tone: "green",
-    name: "创始人AI第二大脑启动服务",
+    name: "我的AI助手",
     price: "¥3,999 起",
-    promise: "把软硬件选型、配置和第一次启动全部交给我们",
-    description:
-      "我们根据问卷和你的使用习惯选择合适的采集设备与知识库工具，完成购买、注册、连接、自动同步和15天轻陪跑。你只需授权和开始记录。",
-    items: [
-      "个性化软硬件方案与代办选购",
-      "方案内硬件及首年软件订阅费",
-      "账号注册、知识库连接与配置",
-      "录音转写及自动同步脚本",
-      "15天提醒、使用指导与轻陪跑",
-      "结项报告与知识分身上架权限",
-    ],
-    footnote: "包含确认方案内的软硬件费用；特殊设备、额外账号或超出方案的订阅另行确认",
+    promise: "先让AI理解我",
+    description: "完成第一次AI经验资产化。我们负责软硬件选择、账号配置、数据连接和15天启动，让你的经验从今天开始自动积累。",
+    items: ["适合你的采集方式", "设备与首年软件", "账号注册和系统打通", "15天轻陪跑与结项报告"],
+    footnote: "包含确认方案内的软硬件费用；特殊设备或额外账号会提前确认",
   },
   {
     index: "02",
     tone: "blue",
-    name: "个人AI知识分身升级服务",
-    price: "¥9,999",
-    promise: "包含启动服务，并把第二大脑升级为真正能工作的AI分身",
-    description:
-      "完成第一阶段全部交付后，进一步为你设计AI知识分身、工作方式和常用提示词，让它可以帮你思考、创作、答疑并对外分享。",
-    items: [
-      "包含¥3,999启动服务全部内容",
-      "个人AI知识分身设计与构建",
-      "常用工作场景与提示词模板",
-      "专属AI工作台与平台账号",
-      "知识分身使用方法培训",
-      "持续优化与成长支持",
-    ],
-    footnote: "¥9,999为包含第一阶段的完整套餐价，不是在¥3,999基础上重复加收",
+    name: "我的AI工作助手",
+    price: "完整套餐 ¥9,999",
+    promise: "再让AI帮助我工作",
+    description: "在已经理解你的基础上，为常用工作设计专门的AI助手，帮助准备发言、整理思路、生成内容和处理重复问题。",
+    items: ["包含第一阶段全部内容", "常用工作任务设计", "个人AI工作台", "使用培训和持续优化"],
+    footnote: "¥9,999包含第一阶段，不是在¥3,999基础上重复加收",
   },
   {
     index: "03",
     tone: "orange",
-    name: "企业智能体系统",
+    name: "我的企业AI员工",
     price: "¥30,000 起",
-    promise: "让AI从会回答，升级为能参与业务",
-    description:
-      "把已经整理好的企业知识资产接入销售、客服、培训、决策复盘等真实场景，建设可执行、可追溯、可持续优化的业务智能体。",
-    items: [
-      "高价值业务场景诊断",
-      "销售、客服或知识智能体",
-      "业务流程与数据接入",
-      "权限、安全与依据追溯",
-      "试点验证与团队培训",
-      "年度AI顾问升级建议",
-    ],
+    promise: "最后把AI能力复制给团队",
+    description: "把老板经验、企业资料和真实业务连接起来，让销售、客服、培训等岗位拥有基于公司经验工作的AI助手。",
+    items: ["高价值业务场景选择", "团队知识和权限配置", "销售、客服或培训助手", "试点验证与团队培训"],
     footnote: "根据企业规模、资料数量、使用人数和具体用途确定方案",
   },
 ];
 
-const pains = [
-  ["关键判断都在脑子里", "离开本人就很难被团队调用"],
-  ["资料散落很多地方", "微信、电脑和笔记各存一份"],
-  ["同样的问题反复回答", "时间花了，经验却没留下"],
-  ["买了AI工具", "却发现AI并不真正理解业务"],
-];
-
-const process = [
-  ["诊断与选型", "根据你的记录习惯、设备偏好和使用场景确定软硬件方案"],
-  ["全部代办与打通", "完成购买、账号注册、转写脚本、知识库连接和自动同步"],
-  ["15天轻陪跑", "不要求你先整理资料，从每天正在发生的讲话、会议和思考开始积累"],
-  ["交付与上架", "交付结项报告、第一版第二大脑，并开通知识分身上架权限"],
-];
-
-const acceptance = [
-  ["采集链路跑通", "日常讲话、会议或文字内容可以按方案自动进入知识库"],
-  ["第二大脑可用", "拥有自己的AI助手入口，并能调用已经沉淀的真实经验"],
-  ["典型问题验证", "用至少10个与你工作有关的问题检查回答与引用效果"],
-  ["知识资产地图", "拿到第一版结构、使用建议和后续持续积累方向"],
+const fitReasons = [
+  ["创业多年", "有大量经验，却一直没有系统沉淀"],
+  ["依赖老板", "企业的重要判断仍然离不开你本人"],
+  ["反复回答", "员工经常就相似问题向你请示"],
+  ["想做企业AI", "希望AI真正进入业务，但不知道从哪里开始"],
 ];
 
 const twinExamples = [
-  {
-    slug: "lin-zhiyuan",
-    name: "林知远",
-    role: "制造业转型顾问",
-    image: "/experts/lin-zhiyuan.jpg",
-    tags: ["组织转型", "经营复盘"],
-    prompt: "老员工经验如何变成组织能力？",
-  },
-  {
-    slug: "he-yun",
-    name: "何韵",
-    role: "知识型IP与课程顾问",
-    image: "/experts/he-yun.jpg",
-    tags: ["课程设计", "内容体系"],
-    prompt: "有经验但讲不成课程，怎么梳理？",
-  },
-  {
-    slug: "lu-xiaobei",
-    name: "陆小北",
-    role: "企业AI落地顾问",
-    image: "/experts/lu-xiaobei.jpg",
-    tags: ["企业AI", "智能体"],
-    prompt: "企业做AI为什么要先做知识库？",
-  },
+  { slug: "lin-zhiyuan", name: "林知远", role: "制造业转型顾问", image: "/experts/lin-zhiyuan.jpg", tags: ["组织转型", "经营复盘"] },
+  { slug: "he-yun", name: "何韵", role: "知识型IP与课程顾问", image: "/experts/he-yun.jpg", tags: ["课程设计", "内容体系"] },
+  { slug: "lu-xiaobei", name: "陆小北", role: "企业AI落地顾问", image: "/experts/lu-xiaobei.jpg", tags: ["企业AI", "经营经验"] },
 ];
 
-export default function Home() {
+export default function FounderAiPage() {
   return (
-    <main>
+    <main className="founder-landing">
       <nav className="nav shell">
-        <a className="brand" href="#top" aria-label="创始人AI第二大脑启动计划首页">
+        <a className="brand" href="#top" aria-label="创始人AI经验资产化服务首页">
           <img className="brand-mark" src="/brand/jianglin-mark.png" alt="" />
           <span>创始人AI第二大脑</span>
         </a>
         <div className="nav-links">
           <a href="/">降临科技</a>
-          <a href="#path">为什么需要</a>
-          <a href="#services">服务方案</a>
-          <a href="/expert-ai-twin">专家版入口</a>
-          <a href="#process">如何开始</a>
+          <a href="#why">为什么需要</a>
+          <a href="#results">15天后得到什么</a>
+          <a href="#service">我们如何完成</a>
+          <a href="#upgrade">未来升级</a>
         </div>
-        <a className="nav-cta" href="/diagnosis?audience=founder">先做快速诊断</a>
+        <a className="nav-cta" href="/diagnosis?audience=founder">免费AI资产诊断</a>
       </nav>
 
       <section className="hero shell" id="top">
         <div className="hero-copy">
           <h1>
-            <span className="hero-title-line">不用学复杂AI</span>
-            <em className="hero-title-line">经验也能自动积累</em>
+            <span className="hero-title-line">不用学AI，</span>
+            <em><span className="hero-title-line">让你的经验</span><span className="hero-title-line">自动积累</span></em>
           </h1>
           <p className="hero-lead">
-            不需要你先整理资料，也不需要研究该买什么、怎样连接。
-            <br className="desktop-only" />
-            你继续讲话、开会和做决策，我们把它们持续沉淀成真正理解你的AI第二大脑。
+            不需要学习复杂AI，不需要整理资料。我们帮你完成采集、配置和连接，让每一次沟通、会议和思考，都持续沉淀为一个越来越懂你的AI助手。
           </p>
-          <p className="hero-rite"><span>¥3,999 起</span> 完成你的AI时代第一步</p>
-          <div className="hero-actions">
-            <a className="primary-button" href="/diagnosis?audience=founder">
-              2分钟快速诊断 <span>↗</span>
-            </a>
-            <a className="text-link" href="#process">
-              了解交付流程 <span>↓</span>
-            </a>
+          <p className="hero-rite"><span>¥3,999 起</span> 15天完成你的AI经验资产化启动</p>
+          <div className="hero-actions founder-hero-actions">
+            <div className="hero-primary-action">
+              <a className="primary-button" href="/diagnosis?audience=founder">免费评估你的AI资产价值 <span>↗</span></a>
+              <small>2分钟完成，了解你的经验是否适合AI资产化</small>
+            </div>
+            <a className="text-link" href="#service">看看我们如何代办 <span>↓</span></a>
           </div>
-          <div className="hero-proof">
-            <div>
-              <strong>不用学</strong>
-              <span>软硬件全部代办</span>
-            </div>
-            <i />
-            <div>
-              <strong>15天</strong>
-              <span>轻陪跑启动</span>
-            </div>
-            <i />
-            <div>
-              <strong>会积累</strong>
-              <span>日常经验自动沉淀</span>
-            </div>
+          <div className="hero-proof founder-proof">
+            <div><strong>不用整理资料</strong><span>从正在发生的工作开始</span></div><i />
+            <div><strong>我们帮你配置</strong><span>设备、软件和连接全代办</span></div><i />
+            <div><strong>后续自动积累</strong><span>AI会越来越理解你</span></div>
           </div>
         </div>
 
-        <div className="hero-visual knowledge-flow-visual" aria-label="日常讲话、会议交流和写作思考自动进入AI第二大脑，再生成回答、演讲、教学内容和知识分身">
-          <div className="flow-column flow-input-column">
-            <small>日常工作自然发生</small>
-            <div><b className="flow-icon flow-icon-blue">●</b><span><strong>日常讲话</strong><em>想法与经验</em></span></div>
-            <div><b className="flow-icon flow-icon-green">◆</b><span><strong>会议交流</strong><em>判断与复盘</em></span></div>
-            <div><b className="flow-icon flow-icon-orange">Aa</b><span><strong>写作与思考</strong><em>文章与资料</em></span></div>
+        <div className="hero-visual boss-day-flow" aria-label="老板的会议、客户沟通、经营决策和项目复盘，由AI自动提取、整理和沉淀，最终形成懂老板的AI助手">
+          <div className="boss-day-inputs">
+            <small>老板的一天</small>
+            <div><b>会</b><span><strong>经营会议</strong><em>讨论与判断</em></span></div>
+            <div><b>客</b><span><strong>客户沟通</strong><em>需求与经验</em></span></div>
+            <div><b>决</b><span><strong>经营决策</strong><em>取舍与方法</em></span></div>
+            <div><b>复</b><span><strong>项目复盘</strong><em>教训与总结</em></span></div>
           </div>
-          <div className="flow-wires flow-wires-in" aria-hidden="true"><i /><i /><i /></div>
-          <div className="flow-core">
-            <i className="core-orbit orbit-one" /><i className="core-orbit orbit-two" />
-            <small>自动积累</small>
-            <strong>AI第二大脑</strong>
-            <span>持续理解你的经验</span>
+          <div className="boss-flow-lines boss-lines-in" aria-hidden="true"><i /><i /><i /><i /></div>
+          <div className="boss-auto-core">
+            <small>AI自动处理</small>
+            <strong>提取重点</strong><i />
+            <strong>整理经验</strong><i />
+            <strong>持续沉淀</strong>
+            <span>无需改变工作方式</span>
           </div>
-          <div className="flow-wires flow-wires-out" aria-hidden="true"><i /><i /><i /><i /></div>
-          <div className="flow-column flow-output-column">
-            <small>需要时直接调用</small>
-            <div><b className="flow-icon flow-icon-blue">答</b><span><strong>有用的回答</strong><em>基于你的真实经验</em></span></div>
-            <div><b className="flow-icon flow-icon-green">讲</b><span><strong>精彩的演讲</strong><em>保持你的表达方式</em></span></div>
-            <div><b className="flow-icon flow-icon-orange">课</b><span><strong>系统教学内容</strong><em>方法与案例成体系</em></span></div>
-            <div><b className="flow-icon flow-icon-blue">人</b><span><strong>可分享的知识分身</strong><em>服务团队与客户</em></span></div>
+          <div className="boss-flow-lines boss-lines-out" aria-hidden="true"><i /><i /><i /></div>
+          <div className="boss-assistant-card">
+            <small>最终拥有</small>
+            <div className="assistant-orbit" aria-hidden="true" />
+            <b>AI</b>
+            <strong>懂你的AI助手</strong>
+            <p>越来越理解你的经验与判断</p>
+            <ul><li>回答问题</li><li>辅助工作</li><li>服务团队</li></ul>
           </div>
-          <div className="flow-auto-label"><i />自动转写 · 自动同步 · 自动沉淀</div>
+          <div className="boss-flow-caption"><i />老板继续经营，AI负责积累</div>
         </div>
       </section>
 
-      <section className="pain-strip">
-        <div className="shell pain-grid">
-          <div className="pain-title">
-            <span>现在的困扰</span>
-            <strong>你是否也有这些困扰？</strong>
+      <section className="experience-waste" id="why">
+        <div className="shell experience-waste-grid">
+          <div>
+            <p className="section-kicker">正在消失的企业资产</p>
+            <h2>AI时代，老板最大的资产正在被浪费</h2>
+            <p>每个创业者都有多年积累的判断、经验和方法。它们很有价值，却常常只存在于脑子里、聊天记录里、会议里和文件里，无法被团队持续调用。</p>
           </div>
-          {pains.map(([title, text], index) => (
-            <div className="pain-item" key={title}>
-              <span>0{index + 1}</span>
-              <div>
-                <strong>{title}</strong>
-                <p>{text}</p>
-              </div>
-            </div>
+          <div className="waste-questions">
+            {wasteQuestions.map((question, index) => <div key={question}><span>0{index + 1}</span><strong>{question}</strong></div>)}
+          </div>
+          <div className="waste-conclusion"><span>我们帮助你</span><strong>把个人经验，变成企业可以持续使用的AI资产。</strong></div>
+        </div>
+      </section>
+
+      <section className="founder-results shell" id="results" aria-labelledby="results-title">
+        <div className="section-head">
+          <div><p className="section-kicker">先看结果</p><h2 id="results-title">15天后，你将拥有</h2></div>
+          <p>不是多买几个工具，而是让经验真正开始积累，并拥有可以直接使用的AI入口。</p>
+        </div>
+        <div className="founder-result-grid">
+          {outcomes.map((outcome) => (
+            <article key={outcome.title}>
+              <span>{outcome.index}</span><strong>{outcome.title}</strong><p>{outcome.text}</p>
+              <div>{outcome.tags.map((tag) => <small key={tag}>{tag}</small>)}</div>
+            </article>
           ))}
-        </div>
-      </section>
-
-      <section className="auto-accumulation shell" aria-labelledby="automatic-title">
-        <div className="auto-accumulation-copy">
-          <p className="section-kicker">自动积累</p>
-          <h2 id="automatic-title"><span>你不必停下来整理，</span><span>系统从今天开始替你积累</span></h2>
-        </div>
-        <div className="before-after">
-          <article>
-            <span>以前</span>
-            <strong>经验发生，然后消失</strong>
-            <p>会议里的判断、电话里的经验、临时想到的方法，散落在微信、文件和记忆里。</p>
-          </article>
-          <i>→</i>
-          <article className="after-card">
-            <span>现在</span>
-            <strong>工作照常，知识自动生长</strong>
-            <p>按照你的习惯设计采集方式，转写、同步和分类自动完成，AI每天都更理解你。</p>
-          </article>
         </div>
       </section>
 
       <section className="twins-preview shell" aria-labelledby="twins-title">
         <div className="twins-copy">
-          <p className="section-kicker">知识分身</p>
-          <h2 id="twins-title">看看知识最终<br />可以变成什么</h2>
-          <p>第二大脑不只服务自己。它还可以成为一个随时在线的知识分身，让团队、客户和学员直接与你的经验对话。</p>
+          <p className="section-kicker">看得见的结果</p>
+          <h2 id="twins-title">你的经验，还可以成为随时在线的知识分身</h2>
+          <p>当AI开始理解你，它不仅能服务自己，也可以回答团队、客户和学员的问题。</p>
           <a href="https://agent.aiarrival.cn/" target="_blank" rel="noreferrer">进入知识分身展厅 <span>↗</span></a>
         </div>
         <div className="twin-fan">
           {twinExamples.map((expert, index) => (
-            <a
-              className={`twin-card twin-card-${index + 1}`}
-              href={`https://agent.aiarrival.cn/agents/${expert.slug}`}
-              target="_blank"
-              rel="noreferrer"
-              key={expert.slug}
-            >
+            <a className={`twin-card twin-card-${index + 1}`} href={`https://agent.aiarrival.cn/agents/${expert.slug}`} target="_blank" rel="noreferrer" key={expert.slug}>
               <img src={expert.image} alt={`${expert.name}的知识分身`} />
-              <div>
-                <small>知识分身 · 可直接对话</small>
-                <h3>{expert.name}</h3>
-                <p>{expert.role}</p>
-                <span>{expert.tags.join(" · ")}</span>
-                <blockquote>“{expert.prompt}”</blockquote>
-              </div>
+              <div><small>知识分身 · 可直接对话</small><h3>{expert.name}</h3><p>{expert.role}</p><span>{expert.tags.join(" · ")}</span></div>
             </a>
           ))}
         </div>
       </section>
 
-      <section className="manifesto shell" id="path">
-        <p className="section-kicker">一条完整的升级路径</p>
-        <h2>
-          不是再添一个AI工具，
-          <br />
-          而是完成一次<em>进入AI时代的系统升级</em>
-        </h2>
-        <p className="manifesto-copy">
-          第二大脑是你在AI时代的个人基础设施。它持续接住你说过、写过和积累过的内容，
-          让AI真正理解你，再帮助你创作、回答、教学、复盘，并把经验分享给更多人。
-        </p>
-        <div className="flow">
-          {["多种采集", "自动同步", "第二大脑", "知识分身", "持续进化"].map((item, index) => (
-            <div className={`flow-node flow-${index + 1}`} key={item}>
-              <span>0{index + 1}</span>
-              <strong>{item}</strong>
-              {index < 4 && <i>→</i>}
-            </div>
-          ))}
+      <section className="process founder-service" id="service">
+        <div className="shell">
+          <div className="section-head light">
+            <div><p className="section-kicker">全流程代办</p><h2>我们帮你完成第一次AI经验资产化</h2></div>
+            <p>你只需要告诉我们习惯，并开放必要权限；选择、购买、注册、配置和连接由我们协助完成。</p>
+          </div>
+          <div className="founder-process-grid">
+            {serviceProcess.map(([title, text], index) => (
+              <article key={title}><span>0{index + 1}</span><strong>{title}</strong><p>{text}</p></article>
+            ))}
+          </div>
+          <div className="founder-service-note"><span>15天轻陪跑</span><strong>不要求你停下来整理过去，从今天正在发生的工作开始。</strong><p>结束时交付已配置的采集方式、自动同步链路、可使用的AI助手、知识分身上架权限和结项报告。</p></div>
         </div>
       </section>
 
-      <section className="services" id="services">
+      <section className="fit founder-fit shell">
+        <div className="fit-copy">
+          <p className="section-kicker">适合人群</p>
+          <h2>如果你符合这些情况，这个服务适合你</h2>
+          <p>你不需要先懂AI。经验越多、企业越依赖你的判断，越值得先从老板自己的AI助手开始。</p>
+        </div>
+        <div className="fit-situation-grid">
+          {fitReasons.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><strong>{title}</strong><p>{text}</p></article>)}
+        </div>
+      </section>
+
+      <section className="services founder-upgrade" id="upgrade">
         <div className="shell">
           <div className="section-head">
-            <div>
-              <p className="section-kicker">三阶段服务</p>
-              <h2>从创始人第二大脑，逐步升级到企业智能体</h2>
-            </div>
-            <p>
-              你可以只做当前需要的一步，
-              <br />
-              以后有新需求时再继续升级。
-            </p>
+            <div><p className="section-kicker">按需要逐步升级</p><h2>从一个懂你的AI助手，到整个企业的AI团队</h2></div>
+            <p>先让自己用起来，再让AI帮助工作，最后把成熟能力复制给团队。</p>
           </div>
-
           <div className="stage-list">
-            {stages.map((stage) => (
+            {upgradeStages.map((stage) => (
               <article className={`stage stage-${stage.tone}`} key={stage.name}>
                 <div className="stage-index">{stage.index}</div>
                 <div className="stage-main">
-                  <p>{stage.promise}</p>
-                  <h3>{stage.name}</h3>
-                  <p className="stage-description">{stage.description}</p>
-                  <ul>
-                    {stage.items.map((item) => (
-                      <li key={item}>
-                        <span>✓</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+                  <p>{stage.promise}</p><h3>{stage.name}</h3><p className="stage-description">{stage.description}</p>
+                  <ul>{stage.items.map((item) => <li key={item}><span>✓</span>{item}</li>)}</ul>
                 </div>
-                <div className="stage-price">
-                  <span>服务价格</span>
-                  <strong>{stage.price}</strong>
-                  <small>{stage.footnote}</small>
-                </div>
+                <div className="stage-price"><span>服务价格</span><strong>{stage.price}</strong><small>{stage.footnote}</small></div>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="principle shell">
-        <div className="principle-quote">
-          <span>“</span>
-          <blockquote>
-            你真正要保留下来的，不是哪一款软件。
-            <br />
-            而是多年形成的经验、判断与方法，
-            <em>让AI和团队都能持续调用。</em>
-          </blockquote>
-        </div>
-        <div className="principle-aside">
-          <span>15天后你会得到</span>
-          <p>配置完成的软硬件、自动同步脚本、第一版AI知识库、适合你的持续记录方式、知识分身上架权限，以及一份结项报告。</p>
-        </div>
-      </section>
-
-      <section className="acceptance shell" aria-labelledby="acceptance-title">
-        <div className="section-head">
-          <div>
-            <p className="section-kicker">清晰的验收标准</p>
-            <h2 id="acceptance-title">不是买几个工具，而是完成一次AI升级</h2>
-          </div>
-          <p>15天结束时，用明确结果验收，而不是只看账号有没有开通。</p>
-        </div>
-        <div className="acceptance-grid">
-          {acceptance.map(([title, text], index) => (
-            <article key={title}>
-              <span>0{index + 1}</span>
-              <strong>{title}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="process" id="process">
-        <div className="shell">
-          <div className="section-head light">
-            <div>
-              <p className="section-kicker">交付流程</p>
-              <h2>四步完成第一次知识资产采集与AI化启动</h2>
-            </div>
-            <p>每一步做什么、什么时候完成，都会提前说明。</p>
-          </div>
-          <div className="process-grid">
-            {process.map(([title, text], index) => (
-              <div className="process-step" key={title}>
-                <span>0{index + 1}</span>
-                <strong>{title}</strong>
-                <p>{text}</p>
-              </div>
-            ))}
-          </div>
-          <div className="process-result">
-            <span>15天后</span>
-            <strong>你的经验已经形成结构，并拥有第一版可调用的AI第二大脑</strong>
-            <p>软硬件和自动同步已经配置完成，你也会拿到结项报告与知识分身上架权限</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="fit shell">
-        <div className="fit-copy">
-          <p className="section-kicker">适合谁</p>
-          <h2>尤其适合以经验为核心竞争力的人</h2>
-          <p>
-            你的专业判断、客户案例、课程方法、管理经验越多，
-            越值得尽早整理成找得到、用得上、还能交给团队的资料。
-          </p>
-        </div>
-        <div className="fit-roles">
-          {[
-            "创业者 / 企业管理者",
-            "咨询师 / 教练",
-            "培训师 / 讲师",
-            "律师 / 财税专家",
-            "保险 / 销售顾问",
-            "专业服务团队",
-          ].map((role, index) => (
-            <div key={role}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <strong>{role}</strong>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="faq shell">
-        <div className="faq-title">
-          <p className="section-kicker">常见问题</p>
-          <h2>你可能关心的问题</h2>
-        </div>
+        <div className="faq-title"><p className="section-kicker">常见问题</p><h2>你可能关心的问题</h2></div>
         <div className="faq-list">
-          <details>
-            <summary>我完全不懂AI，也没有常用工具，可以做吗？</summary>
-            <p>
-              可以。你只需告诉我们平时怎样记录、资料放在哪里、以后想解决什么问题。我们会推荐最容易开始的方案，并帮你完成注册、设置和使用说明。
-            </p>
-          </details>
-          <details>
-            <summary>为什么不直接买一个笔记或知识库软件？</summary>
-            <p>
-              软件只提供功能，但不会替你决定该记录什么、怎样分类，也不会整理你过去的资料。我们的服务会把这些事情一起完成，并陪你形成适合自己的使用方法。
-            </p>
-          </details>
-          <details>
-            <summary>¥3,999具体包含哪些费用？</summary>
-            <p>
-              包含诊断后确认的采集硬件、收费软件第一年订阅、账号注册与配置、录音转写和自动同步脚本、知识库打通、15天轻陪跑、结项报告及知识分身上架权限。特殊设备、额外账号或超出确认方案的增购会提前说明。
-            </p>
-          </details>
-          <details>
-            <summary>¥9,999是在¥3,999之外再加收吗？</summary>
-            <p>
-              不是。¥9,999是包含启动服务全部内容的完整套餐，并增加个人AI知识分身设计、常用工作场景与提示词、专属工作台、使用培训和持续优化支持。
-            </p>
-          </details>
-          <details>
-            <summary>企业版和个人版的核心区别是什么？</summary>
-            <p>
-              个人版主要服务一个人；企业版让不同员工使用同一套公司资料，并按照岗位设置可以查看的内容，适合销售、培训、客服和内部问答等团队工作。
-            </p>
-          </details>
+          <details><summary>我完全不懂AI，也没有常用工具，可以做吗？</summary><p>可以。你只需告诉我们平时怎样工作、资料大概在哪里、希望AI以后帮助什么。我们会推荐最省事的方案，并协助完成选择、注册、设置和使用。</p></details>
+          <details><summary>我是不是需要先整理大量资料？</summary><p>不需要。我们会从你正在发生的会议、沟通、复盘和思考开始设计采集方式。过去的资料可以以后按需要逐步加入。</p></details>
+          <details><summary>¥3,999具体包含哪些费用？</summary><p>包含诊断后确认的采集硬件、收费软件第一年订阅、账号注册与配置、录音转写和自动同步脚本、知识库连接、15天轻陪跑、结项报告及知识分身上架权限。特殊设备、额外账号或超出确认方案的增购会提前说明。</p></details>
+          <details><summary>¥9,999是在¥3,999之外再加收吗？</summary><p>不是。¥9,999是包含启动服务全部内容的完整套餐，并增加常用工作任务设计、个人AI工作台、使用培训和持续优化支持。</p></details>
+          <details><summary>个人AI助手以后怎么升级成企业AI？</summary><p>先让AI理解老板的经验，再选择一个真实工作场景做AI工作助手。验证有效后，才把知识、权限和工作方式复制到销售、客服或培训等团队岗位。</p></details>
         </div>
       </section>
 
       <section className="cta" id="contact">
         <div className="shell cta-inner">
-          <div>
-            <p className="section-kicker">从今天开始积累</p>
-            <h2>创建你的<br />AI第二大脑</h2>
-          </div>
-          <div className="cta-action">
-            <p>花几分钟完成评估，看看你的经验目前处在哪个阶段，以及最适合从哪里开始。</p>
-            <a href="/diagnosis?audience=founder">
-              开始2分钟快速诊断 <span>↗</span>
-            </a>
-            <small>先留下基本需求并获得初步建议，再自愿继续完整评估</small>
-          </div>
+          <div><p className="section-kicker">先判断是否适合</p><h2>看看你的经验，<br />能否成为AI资产</h2></div>
+          <div className="cta-action"><p>花2分钟完成评估，了解你的经验目前处在哪个阶段，以及最适合从哪里开始。</p><a href="/diagnosis?audience=founder">免费评估我的AI资产价值 <span>↗</span></a><small>提交后立即获得初步方向，再自愿继续完整评估</small></div>
         </div>
       </section>
 
       <footer className="shell footer">
-        <div className="brand">
-          <img className="brand-mark" src="/brand/jianglin-mark.png" alt="" />
-          <span>创始人AI第二大脑</span>
-        </div>
-        <p>沉淀你的经验，让AI成为你的知识助手。</p>
-        <span>© 2026</span>
+        <div className="brand"><img className="brand-mark" src="/brand/jianglin-mark.png" alt="" /><span>创始人AI第二大脑</span></div>
+        <p>不用学复杂AI，让你的经验自动积累。</p><span>© 2026</span>
       </footer>
     </main>
   );
