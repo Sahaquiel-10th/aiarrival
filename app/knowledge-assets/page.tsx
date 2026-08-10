@@ -137,6 +137,11 @@ export default function FounderAiPage() {
               <small>2分钟完成，了解你的经验是否适合AI资产化</small>
             </div>
           </div>
+          <div className="hero-proof founder-proof">
+            <div><strong>不用整理资料</strong><span>从正在发生的工作开始</span></div><i />
+            <div><strong>15天启动</strong><span>软硬件全套，到手即用</span></div><i />
+            <div><strong>后续自动积累</strong><span>AI会越来越理解你</span></div>
+          </div>
         </div>
 
         <div className="hero-visual boss-day-flow founder-experience-flow" aria-label="老板日常的经营会议、客户沟通、经营方法和项目复盘自动积累到AI第二大脑，再用于回答问题、新员工培训、客户挖掘和辅助决策">
@@ -165,11 +170,6 @@ export default function FounderAiPage() {
             <div><b>决</b><span><strong>辅助决策</strong><em>提供经验参考</em></span></div>
           </div>
           <div className="boss-flow-caption"><i />老板继续经营，AI负责积累</div>
-        </div>
-        <div className="hero-proof founder-proof">
-          <div><strong>不用整理资料</strong><span>从正在发生的工作开始</span></div><i />
-          <div><strong>15天启动</strong><span>软硬件全套，到手即用</span></div><i />
-          <div><strong>后续自动积累</strong><span>AI会越来越理解你</span></div>
         </div>
       </section>
 
