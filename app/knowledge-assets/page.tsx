@@ -145,6 +145,7 @@ export default function FounderAiPage() {
         </div>
 
         <div className="hero-visual boss-day-flow founder-experience-flow" aria-label="老板日常的经营会议、客户沟通、经营方法和项目复盘自动积累到AI第二大脑，再用于回答问题、新员工培训、客户挖掘和辅助决策">
+          <div className="boss-visual-title"><strong>AI第二大脑</strong><span>经验自动积累与调用示意</span></div>
           <div className="boss-day-inputs">
             <small>老板日常的经验与知识</small>
             <div><b>会</b><span><strong>经营会议</strong><em>讨论与判断</em></span></div>
@@ -155,7 +156,6 @@ export default function FounderAiPage() {
           <div className="boss-flow-lines boss-lines-in" aria-hidden="true"><i /><i /><i /><i /></div>
           <div className="boss-auto-label">自动积累</div>
           <div className="boss-auto-core">
-            <small>AI第二大脑</small>
             <strong>提取重点</strong><i />
             <strong>整理经验</strong><i />
             <strong>持续沉淀</strong>

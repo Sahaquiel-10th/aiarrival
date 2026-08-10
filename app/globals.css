@@ -261,12 +261,12 @@ body .boss-day-flow {
   padding-block:48px 54px;
 }
 .founder-hero-headline { min-width:0; grid-area:headline; }
-.founder-landing .founder-hero-headline h1 { max-width:650px; font-size:clamp(38px,2.2vw,42px); line-height:1.09; letter-spacing:-.052em; }
+.founder-landing .founder-hero-headline h1 { max-width:760px; font-size:clamp(50px,2.85vw,56px); line-height:1.04; letter-spacing:-.055em; }
 .founder-title-row { display:flex; align-items:baseline; white-space:nowrap; }
 .founder-title-row em { color:var(--blue); font-style:normal; }
 .founder-hero-headline h1 em { display:block; }
 .founder-hero-headline .hero-title-line { width:max-content; max-width:100%; white-space:nowrap; }
-.founder-hero-lead { max-width:590px; margin-top:23px; font-size:10.5px; font-weight:600; line-height:1.82; }
+.founder-landing .founder-hero-lead { max-width:620px; margin-top:25px; font-size:12px; font-weight:600; line-height:1.78; }
 .founder-hero-lead span { display:block; white-space:nowrap; }
 .founder-hero-headline .founder-hero-actions { margin-top:34px; }
 .founder-hero-headline .primary-button {
@@ -288,7 +288,7 @@ body .boss-day-flow {
 
 body .founder-experience-flow {
   width:calc(100% + 54px);
-  height:550px;
+  height:520px;
   grid-area:visual;
   position:relative;
   display:grid;
@@ -303,6 +303,9 @@ body .founder-experience-flow {
   transform:translateX(36px);
 }
 .founder-experience-flow::before { display:none; }
+.boss-visual-title { position:absolute; left:50%; top:0; z-index:8; display:grid; justify-items:center; gap:5px; white-space:nowrap; transform:translateX(-50%); }
+.boss-visual-title strong { color:#0d2e51; font-family:"Songti SC",serif; font-size:24px; letter-spacing:.08em; }
+.boss-visual-title span { color:#7f91a3; font-size:9px; font-weight:700; letter-spacing:.08em; }
 .founder-experience-flow .boss-day-inputs {
   width:auto;
   position:relative;
@@ -341,7 +344,7 @@ body .founder-experience-flow {
 .founder-experience-flow .boss-flow-lines { height:270px; top:50%; z-index:3; }
 .founder-experience-flow .boss-lines-in { width:42px; left:calc(50% - 136px); right:auto; }
 .founder-experience-flow .boss-lines-out { width:42px; left:calc(50% + 94px); right:auto; }
-.founder-experience-flow .boss-flow-caption { bottom:3px; }
+.founder-experience-flow .boss-flow-caption { bottom:17px; padding:10px 15px; font-size:11px; }
 .boss-auto-label { position:absolute; left:calc(50% - 115px); top:50%; z-index:7; padding:6px 10px; border-radius:999px; color:#1764a8; background:#fff; box-shadow:0 8px 20px rgba(19,82,143,.1); font-size:8px; font-weight:800; white-space:nowrap; transform:translate(-50%,-50%); }
 
 /* 更紧凑的成交模块 */
@@ -4779,7 +4782,7 @@ a {
   .founder-landing .founder-hero-headline h1 { font-size:20px; line-height:1.16; letter-spacing:-.045em; }
   .founder-title-row { display:flex; }
   .founder-hero-headline .hero-title-line { max-width:none; }
-  .founder-hero-lead { margin-top:19px; font-size:11px; line-height:1.85; letter-spacing:-.025em; }
+  .founder-landing .founder-hero-lead { margin-top:19px; font-size:11px; line-height:1.85; letter-spacing:-.025em; }
   .founder-hero-headline .founder-hero-actions { margin-top:25px; }
   .founder-hero-headline .primary-button { width:100%; min-height:56px; justify-content:center; padding-inline:12px; font-size:11px; }
   .founder-nav-cta { min-width:138px; padding-inline:12px; font-size:12px; }
@@ -4793,7 +4796,10 @@ a {
   body .boss-day-flow { height:590px; margin-top:20px; }
   body .founder-experience-flow { height:620px; margin-top:0; display:block; }
   .boss-day-flow::before { width:250px; height:250px; top:53%; }
-  .founder-experience-flow .boss-day-inputs { width:auto; position:absolute; left:6px; right:6px; top:10px; grid-template-columns:repeat(2,1fr); transform:none; }
+  .boss-visual-title { top:2px; }
+  .boss-visual-title strong { font-size:20px; }
+  .boss-visual-title span { font-size:8px; }
+  .founder-experience-flow .boss-day-inputs { width:auto; position:absolute; left:6px; right:6px; top:58px; grid-template-columns:repeat(2,1fr); transform:none; }
   .boss-day-inputs > small { grid-column:1/-1; }
   .boss-day-inputs > div { min-height:54px; }
   .founder-experience-flow .boss-auto-core { width:168px; min-height:148px; position:absolute; left:50%; top:48%; padding:19px 14px; border-radius:74px; transform:translate(-50%,-50%); }
@@ -4811,7 +4817,7 @@ a {
   .boss-assistant-card > strong { font-size:16px; }
   .boss-assistant-card > p { margin:5px 0 10px; }
   .boss-flow-lines { display:none; }
-  .founder-experience-flow .boss-flow-caption { top:402px; bottom:auto; }
+  .founder-experience-flow .boss-flow-caption { top:416px; bottom:auto; }
   .experience-waste { padding-block:78px; }
   .founder-landing .experience-waste { padding-block:58px; }
   .experience-waste h2 { font-size:39px; }
