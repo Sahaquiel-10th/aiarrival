@@ -58,25 +58,55 @@ export default function FounderStory() {
       const rect = story.getBoundingClientRect();
       const distance = Math.max(1, story.offsetHeight - window.innerHeight);
       const progress = clamp(-rect.top / distance);
-      const exactAct = progress * 5;
-      const nextAct = Math.min(4, Math.floor(exactAct + 0.08));
-      const local = clamp(exactAct - nextAct);
+      const boundaries = [0, .2, .29, .59, .81, 1];
+      const nextAct = Math.min(4, boundaries.findIndex((boundary, index) => index > 0 && progress < boundary) - 1);
+      const resolvedAct = nextAct < 0 ? 4 : nextAct;
+      const local = clamp((progress - boundaries[resolvedAct]) / (boundaries[resolvedAct + 1] - boundaries[resolvedAct]));
       const mobile = window.innerWidth <= 720;
-      const positions = mobile ? [50, 50, 50, 50, 50] : [66, 50, 50, 61, 22];
-      const scales = mobile ? [1, .82, .76, .72, .58] : [1.08, .9, .88, .92, .62];
-      const nextIndex = Math.min(4, nextAct + 1);
+      const positions = mobile ? [50, 50, 50, 50, 50] : [76, 50, 50, 56, 22];
+      const verticalPositions = mobile ? [41, 46, 48, 48, 50] : [43, 50, 50, 50, 50];
+      const scales = mobile ? [1.06, .82, .78, .76, .58] : [1.44, .9, .88, .92, .62];
+      const nextIndex = Math.min(4, resolvedAct + 1);
+      const flowReveal = resolvedAct === 2 ? clamp(local / .18) : 0;
+      const fragmentProgress = resolvedAct === 3 ? clamp(local / .42) : 0;
+      const questionReveal = resolvedAct === 3 ? clamp((local - .22) / .3) : 0;
 
       stage.style.setProperty("--story-progress", String(progress));
-      stage.style.setProperty("--brain-shift-x", `${interpolate(positions[nextAct], positions[nextIndex], local) - 50}vw`);
-      stage.style.setProperty("--brain-scale", String(interpolate(scales[nextAct], scales[nextIndex], local)));
+      stage.style.setProperty("--brain-shift-x", `${interpolate(positions[resolvedAct], positions[nextIndex], local) - 50}vw`);
+      stage.style.setProperty("--brain-shift-y", `${interpolate(verticalPositions[resolvedAct], verticalPositions[nextIndex], local) - 50}vh`);
+      stage.style.setProperty("--brain-scale", String(interpolate(scales[resolvedAct], scales[nextIndex], local)));
       stage.style.setProperty("--brain-rotation", `${progress * 760}deg`);
-      stage.dataset.act = String(nextAct);
-      if (actValueRef.current !== nextAct) {
-        actValueRef.current = nextAct;
-        setAct(nextAct);
+      stage.style.setProperty("--flow-reveal", String(flowReveal));
+      stage.style.setProperty("--fragment-progress", String(fragmentProgress));
+      stage.style.setProperty("--question-reveal", String(questionReveal));
+      stage.style.setProperty("--flow-stream-opacity", String(clamp(flowReveal * 2)));
+      for (let index = 0; index < 4; index += 1) {
+        const cardProgress = clamp(flowReveal * 5 - index);
+        const itemQuestionProgress = clamp(questionReveal * 5 - index);
+        stage.style.setProperty(`--flow-card-${index}`, String(cardProgress));
+        stage.style.setProperty(`--flow-left-${index}`, `${-36 * (1 - cardProgress)}px`);
+        stage.style.setProperty(`--flow-right-${index}`, `${36 * (1 - cardProgress)}px`);
+        stage.style.setProperty(`--question-${index}`, String(itemQuestionProgress));
+        stage.style.setProperty(`--question-x-${index}`, `${35 * (1 - itemQuestionProgress)}px`);
+        stage.style.setProperty(`--question-blur-${index}`, `${5 * (1 - itemQuestionProgress)}px`);
+      }
+      const fragmentOrigins = mobile
+        ? [[-145, -86], [54, -74], [-151, 65], [55, 76]]
+        : [[-190, -125], [-225, -45], [-205, 42], [-155, 112]];
+      fragmentOrigins.forEach(([x, y], index) => {
+        stage.style.setProperty(`--fragment-x-${index + 1}`, `${x * (1 - fragmentProgress)}px`);
+        stage.style.setProperty(`--fragment-y-${index + 1}`, `${y * (1 - fragmentProgress)}px`);
+      });
+      stage.style.setProperty("--fragment-opacity", String(1 - fragmentProgress * .82));
+      stage.style.setProperty("--fragment-scale", String(1 - fragmentProgress * .42));
+      stage.style.setProperty("--fragment-blur", `${fragmentProgress * 3}px`);
+      stage.dataset.act = String(resolvedAct);
+      if (actValueRef.current !== resolvedAct) {
+        actValueRef.current = resolvedAct;
+        setAct(resolvedAct);
       }
 
-      const firstActProgress = clamp(progress / .2);
+      const firstActProgress = clamp(progress / boundaries[1]);
       const nextOutcome = Math.min(2, Math.floor(firstActProgress * 3));
       if (outcomeValueRef.current !== nextOutcome) {
         outcomeValueRef.current = nextOutcome;
@@ -136,15 +166,18 @@ export default function FounderStory() {
 
         <article className="story-scene story-scene-flow" aria-hidden={act !== 2}>
           <h2>老板继续经营，AI负责积累</h2>
-          <div className="story-flow-column story-inputs"><small>老板日常的经验与知识</small>{inputs.map(([title, text, icon], index) => <div style={{ "--card-order": index } as CSSProperties} key={title}><b>{icon}</b><span><strong>{title}</strong><em>{text}</em></span></div>)}</div>
-          <div className="story-flow-column story-outputs"><small>经验可以用在这里</small>{outputs.map(([title, text, icon], index) => <div style={{ "--card-order": index } as CSSProperties} key={title}><b>{icon}</b><span><strong>{title}</strong><em>{text}</em></span></div>)}</div>
+          <div className="story-flow-column story-inputs"><small>老板日常的经验与知识</small>{inputs.map(([title, text, icon], index) => <div style={{ "--card-progress": `var(--flow-card-${index})`, "--card-offset": `var(--flow-left-${index})` } as CSSProperties} key={title}><b>{icon}</b><span><strong>{title}</strong><em>{text}</em></span></div>)}</div>
+          <div className="story-flow-column story-outputs"><small>经验可以用在这里</small>{outputs.map(([title, text, icon], index) => <div style={{ "--card-progress": `var(--flow-card-${index})`, "--card-offset": `var(--flow-right-${index})` } as CSSProperties} key={title}><b>{icon}</b><span><strong>{title}</strong><em>{text}</em></span></div>)}</div>
+          <div className="story-data-stream stream-input" aria-hidden="true"><i /><i /><i /><i /></div>
+          <div className="story-data-stream stream-output" aria-hidden="true"><i /><i /><i /><i /></div>
           <span className="story-auto-caption">自动积累</span>
         </article>
 
         <article className="story-scene story-scene-waste" aria-hidden={act !== 3}>
           <div className="story-waste-copy"><small>正在消失的企业资产</small><h2>AI时代，老板最大的资产正在被浪费</h2><p>每个创业者都有多年积累的判断、经验和方法。它们很有价值，却常常只存在于脑子里、聊天记录里、会议里和文件里，无法被团队持续调用。</p></div>
           <div className="story-fragments">{["脑子里", "聊天记录里", "会议里", "文件里"].map((item, index) => <span className={`fragment-${index + 1}`} key={item}>{item}</span>)}</div>
-          <div className="story-waste-questions">{wasteQuestions.map((item, index) => <span key={item}><i>0{index + 1}</i>{item}</span>)}</div>
+          <div className="story-waste-stream" aria-hidden="true"><i /><i /><i /><i /><i /></div>
+          <div className="story-waste-questions">{wasteQuestions.map((item, index) => <span style={{ "--question-progress": `var(--question-${index})`, "--question-offset": `var(--question-x-${index})`, "--question-blur": `var(--question-blur-${index})` } as CSSProperties} key={item}><i>0{index + 1}</i>{item}</span>)}</div>
           <p className="story-waste-result"><span>我们帮助你</span>把个人经验，变成企业可以持续使用的AI资产。</p>
         </article>
 
