@@ -1,56 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import FounderNavCta from "./FounderNavCta";
+import FounderStory from "./FounderStory";
 
 export const metadata: Metadata = {
-  title: "AI不用从头学，到手即用｜创始人AI第二大脑启动计划",
+  title: "全程代办，到手即用｜创始人AI第二大脑启动计划",
   description: "不用从头整理资料，我们帮你建立一个会自动积累的AI助手，让每一次沟通、会议和决策沉淀为组织可以调用的经验资产。",
   openGraph: {
-    title: "AI不用从头学，到手即用",
+    title: "全程代办，到手即用",
     description: "让AI自动记住你的每一句话，15天启动创始人AI第二大脑。",
-    images: [{ url: "/og-founder.png", width: 1732, height: 908, alt: "AI不用从头学，到手即用" }],
+    images: [{ url: "/og-founder-v2.png", width: 1536, height: 1024, alt: "全程代办，到手即用" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI不用从头学，到手即用",
+    title: "全程代办，到手即用",
     description: "让AI自动记住你的每一句话，15天启动创始人AI第二大脑。",
-    images: ["/og-founder.png"],
+    images: ["/og-founder-v2.png"],
   },
 };
-
-const wasteQuestions = [
-  "哪些客户值得合作？",
-  "哪些项目应该放弃？",
-  "如何培养团队？",
-  "如何解决复杂问题？",
-];
-
-const outcomes = [
-  {
-    index: "01",
-    title: "一个懂你的AI助手",
-    text: "理解你的经验、方法和判断方式，帮助你回答问题、辅助思考和生成内容。",
-    tags: ["懂你的经验", "辅助思考", "生成内容"],
-  },
-  {
-    index: "02",
-    title: "一个自动积累系统",
-    text: "不改变工作习惯，每次开会、接客户，只按一个按键，之后的积累、分析、回答，都交给AI。",
-    tags: ["自动转写", "自动同步", "持续积累"],
-  },
-  {
-    index: "03",
-    title: "一套企业AI基础",
-    text: "从个人经验开始，未来可以继续升级成工作助手、团队知识助手和企业AI员工。",
-    tags: ["个人先用", "帮助工作", "复制给团队"],
-  },
-];
-
-const serviceProcess = [
-  ["设计采集方式", "先了解你的工作习惯，再设计最省事的记录方式。会议、沟通、文字和临时想法都可以被接住。"],
-  ["完成系统配置", "设备、软件、账号、知识库和AI助手全部协助选购、注册、连接和配置，你不用研究工具。"],
-  ["持续积累优化", "15天轻陪跑帮助你真正用起来。此后工作照常，新的经验会继续丰富AI对你的理解。"],
-];
 
 const upgradeStages = [
   {
@@ -112,8 +79,8 @@ export default function FounderAiPage() {
           </a>
           <div className="nav-links">
             <Link href="/">降临科技</Link>
-            <a href="#why">为什么需要</a>
             <a href="#results">15天后得到什么</a>
+            <a href="#why">为什么需要</a>
             <a href="#service">我们如何完成</a>
             <a href="#upgrade">未来升级</a>
           </div>
@@ -121,85 +88,7 @@ export default function FounderAiPage() {
         </nav>
       </header>
 
-      <section className="hero shell founder-hero-v2" id="top">
-        <div className="founder-hero-headline">
-          <h1>
-            <span className="founder-title-row"><span>AI不用从头学，</span><em>到手即用</em></span>
-            <em className="hero-title-line">让AI自动记住你的每一句话</em>
-          </h1>
-          <p className="hero-lead founder-hero-lead">
-            <span>不用从头整理资料，我们帮你建立一个会自动积累的AI助手</span>
-            <span>你的每一次沟通、会议和决策，都沉淀为组织可以调用的经验资产。</span>
-          </p>
-          <div className="hero-actions founder-hero-actions">
-            <div className="hero-primary-action">
-              <a className="primary-button" href="/diagnosis?audience=founder">点此立即加入【AI第二大脑启动计划】 <span>↗</span></a>
-              <small>2分钟完成，了解你的经验是否适合AI资产化</small>
-            </div>
-          </div>
-          <div className="hero-proof founder-proof">
-            <div><strong>不用整理资料</strong><span>从正在发生的工作开始</span></div><i />
-            <div><strong>15天启动</strong><span>软硬件全套，到手即用</span></div><i />
-            <div><strong>后续自动积累</strong><span>AI会越来越理解你</span></div>
-          </div>
-        </div>
-
-        <div className="hero-visual boss-day-flow founder-experience-flow" aria-label="老板日常的经营会议、客户沟通、经营方法和项目复盘自动积累到AI第二大脑，再用于回答问题、新员工培训、客户挖掘和辅助决策">
-          <div className="boss-visual-title"><strong>AI第二大脑</strong><span>经验自动积累与调用示意</span></div>
-          <div className="boss-day-inputs">
-            <small>老板日常的经验与知识</small>
-            <div><b>会</b><span><strong>经营会议</strong><em>讨论与判断</em></span></div>
-            <div><b>客</b><span><strong>客户沟通</strong><em>需求与经验</em></span></div>
-            <div><b>法</b><span><strong>经营方法</strong><em>取舍与方法</em></span></div>
-            <div><b>复</b><span><strong>项目复盘</strong><em>教训与总结</em></span></div>
-          </div>
-          <div className="boss-flow-lines boss-lines-in" aria-hidden="true"><i /><i /><i /><i /></div>
-          <div className="boss-auto-label">自动积累</div>
-          <div className="boss-auto-core">
-            <strong>提取重点</strong><i />
-            <strong>整理经验</strong><i />
-            <strong>持续沉淀</strong>
-            <span>无需改变工作方式</span>
-          </div>
-          <div className="boss-flow-lines boss-lines-out" aria-hidden="true"><i /><i /><i /><i /></div>
-          <div className="boss-use-cases">
-            <small>经验可以用在这里</small>
-            <div><b>答</b><span><strong>回答问题</strong><em>调用真实经营经验</em></span></div>
-            <div><b>带</b><span><strong>带新员工</strong><em>讲清标准与方法</em></span></div>
-            <div><b>客</b><span><strong>客户挖掘</strong><em>辅助判断与跟进</em></span></div>
-            <div><b>决</b><span><strong>辅助决策</strong><em>提供经验参考</em></span></div>
-          </div>
-          <div className="boss-flow-caption"><i />老板继续经营，AI负责积累</div>
-        </div>
-      </section>
-
-      <section className="experience-waste" id="why">
-        <div className="shell experience-waste-grid">
-          <div>
-            <p className="section-kicker">正在消失的企业资产</p>
-            <h2>AI时代，老板最大的资产正在被浪费</h2>
-            <p>每个创业者都有多年积累的判断、经验和方法。它们很有价值，却常常只存在于脑子里、聊天记录里、会议里和文件里，无法被团队持续调用。</p>
-          </div>
-          <div className="waste-questions">
-            {wasteQuestions.map((question, index) => <div key={question}><span>0{index + 1}</span><strong>{question}</strong></div>)}
-          </div>
-          <div className="waste-conclusion"><span>我们帮助你</span><strong>把个人经验，变成企业可以持续使用的AI资产。</strong></div>
-        </div>
-      </section>
-
-      <section className="founder-results shell" id="results" aria-labelledby="results-title">
-        <div className="section-head">
-          <div><p className="section-kicker">先看结果</p><h2 id="results-title">15天后，你将拥有</h2></div>
-        </div>
-        <div className="founder-result-grid">
-          {outcomes.map((outcome) => (
-            <article key={outcome.title}>
-              <span>{outcome.index}</span><strong>{outcome.title}</strong><p>{outcome.text}</p>
-              <div>{outcome.tags.map((tag) => <small key={tag}>{tag}</small>)}</div>
-            </article>
-          ))}
-        </div>
-      </section>
+      <FounderStory />
 
       <section className="twins-preview shell" aria-labelledby="twins-title">
         <div className="twins-copy">
@@ -215,21 +104,6 @@ export default function FounderAiPage() {
               <div><small>知识分身 · 可直接对话</small><h3>{expert.name}</h3><p>{expert.role}</p><span>{expert.tags.join(" · ")}</span></div>
             </a>
           ))}
-        </div>
-      </section>
-
-      <section className="process founder-service" id="service">
-        <div className="shell">
-          <div className="section-head light">
-            <div><p className="section-kicker">全流程代办</p><h2>我们帮你完成第一次AI经验资产化</h2></div>
-            <p>你只需要告诉我们习惯，并开放必要权限；选择、购买、注册、配置和连接由我们协助完成。</p>
-          </div>
-          <div className="founder-process-grid">
-            {serviceProcess.map(([title, text], index) => (
-              <article key={title}><span>0{index + 1}</span><strong>{title}</strong><p>{text}</p></article>
-            ))}
-          </div>
-          <div className="founder-service-note"><span>15天轻陪跑</span><strong>不要求你停下来整理过去，从今天正在发生的工作开始。</strong><p>结束时交付已配置的采集方式、自动同步链路、可使用的AI助手、知识分身上架权限和结项报告。</p></div>
         </div>
       </section>
 

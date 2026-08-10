@@ -45,7 +45,7 @@ test("renders the knowledge asset service at its own route", async () => {
   assert.match(html, /AI不用从头学/);
   assert.match(html, /到手即用/);
   assert.match(html, /让AI自动记住你的每一句话/);
-  assert.match(html, /点此立即加入【AI第二大脑启动计划】/);
+  assert.match(html, /点此立即加入AI第二大脑启动计划/);
   assert.doesNotMatch(html, /15天完成你的AI经验资产化启动/);
   assert.match(html, /¥3,999 起/);
   assert.match(html, /自动积累/);
