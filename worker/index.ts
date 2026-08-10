@@ -416,7 +416,84 @@ function normalizeSource(event: AnalyticsEvent) {
   try { return new URL(event.referrer).hostname.replace(/^www\./, ""); } catch { return "其他来源"; }
 }
 
-function buildSummary(events: AnalyticsEvent[], leads: Array<Record<string, string>>) {
+type AdminRange = { from: string; to: string; label: string };
+
+function adminRange(request: Request): AdminRange {
+  const url = new URL(request.url);
+  const now = new Date();
+  const preset = url.searchParams.get("range") || "30d";
+  const customFrom = url.searchParams.get("from");
+  const customTo = url.searchParams.get("to");
+  if (customFrom || customTo) {
+    const from = customFrom ? new Date(`${customFrom}T00:00:00+08:00`) : new Date(0);
+    const to = customTo ? new Date(`${customTo}T23:59:59.999+08:00`) : now;
+    return { from: from.toISOString(), to: to.toISOString(), label: `${customFrom || "最早"} 至 ${customTo || "今天"}` };
+  }
+  if (preset === "all") return { from: new Date(0).toISOString(), to: now.toISOString(), label: "全部时间" };
+  const days = preset === "7d" ? 7 : preset === "90d" ? 90 : 30;
+  return { from: new Date(now.getTime() - days * 24 * 60 * 60 * 1000).toISOString(), to: now.toISOString(), label: `最近${days}天` };
+}
+
+function inRange(value: string, range: AdminRange) {
+  const time = Date.parse(value);
+  return Number.isFinite(time) && time >= Date.parse(range.from) && time <= Date.parse(range.to);
+}
+
+function blockedVisitorIds(events: AnalyticsEvent[]) {
+  const state = new Map<string, { blocked: boolean; createdAt: string }>();
+  for (const event of events.filter((item) => item.eventType === "visitor_block" || item.eventType === "visitor_unblock")) {
+    const previous = state.get(event.visitorId);
+    if (!previous || event.createdAt >= previous.createdAt) {
+      state.set(event.visitorId, { blocked: event.eventType === "visitor_block", createdAt: event.createdAt });
+    }
+  }
+  return new Set(Array.from(state).filter(([, value]) => value.blocked).map(([visitorId]) => visitorId));
+}
+
+function buildVisitorRows(events: AnalyticsEvent[], blocked: Set<string>, includeBlocked: boolean) {
+  type VisitorRow = {
+    id: string; firstSeen: string; lastSeen: string; source: string; device: string; audience: string;
+    views: number; clicks: number; totalDurationMs: number; blocked: boolean;
+    pages: Map<string, { pathname: string; views: number; durationMs: number; clicks: number; firstSeen: string; lastSeen: string }>;
+    actions: Array<{ createdAt: string; eventType: string; pathname: string; label: string; target: string; durationMs: number }>;
+  };
+  const rows = new Map<string, VisitorRow>();
+  for (const event of events) {
+    if (!["page_view", "page_exit", "click"].includes(event.eventType)) continue;
+    const isBlocked = blocked.has(event.visitorId);
+    if (isBlocked && !includeBlocked) continue;
+    const row = rows.get(event.visitorId) ?? {
+      id: event.visitorId, firstSeen: event.createdAt, lastSeen: event.createdAt, source: normalizeSource(event),
+      device: event.device, audience: event.audience, views: 0, clicks: 0, totalDurationMs: 0, blocked: isBlocked,
+      pages: new Map(), actions: [],
+    };
+    if (event.createdAt < row.firstSeen) row.firstSeen = event.createdAt;
+    if (event.createdAt > row.lastSeen) row.lastSeen = event.createdAt;
+    if (event.eventType === "page_view") row.views += 1;
+    if (event.eventType === "click") row.clicks += 1;
+    if (event.eventType === "page_exit") row.totalDurationMs += event.durationMs;
+    const page = row.pages.get(event.pathname) ?? { pathname: event.pathname, views: 0, durationMs: 0, clicks: 0, firstSeen: event.createdAt, lastSeen: event.createdAt };
+    if (event.eventType === "page_view") page.views += 1;
+    if (event.eventType === "click") page.clicks += 1;
+    if (event.eventType === "page_exit") page.durationMs += event.durationMs;
+    if (event.createdAt < page.firstSeen) page.firstSeen = event.createdAt;
+    if (event.createdAt > page.lastSeen) page.lastSeen = event.createdAt;
+    row.pages.set(event.pathname, page);
+    row.actions.push({ createdAt: event.createdAt, eventType: event.eventType, pathname: event.pathname, label: event.label, target: event.target, durationMs: event.durationMs });
+    rows.set(event.visitorId, row);
+  }
+  return Array.from(rows.values()).map((row) => ({
+    ...row,
+    pages: Array.from(row.pages.values()).sort((a, b) => b.lastSeen.localeCompare(a.lastSeen)),
+    actions: row.actions.sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100),
+  })).sort((a, b) => b.lastSeen.localeCompare(a.lastSeen));
+}
+
+function buildSummary(allEvents: AnalyticsEvent[], leads: Array<Record<string, string>>, range: AdminRange, includeBlocked = false) {
+  const blocked = blockedVisitorIds(allEvents);
+  const rangedEvents = allEvents.filter((event) => inRange(event.createdAt, range));
+  const events = rangedEvents.filter((event) => !blocked.has(event.visitorId) && ["page_view", "page_exit", "click"].includes(event.eventType));
+  const rangedLeads = leads.filter((lead) => inRange(lead.createdAt || "", range));
   const views = events.filter((event) => event.eventType === "page_view");
   const exits = events.filter((event) => event.eventType === "page_exit" && event.durationMs > 0);
   const clickEvents = events.filter((event) => event.eventType === "click");
@@ -449,18 +526,21 @@ function buildSummary(events: AnalyticsEvent[], leads: Array<Record<string, stri
   const average = (values: number[]) => values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) / values.length) : 0;
   return {
     generatedAt: new Date().toISOString(),
+    range,
+    blockedCount: blocked.size,
     overview: {
       visitors: visitors.size,
       views: views.length,
       averageDurationMs: average(exits.map((event) => event.durationMs)),
       clicks: clickEvents.length,
-      leads: leads.length,
-      completeLeads: leads.filter((lead) => lead.status === "complete").length,
+      leads: rangedLeads.length,
+      completeLeads: rangedLeads.filter((lead) => lead.status === "complete").length,
     },
     pages: Array.from(pageMap, ([pathname, row]) => ({ pathname, visitors: row.visitors.size, views: row.views, averageDurationMs: average(row.durations) })).sort((a, b) => b.visitors - a.visitors),
     sources: Array.from(sourceMap, ([source, row]) => ({ source, visitors: row.visitors.size, views: row.views })).sort((a, b) => b.visitors - a.visitors).slice(0, 20),
     clicks: Array.from(clickMap.values()).sort((a, b) => b.count - a.count).slice(0, 20),
-    leads: leads.sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || "")),
+    leads: rangedLeads.sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || "")),
+    visitors: buildVisitorRows(rangedEvents, blocked, includeBlocked),
     recent: events.slice().sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 100),
   };
 }
@@ -475,9 +555,8 @@ async function readServerJsonLines(path: string) {
   } catch { return []; }
 }
 
-async function loadServerSummary() {
-  const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
-  const events = (await readServerJsonLines(SERVER_ANALYTICS_FILE)).filter((event) => Date.parse(String(event.createdAt || "")) >= cutoff) as unknown as AnalyticsEvent[];
+async function loadServerSummary(range: AdminRange, includeBlocked: boolean) {
+  const events = await readServerJsonLines(SERVER_ANALYTICS_FILE) as unknown as AnalyticsEvent[];
   const leadEvents = await readServerJsonLines("/opt/aiarrival-website/shared/leads.ndjson");
   const leadMap = new Map<string, Record<string, string>>();
   for (const event of leadEvents) {
@@ -496,11 +575,15 @@ async function loadServerSummary() {
       lead.resultLabel = String(result?.label || ""); lead.resultService = String(result?.service || "");
     }
   }
-  return buildSummary(events, Array.from(leadMap.values()));
+  return buildSummary(events, Array.from(leadMap.values()), range, includeBlocked);
 }
 
-async function loadD1Summary(db: D1Database) {
-  const eventRows = (await db.prepare(`SELECT * FROM analytics_events WHERE created_at >= datetime('now', '-30 days') ORDER BY created_at DESC`).all()).results as Array<Record<string, unknown>>;
+async function loadD1Summary(db: D1Database, range: AdminRange, includeBlocked: boolean) {
+  const eventRows = (await db.prepare(`
+    SELECT * FROM analytics_events
+    WHERE (created_at >= ? AND created_at <= ?) OR event_type IN ('visitor_block', 'visitor_unblock')
+    ORDER BY created_at DESC
+  `).bind(range.from, range.to).all()).results as Array<Record<string, unknown>>;
   const events = eventRows.map((row) => ({
     id: String(row.id), createdAt: String(row.created_at), visitorId: String(row.visitor_id), sessionId: String(row.session_id),
     eventType: String(row.event_type), pathname: String(row.pathname), title: String(row.title), referrer: String(row.referrer),
@@ -513,7 +596,7 @@ async function loadD1Summary(db: D1Database) {
     name: String(row.name), contact: String(row.contact), identity: String(row.identity), primaryGoal: String(row.primary_goal),
     currentStorage: String(row.current_storage), teamNeed: String(row.team_need), resultLabel: String(row.result_label || ""), resultService: String(row.result_service || ""),
   }));
-  return buildSummary(events, leads);
+  return buildSummary(events, leads, range, includeBlocked);
 }
 
 async function handleAdminRequest(request: Request, env: Env | undefined, pathname: string) {
@@ -534,7 +617,22 @@ async function handleAdminRequest(request: Request, env: Env | undefined, pathna
 
   if (!await hasValidAdminSession(request, config)) return Response.json({ error: "请先登录。" }, { status: 401 });
   if (pathname === "/api/admin/summary" && request.method === "GET") {
-    return Response.json(env?.DB ? await loadD1Summary(env.DB) : await loadServerSummary(), { headers: { "Cache-Control": "no-store" } });
+    const range = adminRange(request);
+    const includeBlocked = new URL(request.url).searchParams.get("includeBlocked") === "1";
+    return Response.json(env?.DB ? await loadD1Summary(env.DB, range, includeBlocked) : await loadServerSummary(range, includeBlocked), { headers: { "Cache-Control": "no-store" } });
+  }
+  const visitorMatch = pathname.match(/^\/api\/admin\/visitors\/([^/]+)\/block$/);
+  if (visitorMatch && request.method === "POST") {
+    const visitorId = decodeURIComponent(visitorMatch[1]);
+    const payload = (await request.json()) as { blocked?: boolean };
+    const event: AnalyticsEvent = {
+      id: crypto.randomUUID(), createdAt: new Date().toISOString(), visitorId, sessionId: "admin",
+      eventType: payload.blocked === false ? "visitor_unblock" : "visitor_block", pathname: "/data-center",
+      title: "", referrer: "", source: "", campaign: "", content: "", audience: "admin", device: "",
+      label: payload.blocked === false ? "取消屏蔽访客" : "屏蔽访客", target: "", durationMs: 0,
+    };
+    await saveAnalyticsEvent(event, env);
+    return Response.json({ saved: true, blocked: payload.blocked !== false });
   }
   return Response.json({ error: "Method not allowed" }, { status: 405 });
 }
