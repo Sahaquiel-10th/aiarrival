@@ -86,7 +86,7 @@ export default function FounderStory() {
       const resultsMove = smoothstep(.10, .15, progress);
       const heroMove = smoothstep(.30, .36, progress);
       const wasteShift = smoothstep(.66, .70, progress);
-      const serviceMove = smoothstep(.90, .94, progress);
+      const serviceMove = smoothstep(.94, .96, progress);
       const heroX = mobile ? 86 : 88;
       const heroY = mobile ? 22 : 15;
       const heroScale = mobile ? 1.2 : 2.18;
@@ -115,16 +115,16 @@ export default function FounderStory() {
       const resultsOpacity = sceneWindow(progress, .13, .155, .30, .33);
       const principleOpacity = sceneWindow(progress, .33, .36, .43, .46);
       const flowOpacity = sceneWindow(progress, .46, .49, .62, .66);
-      const wasteOpacity = sceneWindow(progress, .66, .69, .88, .91);
-      const serviceOpacity = smoothstep(.91, .94, progress);
+      const wasteOpacity = sceneWindow(progress, .66, .69, .93, .95);
+      const serviceOpacity = smoothstep(.95, .97, progress);
       const flowReveal = smoothstep(.48, .52, progress);
       const flowExit = smoothstep(.62, .66, progress);
-      const questionReveal = smoothstep(.75, .82, progress);
-      const wasteExit = smoothstep(.88, .91, progress);
-      const wasteResultReveal = smoothstep(.82, .84, progress) * (1 - wasteExit);
-      const nameOpacity = clamp(heroOpacity + resultsOpacity + wasteOpacity * (1 - smoothstep(.88, .905, progress)) + serviceOpacity);
+      const questionReveal = smoothstep(.77, .84, progress);
+      const wasteExit = smoothstep(.93, .95, progress);
+      const wasteResultReveal = smoothstep(.83, .845, progress) * (1 - wasteExit);
+      const nameOpacity = clamp(heroOpacity + resultsOpacity + wasteOpacity * (1 - smoothstep(.93, .945, progress)) + serviceOpacity);
       const processOpacity = clamp(principleOpacity + flowOpacity);
-      const resolvedAct = progress < .13 ? 0 : progress < .33 ? 1 : progress < .46 ? 2 : progress < .66 ? 3 : progress < .91 ? 4 : 5;
+      const resolvedAct = progress < .13 ? 0 : progress < .33 ? 1 : progress < .46 ? 2 : progress < .66 ? 3 : progress < .95 ? 4 : 5;
 
       stage.style.setProperty("--story-progress", String(progress));
       stage.style.setProperty("--brain-shift-x", `${brainX - 50}vw`);
@@ -155,8 +155,9 @@ export default function FounderStory() {
       for (let index = 0; index < 4; index += 1) {
         const outcomeProgress = smoothstep(.15 + index * .025, .185 + index * .025, progress);
         const cardProgress = smoothstep(.48 + index * .012, .52 + index * .012, progress);
-        const capsuleProgress = smoothstep(.71 + index * .018, .80 + index * .018, progress);
-        const itemQuestionProgress = smoothstep(.76 + index * .018, .82 + index * .018, progress);
+        const capsuleReveal = smoothstep(.67 + index * .01, .69 + index * .01, progress);
+        const capsuleProgress = smoothstep(.75 + index * .01, .79 + index * .01, progress);
+        const itemQuestionProgress = smoothstep(.77 + index * .01, .805 + index * .01, progress);
         stage.style.setProperty(`--outcome-${index}`, String(outcomeProgress));
         stage.style.setProperty(`--flow-card-${index}`, String(cardProgress));
         stage.style.setProperty(`--flow-left-${index}`, `${-36 * (1 - cardProgress) - 70 * flowExit}px`);
@@ -166,7 +167,7 @@ export default function FounderStory() {
         stage.style.setProperty(`--question-blur-${index}`, `${5 * (1 - itemQuestionProgress)}px`);
         const start = mobile
           ? [[-152, -128], [-170, -70], [-162, -12], [-138, 46]][index]
-          : [[-410, -190], [-445, -112], [-420, -34], [-380, 48]][index];
+          : [[-260, -190], [-300, -105], [-280, -20], [-240, 65]][index];
         const end = mobile
           ? [[115, 95], [135, 122], [126, 151], [98, 178]][index]
           : [[380, -126], [400, -42], [390, 44], [350, 130]][index];
@@ -181,11 +182,11 @@ export default function FounderStory() {
           : interpolate(midY, end[1], release);
         stage.style.setProperty(`--fragment-x-${index + 1}`, `${fragmentX}px`);
         stage.style.setProperty(`--fragment-y-${index + 1}`, `${fragmentY}px`);
-        stage.style.setProperty(`--fragment-opacity-${index + 1}`, String(1 - smoothstep(.72, 1, capsuleProgress)));
-        stage.style.setProperty(`--fragment-scale-${index + 1}`, String(interpolate(1, .72, capsuleProgress)));
-        stage.style.setProperty(`--fragment-blur-${index + 1}`, `${smoothstep(.48, .72, capsuleProgress) * 2}px`);
+        stage.style.setProperty(`--fragment-opacity-${index + 1}`, String(capsuleReveal * (1 - smoothstep(.72, 1, capsuleProgress))));
+        stage.style.setProperty(`--fragment-scale-${index + 1}`, String(interpolate(.9 + capsuleReveal * .1, .72, capsuleProgress)));
+        stage.style.setProperty(`--fragment-blur-${index + 1}`, "0px");
       }
-      stage.style.setProperty("--waste-stream-opacity", String(smoothstep(.65, .69, progress) * (1 - smoothstep(.79, .82, progress))));
+      stage.style.setProperty("--waste-stream-opacity", String(smoothstep(.75, .77, progress) * (1 - smoothstep(.85, .89, progress))));
       stage.dataset.act = String(resolvedAct);
       if (actValueRef.current !== resolvedAct) {
         actValueRef.current = resolvedAct;

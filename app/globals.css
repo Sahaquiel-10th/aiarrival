@@ -5092,10 +5092,10 @@ a {
 }
 
 /* 创始人页 v6：独立首屏、结果揭示与循环总结 */
-.founder-story { height:1080svh; }
-.story-anchor-results { top:140svh; }
-.story-anchor-why { top:710svh; }
-.story-anchor-service { top:980svh; }
+.founder-story { height:1160svh; }
+.story-anchor-results { top:150svh; }
+.story-anchor-why { top:770svh; }
+.story-anchor-service { top:1100svh; }
 .story-scene-results { opacity:var(--results-opacity,0); transform:translate3d(0,var(--results-exit,0),0); }
 .story-scene-recap { opacity:var(--recap-opacity,0); }
 
@@ -5214,10 +5214,10 @@ a {
 }
 
 @media (max-width:720px) {
-  .founder-story { height:1180svh; }
-  .story-anchor-why { top:780svh; }
-  .story-anchor-service { top:1070svh; }
-  .story-anchor-results { top:155svh; }
+  .founder-story { height:1260svh; }
+  .story-anchor-why { top:840svh; }
+  .story-anchor-service { top:1195svh; }
+  .story-anchor-results { top:165svh; }
   .founder-landing .founder-sticky-header .nav { padding-inline:16px; }
   .founder-landing .founder-sticky-header .brand { min-width:0; gap:8px; }
   .founder-landing .founder-sticky-header .brand-mark { width:29px; height:29px; flex-basis:29px; }
