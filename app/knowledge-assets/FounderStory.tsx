@@ -39,6 +39,15 @@ function interpolate(from: number, to: number, progress: number) {
   return from + (to - from) * progress;
 }
 
+function smoothstep(from: number, to: number, value: number) {
+  const progress = clamp((value - from) / Math.max(.0001, to - from));
+  return progress * progress * (3 - 2 * progress);
+}
+
+function sceneWindow(progress: number, enterFrom: number, enterTo: number, exitFrom: number, exitTo: number) {
+  return smoothstep(enterFrom, enterTo, progress) * (1 - smoothstep(exitFrom, exitTo, progress));
+}
+
 export default function FounderStory() {
   const storyRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -58,55 +67,105 @@ export default function FounderStory() {
       const rect = story.getBoundingClientRect();
       const distance = Math.max(1, story.offsetHeight - window.innerHeight);
       const progress = clamp(-rect.top / distance);
-      const boundaries = [0, .2, .29, .59, .81, 1];
-      const nextAct = Math.min(4, boundaries.findIndex((boundary, index) => index > 0 && progress < boundary) - 1);
-      const resolvedAct = nextAct < 0 ? 4 : nextAct;
-      const local = clamp((progress - boundaries[resolvedAct]) / (boundaries[resolvedAct + 1] - boundaries[resolvedAct]));
       const mobile = window.innerWidth <= 720;
-      const positions = mobile ? [50, 50, 50, 50, 50] : [76, 50, 50, 56, 22];
-      const verticalPositions = mobile ? [41, 46, 48, 48, 50] : [43, 50, 50, 50, 50];
-      const scales = mobile ? [1.06, .82, .78, .76, .58] : [1.44, .9, .88, .92, .62];
-      const nextIndex = Math.min(4, resolvedAct + 1);
-      const flowReveal = resolvedAct === 2 ? clamp(local / .18) : 0;
-      const fragmentProgress = resolvedAct === 3 ? clamp(local / .42) : 0;
-      const questionReveal = resolvedAct === 3 ? clamp((local - .22) / .3) : 0;
+      const heroMove = smoothstep(.105, .215, progress);
+      const wasteShift = smoothstep(.535, .58, progress);
+      const serviceMove = smoothstep(.86, .94, progress);
+      const heroX = mobile ? 86 : 88;
+      const heroY = mobile ? 18 : 15;
+      const heroScale = mobile ? 1.42 : 2.18;
+      const centerX = mobile ? 50 : 50;
+      const wasteX = mobile ? 50 : 54;
+      const serviceX = mobile ? 50 : 22;
+      const centerScale = mobile ? .82 : .9;
+      const wasteScale = mobile ? .78 : .92;
+      const serviceScale = mobile ? .58 : .62;
+      let brainX = interpolate(heroX, centerX, heroMove);
+      let brainY = interpolate(heroY, mobile ? 46 : 50, heroMove);
+      let brainScale = interpolate(heroScale, centerScale, heroMove);
+      brainX = interpolate(brainX, wasteX, wasteShift);
+      brainY = interpolate(brainY, mobile ? 48 : 50, wasteShift);
+      brainScale = interpolate(brainScale, wasteScale, wasteShift);
+      brainX = interpolate(brainX, serviceX, serviceMove);
+      brainY = interpolate(brainY, 50, serviceMove);
+      brainScale = interpolate(brainScale, serviceScale, serviceMove);
+
+      const heroOpacity = 1 - smoothstep(.105, .18, progress);
+      const principleOpacity = sceneWindow(progress, .165, .21, .295, .335);
+      const flowOpacity = sceneWindow(progress, .305, .345, .515, .555);
+      const wasteOpacity = sceneWindow(progress, .535, .585, .835, .885);
+      const serviceOpacity = smoothstep(.86, .91, progress);
+      const flowReveal = smoothstep(.31, .36, progress);
+      const flowExit = smoothstep(.515, .555, progress);
+      const questionReveal = smoothstep(.66, .79, progress);
+      const wasteExit = smoothstep(.835, .885, progress);
+      const nameOpacity = clamp(heroOpacity + wasteOpacity * (1 - smoothstep(.84, .875, progress)));
+      const processOpacity = clamp(principleOpacity + flowOpacity);
+      const resolvedAct = progress < .165 ? 0 : progress < .305 ? 1 : progress < .535 ? 2 : progress < .86 ? 3 : 4;
 
       stage.style.setProperty("--story-progress", String(progress));
-      stage.style.setProperty("--brain-shift-x", `${interpolate(positions[resolvedAct], positions[nextIndex], local) - 50}vw`);
-      stage.style.setProperty("--brain-shift-y", `${interpolate(verticalPositions[resolvedAct], verticalPositions[nextIndex], local) - 50}vh`);
-      stage.style.setProperty("--brain-scale", String(interpolate(scales[resolvedAct], scales[nextIndex], local)));
+      stage.style.setProperty("--brain-shift-x", `${brainX - 50}vw`);
+      stage.style.setProperty("--brain-shift-y", `${brainY - 50}vh`);
+      stage.style.setProperty("--brain-scale", String(brainScale));
       stage.style.setProperty("--brain-rotation", `${progress * 760}deg`);
+      stage.style.setProperty("--hero-opacity", String(heroOpacity));
+      stage.style.setProperty("--hero-exit", `${-70 * heroMove}px`);
+      stage.style.setProperty("--hero-card-exit", `${85 * heroMove}px`);
+      stage.style.setProperty("--principle-opacity", String(principleOpacity));
+      stage.style.setProperty("--flow-opacity", String(flowOpacity));
+      stage.style.setProperty("--flow-exit", String(flowExit));
+      stage.style.setProperty("--flow-exit-left", `${-70 * flowExit}px`);
+      stage.style.setProperty("--flow-exit-right", `${70 * flowExit}px`);
+      stage.style.setProperty("--waste-opacity", String(wasteOpacity));
+      stage.style.setProperty("--waste-exit", String(wasteExit));
+      stage.style.setProperty("--waste-copy-exit", `${-80 * wasteExit}px`);
+      stage.style.setProperty("--waste-question-exit", `${80 * wasteExit}px`);
+      stage.style.setProperty("--service-opacity", String(serviceOpacity));
+      stage.style.setProperty("--service-heading-shift", `${70 * (1 - serviceOpacity)}px`);
+      stage.style.setProperty("--brain-name-opacity", String(nameOpacity));
+      stage.style.setProperty("--brain-process-opacity", String(processOpacity));
       stage.style.setProperty("--flow-reveal", String(flowReveal));
-      stage.style.setProperty("--fragment-progress", String(fragmentProgress));
       stage.style.setProperty("--question-reveal", String(questionReveal));
-      stage.style.setProperty("--flow-stream-opacity", String(clamp(flowReveal * 2)));
+      stage.style.setProperty("--flow-stream-opacity", String(flowReveal * (1 - flowExit)));
       for (let index = 0; index < 4; index += 1) {
-        const cardProgress = clamp(flowReveal * 5 - index);
-        const itemQuestionProgress = clamp(questionReveal * 5 - index);
+        const cardProgress = smoothstep(.315 + index * .012, .35 + index * .012, progress);
+        const capsuleProgress = smoothstep(.625 + index * .018, .72 + index * .018, progress);
+        const itemQuestionProgress = smoothstep(.68 + index * .018, .75 + index * .018, progress);
         stage.style.setProperty(`--flow-card-${index}`, String(cardProgress));
-        stage.style.setProperty(`--flow-left-${index}`, `${-36 * (1 - cardProgress)}px`);
-        stage.style.setProperty(`--flow-right-${index}`, `${36 * (1 - cardProgress)}px`);
+        stage.style.setProperty(`--flow-left-${index}`, `${-36 * (1 - cardProgress) - 70 * flowExit}px`);
+        stage.style.setProperty(`--flow-right-${index}`, `${36 * (1 - cardProgress) + 70 * flowExit}px`);
         stage.style.setProperty(`--question-${index}`, String(itemQuestionProgress));
         stage.style.setProperty(`--question-x-${index}`, `${35 * (1 - itemQuestionProgress)}px`);
         stage.style.setProperty(`--question-blur-${index}`, `${5 * (1 - itemQuestionProgress)}px`);
+        const start = mobile
+          ? [[-130, -118], [-150, -67], [-142, -16], [-110, 35]][index]
+          : [[-270, -175], [-310, -112], [-292, -48], [-230, 18]][index];
+        const end = mobile
+          ? [[115, 95], [135, 122], [126, 151], [98, 178]][index]
+          : [[380, -126], [400, -42], [390, 44], [350, 130]][index];
+        const passage = clamp(capsuleProgress / .56);
+        const release = clamp((capsuleProgress - .56) / .44);
+        const midY = mobile ? 52 + index * 9 : 25 + index * 11;
+        const fragmentX = capsuleProgress <= .56
+          ? interpolate(start[0], 0, passage)
+          : interpolate(0, end[0], release);
+        const fragmentY = capsuleProgress <= .56
+          ? interpolate(start[1], midY, passage)
+          : interpolate(midY, end[1], release);
+        stage.style.setProperty(`--fragment-x-${index + 1}`, `${fragmentX}px`);
+        stage.style.setProperty(`--fragment-y-${index + 1}`, `${fragmentY}px`);
+        stage.style.setProperty(`--fragment-opacity-${index + 1}`, String(1 - smoothstep(.72, 1, capsuleProgress)));
+        stage.style.setProperty(`--fragment-scale-${index + 1}`, String(interpolate(1, .72, capsuleProgress)));
+        stage.style.setProperty(`--fragment-blur-${index + 1}`, `${smoothstep(.48, .72, capsuleProgress) * 2}px`);
       }
-      const fragmentOrigins = mobile
-        ? [[-145, -86], [54, -74], [-151, 65], [55, 76]]
-        : [[-190, -125], [-225, -45], [-205, 42], [-155, 112]];
-      fragmentOrigins.forEach(([x, y], index) => {
-        stage.style.setProperty(`--fragment-x-${index + 1}`, `${x * (1 - fragmentProgress)}px`);
-        stage.style.setProperty(`--fragment-y-${index + 1}`, `${y * (1 - fragmentProgress)}px`);
-      });
-      stage.style.setProperty("--fragment-opacity", String(1 - fragmentProgress * .82));
-      stage.style.setProperty("--fragment-scale", String(1 - fragmentProgress * .42));
-      stage.style.setProperty("--fragment-blur", `${fragmentProgress * 3}px`);
+      stage.style.setProperty("--waste-stream-opacity", String(smoothstep(.65, .69, progress) * (1 - smoothstep(.79, .82, progress))));
       stage.dataset.act = String(resolvedAct);
       if (actValueRef.current !== resolvedAct) {
         actValueRef.current = resolvedAct;
         setAct(resolvedAct);
       }
 
-      const firstActProgress = clamp(progress / boundaries[1]);
+      const firstActProgress = clamp(progress / .105);
       const nextOutcome = Math.min(2, Math.floor(firstActProgress * 3));
       if (outcomeValueRef.current !== nextOutcome) {
         outcomeValueRef.current = nextOutcome;
@@ -146,7 +205,6 @@ export default function FounderStory() {
 
         <article className="story-scene story-scene-hero" aria-hidden={act !== 0}>
           <div className="story-hero-copy">
-            <small>创始人AI第二大脑启动计划</small>
             <h1>全程代办，到手即用<em>让AI自动记住你的每一句话</em></h1>
             <a href="/diagnosis?audience=founder">点此立即加入AI第二大脑启动计划 <span>→</span></a>
             <div className="story-proof"><span><b>不用整理资料</b><small>全程代办</small></span><span><b>15天启动</b><small>快速上线</small></span><span><b>持续自动积累</b><small>越用越懂你</small></span></div>
