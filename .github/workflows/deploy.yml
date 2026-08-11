@@ -41,28 +41,46 @@ jobs:
           printf '%s\n' "$SERVER_HOST_KEY" > ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
 
+      - name: Verify production server connection
+        env:
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          ssh \
+            -i ~/.ssh/aiarrival_deploy \
+            -p "${SERVER_PORT:-22}" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=30 \
+            "$SERVER_USER@$SERVER_HOST" \
+            "printf 'production-server-reachable\\n'"
+
       - name: Deploy exact commit
         env:
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
           SERVER_PORT: ${{ secrets.SERVER_PORT }}
           SERVER_USER: ${{ secrets.SERVER_USER }}
         run: |
-          for attempt in 1 2 3 4 5; do
-            echo "Deployment attempt $attempt of 5"
-            if ssh \
-              -i ~/.ssh/aiarrival_deploy \
-              -p "${SERVER_PORT:-22}" \
-              -o BatchMode=yes \
-              -o StrictHostKeyChecking=yes \
-              -o ConnectTimeout=30 \
-              -o ServerAliveInterval=15 \
-              -o ServerAliveCountMax=4 \
-              "$SERVER_USER@$SERVER_HOST" \
-              "bash /opt/aiarrival-website/deploy.sh '$GITHUB_SHA'"; then
-              exit 0
-            fi
-            if [ "$attempt" -eq 5 ]; then
-              exit 1
-            fi
-            sleep $((attempt * 10))
-          done
+          set +e
+          deploy_output="$(timeout --foreground 900 ssh \
+            -i ~/.ssh/aiarrival_deploy \
+            -p "${SERVER_PORT:-22}" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            -o ConnectTimeout=30 \
+            -o ServerAliveInterval=15 \
+            -o ServerAliveCountMax=4 \
+            "$SERVER_USER@$SERVER_HOST" \
+            "bash /opt/aiarrival-website/deploy.sh '$GITHUB_SHA'" 2>&1)"
+          deploy_status=$?
+          set -e
+          printf '%s\n' "$deploy_output"
+          if [ "$deploy_status" -ne 0 ]; then
+            diagnostic="$(printf '%s\n' "$deploy_output" | tail -n 12)"
+            diagnostic="${diagnostic//'%'/'%25'}"
+            diagnostic="${diagnostic//$'\r'/'%0D'}"
+            diagnostic="${diagnostic//$'\n'/'%0A'}"
+            echo "::error title=Production deployment failed::$diagnostic"
+            exit "$deploy_status"
+          fi
