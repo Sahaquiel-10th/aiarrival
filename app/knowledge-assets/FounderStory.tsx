@@ -31,6 +31,21 @@ const serviceProcess = [
   ["持续积累优化", "15天轻陪跑帮助你真正用起来。此后工作照常，新的经验会继续丰富AI对你的理解。"],
 ];
 
+const recapPairs = [
+  ["会议记录", "决策摘要"],
+  ["日常盘点", "经营复盘"],
+  ["客户经验", "客户跟进"],
+  ["运营资料", "运营分析"],
+  ["日常讲话", "观点内容"],
+  ["头脑风暴", "方案草案"],
+  ["团队经验", "团队方案"],
+  ["日常沟通", "待办清单"],
+  ["项目复盘", "改进建议"],
+  ["行业判断", "决策参考"],
+  ["销售交流", "客户洞察"],
+  ["课程案例", "教学内容"],
+];
+
 function clamp(value: number, minimum = 0, maximum = 1) {
   return Math.min(maximum, Math.max(minimum, value));
 }
@@ -68,15 +83,17 @@ export default function FounderStory() {
       const distance = Math.max(1, story.offsetHeight - window.innerHeight);
       const progress = clamp(-rect.top / distance);
       const mobile = window.innerWidth <= 720;
-      const heroMove = smoothstep(.105, .215, progress);
+      const heroMove = smoothstep(.205, .31, progress);
       const wasteShift = smoothstep(.535, .58, progress);
-      const serviceMove = smoothstep(.86, .94, progress);
+      const serviceMove = smoothstep(.78, .825, progress);
+      const recapMove = smoothstep(.92, .96, progress);
       const heroX = mobile ? 86 : 88;
-      const heroY = mobile ? 18 : 15;
-      const heroScale = mobile ? 1.42 : 2.18;
+      const heroY = mobile ? 22 : 15;
+      const heroScale = mobile ? 1.2 : 2.18;
       const centerX = mobile ? 50 : 50;
       const wasteX = mobile ? 50 : 54;
       const serviceX = mobile ? 50 : 22;
+      const recapX = 50;
       const centerScale = mobile ? .82 : .9;
       const wasteScale = mobile ? .78 : .92;
       const serviceScale = mobile ? .58 : .62;
@@ -89,19 +106,25 @@ export default function FounderStory() {
       brainX = interpolate(brainX, serviceX, serviceMove);
       brainY = interpolate(brainY, 50, serviceMove);
       brainScale = interpolate(brainScale, serviceScale, serviceMove);
+      brainX = interpolate(brainX, recapX, recapMove);
+      brainY = interpolate(brainY, mobile ? 48 : 48, recapMove);
+      brainScale = interpolate(brainScale, mobile ? .88 : .84, recapMove);
 
-      const heroOpacity = 1 - smoothstep(.105, .18, progress);
-      const principleOpacity = sceneWindow(progress, .165, .21, .295, .335);
-      const flowOpacity = sceneWindow(progress, .305, .345, .515, .555);
-      const wasteOpacity = sceneWindow(progress, .535, .585, .835, .885);
-      const serviceOpacity = smoothstep(.86, .91, progress);
-      const flowReveal = smoothstep(.31, .36, progress);
+      const heroOpacity = 1 - smoothstep(.115, .155, progress);
+      const resultsOpacity = sceneWindow(progress, .125, .155, .27, .305);
+      const principleOpacity = sceneWindow(progress, .285, .315, .35, .375);
+      const flowOpacity = sceneWindow(progress, .35, .38, .515, .555);
+      const wasteOpacity = sceneWindow(progress, .535, .575, .755, .79);
+      const serviceOpacity = sceneWindow(progress, .78, .81, .90, .93);
+      const recapOpacity = smoothstep(.92, .96, progress);
+      const flowReveal = smoothstep(.355, .395, progress);
       const flowExit = smoothstep(.515, .555, progress);
-      const questionReveal = smoothstep(.66, .79, progress);
-      const wasteExit = smoothstep(.835, .885, progress);
-      const nameOpacity = clamp(heroOpacity + wasteOpacity * (1 - smoothstep(.84, .875, progress)));
+      const questionReveal = smoothstep(.64, .71, progress);
+      const wasteExit = smoothstep(.755, .79, progress);
+      const wasteResultReveal = smoothstep(.705, .72, progress) * (1 - wasteExit);
+      const nameOpacity = clamp(heroOpacity + wasteOpacity * (1 - smoothstep(.735, .77, progress)) + recapOpacity);
       const processOpacity = clamp(principleOpacity + flowOpacity);
-      const resolvedAct = progress < .165 ? 0 : progress < .305 ? 1 : progress < .535 ? 2 : progress < .86 ? 3 : 4;
+      const resolvedAct = progress < .125 ? 0 : progress < .285 ? 1 : progress < .35 ? 2 : progress < .535 ? 3 : progress < .78 ? 4 : progress < .92 ? 5 : 6;
 
       stage.style.setProperty("--story-progress", String(progress));
       stage.style.setProperty("--brain-shift-x", `${brainX - 50}vw`);
@@ -109,8 +132,9 @@ export default function FounderStory() {
       stage.style.setProperty("--brain-scale", String(brainScale));
       stage.style.setProperty("--brain-rotation", `${progress * 760}deg`);
       stage.style.setProperty("--hero-opacity", String(heroOpacity));
-      stage.style.setProperty("--hero-exit", `${-70 * heroMove}px`);
-      stage.style.setProperty("--hero-card-exit", `${85 * heroMove}px`);
+      stage.style.setProperty("--hero-exit-y", `${-120 * smoothstep(.115, .17, progress)}px`);
+      stage.style.setProperty("--results-opacity", String(resultsOpacity));
+      stage.style.setProperty("--results-exit", `${-80 * smoothstep(.27, .305, progress)}px`);
       stage.style.setProperty("--principle-opacity", String(principleOpacity));
       stage.style.setProperty("--flow-opacity", String(flowOpacity));
       stage.style.setProperty("--flow-exit", String(flowExit));
@@ -122,15 +146,19 @@ export default function FounderStory() {
       stage.style.setProperty("--waste-question-exit", `${80 * wasteExit}px`);
       stage.style.setProperty("--service-opacity", String(serviceOpacity));
       stage.style.setProperty("--service-heading-shift", `${70 * (1 - serviceOpacity)}px`);
+      stage.style.setProperty("--recap-opacity", String(recapOpacity));
       stage.style.setProperty("--brain-name-opacity", String(nameOpacity));
       stage.style.setProperty("--brain-process-opacity", String(processOpacity));
       stage.style.setProperty("--flow-reveal", String(flowReveal));
       stage.style.setProperty("--question-reveal", String(questionReveal));
+      stage.style.setProperty("--waste-result-opacity", String(wasteResultReveal));
       stage.style.setProperty("--flow-stream-opacity", String(flowReveal * (1 - flowExit)));
       for (let index = 0; index < 4; index += 1) {
-        const cardProgress = smoothstep(.315 + index * .012, .35 + index * .012, progress);
-        const capsuleProgress = smoothstep(.625 + index * .018, .72 + index * .018, progress);
-        const itemQuestionProgress = smoothstep(.68 + index * .018, .75 + index * .018, progress);
+        const outcomeProgress = smoothstep(.145 + index * .026, .18 + index * .026, progress);
+        const cardProgress = smoothstep(.365 + index * .012, .40 + index * .012, progress);
+        const capsuleProgress = smoothstep(.60 + index * .018, .68 + index * .018, progress);
+        const itemQuestionProgress = smoothstep(.65 + index * .018, .71 + index * .018, progress);
+        stage.style.setProperty(`--outcome-${index}`, String(outcomeProgress));
         stage.style.setProperty(`--flow-card-${index}`, String(cardProgress));
         stage.style.setProperty(`--flow-left-${index}`, `${-36 * (1 - cardProgress) - 70 * flowExit}px`);
         stage.style.setProperty(`--flow-right-${index}`, `${36 * (1 - cardProgress) + 70 * flowExit}px`);
@@ -165,8 +193,8 @@ export default function FounderStory() {
         setAct(resolvedAct);
       }
 
-      const firstActProgress = clamp(progress / .105);
-      const nextOutcome = Math.min(2, Math.floor(firstActProgress * 3));
+      const resultsProgress = clamp((progress - .145) / .105);
+      const nextOutcome = Math.min(2, Math.floor(resultsProgress * 3));
       if (outcomeValueRef.current !== nextOutcome) {
         outcomeValueRef.current = nextOutcome;
         setOutcome(nextOutcome);
@@ -188,10 +216,11 @@ export default function FounderStory() {
   }, []);
 
   return (
-    <section className="founder-story" id="top" ref={storyRef} aria-label="AI第二大脑五幕介绍">
+    <section className="founder-story" id="top" ref={storyRef} aria-label="AI第二大脑七幕介绍">
       <span className="story-anchor story-anchor-why" id="why" />
       <span className="story-anchor story-anchor-results" id="results" />
       <span className="story-anchor story-anchor-service" id="service" />
+      <span className="story-anchor story-anchor-recap" id="recap" />
       <div className="founder-story-stage" data-act={act} ref={stageRef}>
         <div className="story-ambient" aria-hidden="true"><i /><i /><i /></div>
 
@@ -208,21 +237,25 @@ export default function FounderStory() {
             <h1>全程代办，到手即用<em>让AI自动记住你的每一句话</em></h1>
             <a href="/diagnosis?audience=founder">点此立即加入AI第二大脑启动计划 <span>→</span></a>
             <div className="story-proof"><span><b>不用整理资料</b><small>全程代办</small></span><span><b>15天启动</b><small>快速上线</small></span><span><b>持续自动积累</b><small>越用越懂你</small></span></div>
+            <span className="story-hero-cue">下滑查看更多内容 <i>↓</i></span>
           </div>
+        </article>
+
+        <article className="story-scene story-scene-results" aria-hidden={act !== 1}>
           <div className="story-outcomes" data-outcome={outcome}>
             <h2>15天后，你将拥有</h2>
-            {outcomes.map(([title, text, icon], index) => <div className={`story-outcome outcome-${index + 1}`} key={title}><b>{icon}</b><span><strong>{title}</strong><small>{text}</small></span></div>)}
+            {outcomes.map(([title, text, icon], index) => <div style={{ "--outcome-progress": `var(--outcome-${index})` } as CSSProperties} className={`story-outcome outcome-${index + 1}`} key={title}><b>{icon}</b><span><strong>{title}</strong><small>{text}</small></span></div>)}
             <div className="story-outcome-dots"><i /><i /><i /></div>
           </div>
         </article>
 
-        <article className="story-scene story-scene-principle" aria-hidden={act !== 1}>
+        <article className="story-scene story-scene-principle" aria-hidden={act !== 2}>
           <h2>AI第二大脑</h2>
           <p>结果卡片被第二大脑接住，从此持续学习你的经验。</p>
           <span className="story-scroll-cue">继续向下</span>
         </article>
 
-        <article className="story-scene story-scene-flow" aria-hidden={act !== 2}>
+        <article className="story-scene story-scene-flow" aria-hidden={act !== 3}>
           <h2>老板继续经营，AI负责积累</h2>
           <div className="story-flow-column story-inputs"><small>老板日常的经验与知识</small>{inputs.map(([title, text, icon], index) => <div style={{ "--card-progress": `var(--flow-card-${index})`, "--card-offset": `var(--flow-left-${index})` } as CSSProperties} key={title}><b>{icon}</b><span><strong>{title}</strong><em>{text}</em></span></div>)}</div>
           <div className="story-flow-column story-outputs"><small>经验可以用在这里</small>{outputs.map(([title, text, icon], index) => <div style={{ "--card-progress": `var(--flow-card-${index})`, "--card-offset": `var(--flow-right-${index})` } as CSSProperties} key={title}><b>{icon}</b><span><strong>{title}</strong><em>{text}</em></span></div>)}</div>
@@ -231,7 +264,7 @@ export default function FounderStory() {
           <span className="story-auto-caption">自动积累</span>
         </article>
 
-        <article className="story-scene story-scene-waste" aria-hidden={act !== 3}>
+        <article className="story-scene story-scene-waste" aria-hidden={act !== 4}>
           <div className="story-waste-copy"><small>正在消失的企业资产</small><h2>AI时代，老板最大的资产正在被浪费</h2><p>每个创业者都有多年积累的判断、经验和方法。它们很有价值，却常常只存在于脑子里、聊天记录里、会议里和文件里，无法被团队持续调用。</p></div>
           <div className="story-fragments">{["脑子里", "聊天记录里", "会议里", "文件里"].map((item, index) => <span className={`fragment-${index + 1}`} key={item}>{item}</span>)}</div>
           <div className="story-waste-stream" aria-hidden="true"><i /><i /><i /><i /><i /></div>
@@ -239,13 +272,24 @@ export default function FounderStory() {
           <p className="story-waste-result"><span>我们帮助你</span>把个人经验，变成企业可以持续使用的AI资产。</p>
         </article>
 
-        <article className="story-scene story-scene-service" aria-hidden={act !== 4}>
+        <article className="story-scene story-scene-service" aria-hidden={act !== 5}>
           <div className="story-service-heading"><small>15天全程代办，到手即用</small><h2>我们帮你完成第一次AI经验资产化</h2><p>你只需要告诉我们习惯，并开放必要权限；选择、购买、注册、配置和连接由我们协助完成。</p></div>
           <div className="story-service-steps">{serviceProcess.map(([title, text], index) => <div key={title}><span>0{index + 1}</span><strong>{title}</strong><p>{text}</p></div>)}</div>
           <div className="story-service-note"><b>15天轻陪跑</b><span>不要求你停下来整理过去，从今天正在发生的工作开始。</span><small>结束时交付已配置的采集方式、自动同步链路、可使用的AI助手、知识分身上架权限和结项报告。</small></div>
         </article>
 
-        <nav className="story-act-nav" aria-label="章节进度">{["看见结果", "理解原理", "理解用途", "产生必要性", "相信能交付"].map((label, index) => <span className={act === index ? "active" : ""} key={label}><i>{index + 1}</i><b>{label}</b></span>)}</nav>
+        <article className="story-scene story-scene-recap" aria-hidden={act !== 6}>
+          <div className="story-recap-heading"><small>从今天开始，经验不再消失</small><h2>日常照常发生，AI持续记录与产出</h2><p>每一次会议、沟通、判断和复盘，都会进入你的AI第二大脑，并在需要时变成答案、方案和行动。</p></div>
+          <div className="story-recap-inputs" aria-label="持续进入AI第二大脑的经验">
+            {recapPairs.map(([input], index) => <span style={{ "--recap-index": index } as CSSProperties} key={input}>{input}</span>)}
+          </div>
+          <div className="story-recap-outputs" aria-label="AI第二大脑持续产生的结果">
+            {recapPairs.map(([, output], index) => <span style={{ "--recap-index": index } as CSSProperties} key={output}>{output}</span>)}
+          </div>
+          <div className="story-recap-labels"><span>自动吸收经验</span><span>随时调用产出</span></div>
+        </article>
+
+        <nav className="story-act-nav" aria-label="章节进度">{["看见承诺", "看见结果", "理解原理", "理解用途", "产生必要性", "相信能交付", "看懂全貌"].map((label, index) => <span className={act === index ? "active" : ""} key={label}><i>{index + 1}</i><b>{label}</b></span>)}</nav>
       </div>
     </section>
   );
