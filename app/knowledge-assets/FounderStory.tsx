@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { CSSProperties } from "react";
+import FounderStoryMobile from "./FounderStoryMobile";
 
 const outcomes = [
   ["一个懂你的AI助手", "理解你的经验、方法和判断方式，帮助回答问题、辅助思考和生成内容。", "懂"],
@@ -63,7 +64,7 @@ function sceneWindow(progress: number, enterFrom: number, enterTo: number, exitF
   return smoothstep(enterFrom, enterTo, progress) * (1 - smoothstep(exitFrom, exitTo, progress));
 }
 
-export default function FounderStory() {
+function FounderStoryDesktop() {
   const storyRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number | null>(null);
@@ -288,4 +289,21 @@ export default function FounderStory() {
       </div>
     </section>
   );
+}
+
+const mobileQuery = "(max-width: 720px)";
+
+function subscribeToMobile(callback: () => void) {
+  const media = window.matchMedia(mobileQuery);
+  media.addEventListener("change", callback);
+  return () => media.removeEventListener("change", callback);
+}
+
+function getMobileSnapshot() {
+  return window.matchMedia(mobileQuery).matches;
+}
+
+export default function FounderStory() {
+  const mobile = useSyncExternalStore(subscribeToMobile, getMobileSnapshot, () => false);
+  return mobile ? <FounderStoryMobile /> : <FounderStoryDesktop />;
 }
