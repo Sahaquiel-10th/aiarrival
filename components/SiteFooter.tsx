@@ -1,3 +1,5 @@
+import IcpRecord from "./IcpRecord";
+
 export default function SiteFooter() {
   return (
     <footer className="site-footer" id="contact">
@@ -22,7 +24,10 @@ export default function SiteFooter() {
           <img src="/brand/jianglin-mark.png" alt="" />
           <span>降临科技</span>
         </a>
-        <p>AI 是手段，生产力才是目的。</p>
+        <div className="footer-meta">
+          <p>AI 是手段，生产力才是目的。</p>
+          <IcpRecord />
+        </div>
         <span>© 2026 JIANGLIN TECHNOLOGY</span>
       </div>
     </footer>

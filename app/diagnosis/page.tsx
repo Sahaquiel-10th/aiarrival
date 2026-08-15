@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import IcpRecord from "../../components/IcpRecord";
 
 type Answers = {
   name: string;
@@ -612,7 +613,10 @@ export default function DiagnosisPage() {
             </button>
           </div>
         </div>
-        <footer className="diagnosis-footer diagnosis-shell">你的快速诊断会安全保存，用于提供本次评估与后续方案沟通。</footer>
+        <footer className="diagnosis-footer diagnosis-shell">
+          <span>你的快速诊断会安全保存，用于提供本次评估与后续方案沟通。</span>
+          <IcpRecord />
+        </footer>
       </main>
     );
   }
@@ -684,7 +688,8 @@ export default function DiagnosisPage() {
         </section>
 
         <footer className="diagnosis-footer diagnosis-shell">
-          {deepSaveWarning || "诊断结果已与快速诊断一并保存，仅作为方案方向参考。"}
+          <span>{deepSaveWarning || "诊断结果已与快速诊断一并保存，仅作为方案方向参考。"}</span>
+          <IcpRecord />
         </footer>
       </main>
     );
@@ -913,7 +918,8 @@ export default function DiagnosisPage() {
       </div>
 
       <footer className="diagnosis-footer diagnosis-shell">
-        深度诊断将与已经提交的快速诊断关联保存，用于生成更准确的方案建议。
+        <span>深度诊断将与已经提交的快速诊断关联保存，用于生成更准确的方案建议。</span>
+        <IcpRecord />
       </footer>
     </main>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import IcpRecord from "../../components/IcpRecord";
 
 export const metadata: Metadata = {
   title: "让你的专业经验服务更多人｜专家AI助手计划",
@@ -211,7 +212,8 @@ export default function ExpertAiTwinPage() {
 
       <footer className="shell footer">
         <div className="brand"><img className="brand-mark" src="/brand/jianglin-mark.png" alt="" /><span>专家AI助手计划</span></div>
-        <p>让专业经验持续积累，并服务更多人。</p><span>© 2026</span>
+        <p>让专业经验持续积累，并服务更多人。</p>
+        <div className="footer-legal"><span>© 2026</span><IcpRecord /></div>
       </footer>
     </main>
   );

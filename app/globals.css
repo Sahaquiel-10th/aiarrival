@@ -1688,6 +1688,29 @@ body {
   font-size: 12px;
 }
 
+.footer-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.icp-record {
+  color: inherit;
+  font-size: 11px;
+  line-height: 1.5;
+  text-decoration: none;
+  opacity: 0.72;
+  transition: opacity 180ms ease, text-decoration-color 180ms ease;
+}
+
+.icp-record:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
 .footer-bottom > span {
   color: rgba(255, 255, 255, 0.3);
   font-family: Arial, sans-serif;
@@ -2298,6 +2321,7 @@ body {
 
   .footer-bottom p,
   .footer-bottom > span { text-align: left; }
+  .footer-meta { align-items: flex-start; }
   .footer-orbit i { width: 380px; height: 380px; right: -220px; top: 400px; border-width: 45px; }
   .footer-orbit i:nth-child(2) { right: -20px; }
 
@@ -3720,6 +3744,14 @@ a {
   text-align: center;
 }
 
+.footer-legal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 7px;
+  white-space: nowrap;
+}
+
 /* Diagnosis */
 .diagnosis-page {
   min-height: 100vh;
@@ -4077,6 +4109,10 @@ a {
 
 .diagnosis-footer {
   padding-block: 28px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   color: #8996a6;
   border-top: 1px solid var(--line);
   font-size: 11px;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import FounderNavCta from "./FounderNavCta";
 import FounderStory from "./FounderStory";
+import IcpRecord from "../../components/IcpRecord";
 
 export const metadata: Metadata = {
   title: "全程代办，到手即用｜创始人AI第二大脑启动计划",
@@ -161,7 +162,8 @@ export default function FounderAiPage() {
 
       <footer className="shell footer">
         <div className="brand"><img className="brand-mark" src="/brand/jianglin-mark.png" alt="" /><span>创始人AI第二大脑启动计划</span></div>
-        <p>AI不用从头学，到手即用，让AI自动记住你的每一句话。</p><span>© 2026</span>
+        <p>AI不用从头学，到手即用，让AI自动记住你的每一句话。</p>
+        <div className="footer-legal"><span>© 2026</span><IcpRecord /></div>
       </footer>
     </main>
   );

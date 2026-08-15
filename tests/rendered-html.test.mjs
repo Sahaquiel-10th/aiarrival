@@ -35,6 +35,8 @@ test("renders the Jianglin Technology corporate homepage", async () => {
   assert.match(html, /href="\/diagnosis"/);
   assert.match(html, /href="\/knowledge-assets"/);
   assert.match(html, /https:\/\/agent\.aiarrival\.cn/);
+  assert.match(html, /浙ICP备2025208096号-1/);
+  assert.match(html, /https:\/\/beian\.miit\.gov\.cn\//);
 });
 
 test("renders the knowledge asset service at its own route", async () => {
@@ -59,6 +61,7 @@ test("renders the knowledge asset service at its own route", async () => {
   assert.doesNotMatch(html, /AI知识资产成长路径/);
   assert.match(html, /进入知识分身展厅/);
   assert.match(html, /href="\/diagnosis\?audience=founder"/);
+  assert.match(html, /浙ICP备2025208096号-1/);
 });
 
 test("renders the protected advertising data center shell", async () => {
@@ -83,6 +86,7 @@ test("renders the expert AI twin advertising entry", async () => {
   assert.match(html, /看看不同专家如何拥有自己的AI助手/);
   assert.match(html, /商业增长工具/);
   assert.match(html, /href="\/diagnosis\?audience=expert"/);
+  assert.match(html, /浙ICP备2025208096号-1/);
 });
 
 test("renders services and case evidence pages", async () => {
@@ -109,4 +113,6 @@ test("renders the knowledge asset diagnosis questionnaire", async () => {
   assert.match(html, /你目前的身份是/);
   assert.match(html, /手机号或微信号/);
   assert.match(html, /安全保存/);
+  assert.match(html, /浙ICP备2025208096号-1/);
+  assert.match(html, /https:\/\/beian\.miit\.gov\.cn\//);
 });
